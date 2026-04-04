@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ERICA 기숙사 스마트 세탁</title>
+    <title>ERICA 기숙사 스마트 라이프</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <!-- SweetAlert2 for nice alerts -->
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
@@ -21,7 +21,7 @@
                             100: '#cce1f5',
                             500: '#1a75d2',
                             700: '#004c99',
-                            900: '#002a5c', // Hanyang Blue base
+                            900: '#002a5c', 
                             DEFAULT: '#003E7A'
                         }
                     }
@@ -30,58 +30,35 @@
         }
     </script>
     <style>
-        /* 모바일 웹앱 특화 스타일 */
         body {
             -webkit-tap-highlight-color: transparent;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f3f4f6;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* 전체 페이지 바운스 방지 */
+            margin: 0; padding: 0; overflow: hidden;
         }
         .app-container {
-            max-width: 480px;
-            margin: 0 auto;
-            height: 100vh;
-            height: 100dvh; /* iOS 하단바 대응 */
-            background-color: #f9fafb;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; /* ★ 수정된 부분: 내부 컨테이너 밖으로 팝업이 새어나가지 않게 완벽 차단 */
+            max-width: 480px; margin: 0 auto; height: 100vh; height: 100dvh;
+            background-color: #f9fafb; position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden;
         }
-        /* 메인 컨텐츠만 스크롤 가능하도록 분리 */
         .main-content {
-            flex: 1;
-            overflow-y: auto;
-            /* 모바일 부드러운 스크롤 */
-            -webkit-overflow-scrolling: touch; 
+            flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 90px;
         }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        /* 팝업 모달 애니메이션 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .bottom-sheet {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(100%);
         }
-        .bottom-sheet.open {
-            transform: translateY(0);
-        }
+        .bottom-sheet.open { transform: translateY(0); }
         .overlay {
-            transition: opacity 0.3s ease-out;
-            opacity: 0;
-            pointer-events: none;
+            transition: opacity 0.3s ease-out; opacity: 0; pointer-events: none;
         }
-        .overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .overlay.open { opacity: 1; pointer-events: auto; }
+        
+        /* 탭 전환 효과 */
+        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -92,12 +69,11 @@
     <header class="bg-erica text-white p-4 flex justify-between items-center shadow-md z-10">
         <div class="flex items-center gap-2">
             <i class="ph ph-buildings text-2xl"></i>
-            <h1 class="font-bold text-lg tracking-wide">창의인재관 세탁소</h1>
+            <h1 class="font-bold text-lg tracking-wide" data-i18n="appTitle">창의인재관 라이프</h1>
         </div>
         <div class="flex items-center gap-3">
-            <!-- 발표 시연용 치트키 (빠른 배속 버튼) -->
             <button id="cheatBtn" class="text-xs bg-white/20 px-2 py-1 rounded-full font-bold active:bg-white/40 transition">
-                <i class="ph ph-fast-forward"></i> 시연용 배속
+                <i class="ph ph-fast-forward"></i> <span data-i18n="cheatBtn">시연 100x</span>
             </button>
             <i class="ph ph-bell text-xl relative">
                 <span class="absolute -top-1 -right-1 bg-red-500 w-2.5 h-2.5 rounded-full border border-erica"></span>
@@ -105,190 +81,340 @@
         </div>
     </header>
 
-    <!-- 메인 컨텐츠 영역 (이 영역만 스크롤 됨) -->
-    <main class="main-content hide-scrollbar pb-24 relative">
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="main-content hide-scrollbar relative">
         
-        <!-- 1. 세탁 탭 (기본 화면) -->
-        <div id="tab-laundry" class="p-4 space-y-6">
-            
-            <!-- 상태 요약 카드 -->
-            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center justify-between">
+        <!-- 1. 홈 탭 -->
+        <div id="tab-home" class="tab-content active p-4 space-y-5">
+            <div class="flex justify-between items-end">
                 <div>
-                    <h2 class="text-sm text-gray-500 font-medium">1층 공용 세탁실</h2>
-                    <p class="text-xl font-bold text-gray-800 mt-1">현재 <span class="text-erica" id="availableCount">0</span>대 사용 가능</p>
+                    <p class="text-gray-500 text-sm font-medium" data-i18n="welcomeSub">안녕하세요,</p>
+                    <h2 class="text-2xl font-bold text-gray-800"><span class="text-erica">김ERICA</span><span data-i18n="welcomeTitle">님!</span></h2>
                 </div>
-                <div class="bg-erica-50 text-erica p-3 rounded-full">
-                    <i class="ph ph-washing-machine text-2xl"></i>
+                <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Erica&backgroundColor=cce1f5" alt="profile" class="w-12 h-12 rounded-full border-2 border-white shadow-sm">
+            </div>
+
+            <!-- 홈 요약: 세탁 현황 -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative overflow-hidden">
+                <div class="absolute right-0 top-0 w-24 h-24 bg-erica-50 rounded-bl-full -z-0"></div>
+                <h3 class="font-bold text-gray-800 relative z-10 flex items-center gap-2 mb-3">
+                    <i class="ph-fill ph-washing-machine text-erica text-lg"></i> <span data-i18n="homeLaundryTitle">세탁실 현황</span>
+                </h3>
+                <div class="flex justify-between items-center relative z-10">
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1" data-i18n="homeLaundrySub">현재 1층 공용 세탁실</p>
+                        <p class="text-xl font-bold text-gray-800"><span class="text-green-500" id="homeAvailableCount">0</span><span data-i18n="homeLaundryStatus">대 사용 가능</span></p>
+                    </div>
+                    <button onclick="switchTab('laundry')" class="bg-erica text-white text-sm font-bold px-4 py-2 rounded-xl shadow-md active:bg-erica-700 transition" data-i18n="homeLaundryBtn">
+                        예약하기
+                    </button>
                 </div>
             </div>
 
-            <!-- 세탁기 그리드 -->
-            <div>
-                <div class="flex justify-between items-end mb-3">
-                    <h3 class="font-bold text-gray-800">세탁기 현황</h3>
-                    <div class="flex gap-2 text-xs text-gray-500 font-medium">
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span>가능</span>
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span>사용중</span>
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-400"></span>점검</span>
-                    </div>
+            <!-- 홈 요약: 퀵 액션 그리드 -->
+            <div class="grid grid-cols-2 gap-3">
+                <div onclick="switchTab('myinfo')" class="bg-gradient-to-br from-erica to-erica-700 rounded-2xl p-4 shadow-sm text-white cursor-pointer active:scale-95 transition">
+                    <i class="ph ph-wallet text-2xl text-white/80 mb-2"></i>
+                    <p class="text-xs text-white/80" data-i18n="homeBalanceTitle">내 잔액</p>
+                    <p class="font-bold text-lg"><span id="homeBalance">1,500</span> P</p>
                 </div>
-                
-                <div class="grid grid-cols-2 gap-3" id="machineGrid">
-                    <!-- JS로 세탁기 렌더링 -->
+                <div onclick="switchTab('convenience')" class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm cursor-pointer active:scale-95 transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <i class="ph ph-package text-2xl text-yellow-500"></i>
+                        <span class="bg-yellow-100 text-yellow-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1건</span>
+                    </div>
+                    <p class="text-xs text-gray-500" data-i18n="homeDeliveryTitle">무인 택배함</p>
+                    <p class="font-bold text-gray-800 text-sm" data-i18n="homeDeliveryStatus">도착한 택배 있음</p>
                 </div>
             </div>
-            
-            <div class="bg-blue-50 text-blue-800 text-sm p-3 rounded-lg flex items-start gap-2">
-                <i class="ph ph-info mt-0.5 text-lg"></i>
-                <p>세탁 완료 후 10분 내에 수거하지 않으면, 다음 사용자를 위해 매니저가 수거함으로 이동시킬 수 있습니다.</p>
+
+            <!-- 홈 요약: 학식 미리보기 -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1"><i class="ph-fill ph-bowl-food text-orange-500"></i> <span data-i18n="homeMealTitle">오늘의 학식 (중식)</span></h3>
+                    <button onclick="switchTab('convenience')" class="text-xs text-gray-400 font-medium" data-i18n="more">더보기</button>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-3 flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-sm text-gray-800" data-i18n="mealMenu">치즈 돈까스 & 미니우동</p>
+                        <p class="text-xs text-gray-500 mt-0.5">창의인재관 식당 · 11:30~13:30</p>
+                    </div>
+                    <span class="text-erica font-bold text-sm">5,500원</span>
+                </div>
             </div>
         </div>
 
-        <!-- 2. 지갑/충전 탭 -->
-        <div id="tab-wallet" class="p-4 space-y-6 hidden">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">내 지갑</h2>
+        <!-- 2. 세탁 탭 -->
+        <div id="tab-laundry" class="tab-content p-4 space-y-5">
+            <h2 class="text-2xl font-bold text-gray-800" data-i18n="laundryTitle">세탁실</h2>
             
-            <!-- 내 잔액 카드 -->
-            <div class="bg-gradient-to-br from-erica to-erica-700 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
-                <i class="ph ph-wallet absolute -right-4 -bottom-4 text-8xl text-white/10"></i>
-                <p class="text-white/80 text-sm mb-1">현재 잔여 포인트</p>
-                <div class="flex items-baseline gap-1">
-                    <h3 class="text-4xl font-bold" id="balanceDisplay">1,500</h3>
-                    <span class="text-lg">P</span>
+            <!-- 필터 및 안내 -->
+            <div class="flex justify-between items-end">
+                <div class="flex gap-2">
+                    <span class="bg-erica text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm" data-i18n="filterAll">전체 보기</span>
+                    <span class="bg-white border border-gray-200 text-gray-500 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm" data-i18n="filterAvailable">사용 가능만</span>
                 </div>
-                <div class="mt-6 flex justify-between items-center text-sm">
-                    <span>김ERICA (컴퓨터공학과)</span>
-                    <span>1P = 1원</span>
+                <div class="flex gap-2 text-[10px] text-gray-500 font-medium">
+                    <span class="flex items-center gap-0.5"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span><span data-i18n="statusAvail">가능</span></span>
+                    <span class="flex items-center gap-0.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span><span data-i18n="statusInUse">사용중</span></span>
+                </div>
+            </div>
+            
+            <!-- 세탁기 그리드 -->
+            <div class="grid grid-cols-2 gap-3" id="machineGrid">
+                <!-- JS로 렌더링 -->
+            </div>
+            
+            <div class="bg-blue-50 text-blue-800 text-xs p-3 rounded-lg flex items-start gap-2 leading-relaxed">
+                <i class="ph ph-info mt-0.5 text-base"></i>
+                <p data-i18n="laundryNotice">세탁 완료 후 10분 내에 수거하지 않으면, 다음 사용자를 위해 매니저가 수거함으로 이동시킬 수 있습니다.</p>
+            </div>
+        </div>
+
+        <!-- 3. 편의 탭 -->
+        <div id="tab-convenience" class="tab-content p-4 space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800" data-i18n="convTitle">생활 편의</h2>
+            
+            <div class="space-y-4">
+                <!-- 학식 -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2"><i class="ph-fill ph-fork-knife text-erica"></i> <span data-i18n="convMeal">주간 식단표</span></h3>
+                    <div class="border-l-2 border-erica pl-3 mb-2">
+                        <p class="text-xs text-erica font-bold mb-1" data-i18n="mealLunch">중식 (11:30~13:30)</p>
+                        <p class="text-sm font-bold text-gray-800" data-i18n="mealMenu">치즈 돈까스 & 미니우동</p>
+                    </div>
+                    <div class="border-l-2 border-gray-200 pl-3">
+                        <p class="text-xs text-gray-500 font-bold mb-1" data-i18n="mealDinner">석식 (17:30~19:00)</p>
+                        <p class="text-sm font-medium text-gray-600" data-i18n="mealDinnerMenu">제육덮밥 & 계란국</p>
+                    </div>
+                </div>
+
+                <!-- 공용 공간 -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 opacity-60">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-gray-800 flex items-center gap-2"><i class="ph-fill ph-armchair text-gray-500"></i> <span data-i18n="convSpace">공용 공간 예약</span></h3>
+                        <span class="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded-md font-bold">Coming Soon</span>
+                    </div>
+                    <p class="text-xs text-gray-500" data-i18n="convSpaceDesc">스터디룸, 휴게실 예약 기능이 V2에서 제공됩니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 문의 탭 -->
+        <div id="tab-inquiry" class="tab-content p-4 space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800" data-i18n="inqTitle">문의 및 수리</h2>
+            
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <form onsubmit="event.preventDefault(); submitInquiry();" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="inqCategory">분류</label>
+                        <select class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica">
+                            <option data-i18n="inqCat1">시설 고장/수리</option>
+                            <option data-i18n="inqCat2">세탁기 오류</option>
+                            <option data-i18n="inqCat3">기타 건의사항</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="inqContent">내용</label>
+                        <textarea class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica h-32 resize-none" placeholder="문의하실 내용을 상세히 적어주세요. (Write your inquiry in detail)"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-gray-800 text-white font-bold rounded-xl py-3 mt-2" data-i18n="inqSubmit">접수하기</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 5. 내 정보 탭 -->
+        <div id="tab-myinfo" class="tab-content p-4 space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800" data-i18n="myTitle">내 정보</h2>
+            
+            <!-- 지갑 (기존 탭에서 편입) -->
+            <div class="bg-gradient-to-br from-erica to-erica-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+                <i class="ph ph-wallet absolute -right-4 -bottom-4 text-8xl text-white/10"></i>
+                <div class="flex justify-between items-center mb-1">
+                    <p class="text-white/80 text-sm font-medium" data-i18n="myBalance">내 잔여 포인트</p>
+                    <button class="bg-white/20 text-white text-[10px] px-2 py-1 rounded-full font-bold" onclick="recharge(5000)" data-i18n="myChargeBtn">+ 간편충전</button>
+                </div>
+                <div class="flex items-baseline gap-1">
+                    <h3 class="text-3xl font-bold" id="myinfoBalanceDisplay">1,500</h3>
+                    <span class="text-base">P</span>
                 </div>
             </div>
 
-            <!-- 충전하기 버튼들 -->
-            <div>
-                <h3 class="font-bold text-gray-800 mb-3">포인트 간편 충전</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="recharge(1000)" class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-center gap-2 hover:border-erica hover:bg-erica-50 transition shadow-sm">
-                        <span class="font-bold text-gray-800">+ 1,000 P</span>
-                        <span class="text-xs text-gray-500">기본 세탁 1회</span>
-                    </button>
-                    <button onclick="recharge(5000)" class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-center gap-2 hover:border-erica hover:bg-erica-50 transition shadow-sm">
-                        <span class="font-bold text-gray-800">+ 5,000 P</span>
-                        <span class="text-xs text-blue-500 font-medium">추천</span>
-                    </button>
-                    <button onclick="recharge(10000)" class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-center gap-2 hover:border-erica hover:bg-erica-50 transition shadow-sm">
-                        <span class="font-bold text-gray-800">+ 10,000 P</span>
-                        <span class="text-xs text-gray-500">10% 추가 적립</span>
-                    </button>
-                    <button class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex flex-col items-center gap-2 text-gray-400 cursor-not-allowed">
-                        <span class="font-bold">직접 입력</span>
-                        <span class="text-xs">준비 중</span>
-                    </button>
+            <!-- 앱 설정 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <i class="ph ph-translate text-xl text-gray-500"></i>
+                        <span class="font-bold text-gray-700 text-sm" data-i18n="myLang">언어 설정 (Language)</span>
+                    </div>
+                    <div class="flex bg-gray-100 rounded-lg p-1 gap-1">
+                        <button onclick="setLang('ko')" id="btnLangKo" class="bg-white text-erica shadow-sm text-xs font-bold px-3 py-1.5 rounded-md transition">한국어</button>
+                        <button onclick="setLang('en')" id="btnLangEn" class="text-gray-500 hover:text-gray-800 text-xs font-bold px-3 py-1.5 rounded-md transition">English</button>
+                    </div>
+                </div>
+                <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <i class="ph ph-bell-ringing text-xl text-gray-500"></i>
+                        <span class="font-bold text-gray-700 text-sm" data-i18n="myNoti">세탁 종료 5분 전 알림</span>
+                    </div>
+                    <div class="w-10 h-6 bg-erica rounded-full relative cursor-pointer">
+                        <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                    </div>
+                </div>
+                <div class="p-4 flex justify-between items-center text-gray-400">
+                    <div class="flex items-center gap-2">
+                        <i class="ph ph-question text-xl"></i>
+                        <span class="font-medium text-sm" data-i18n="myHelp">도움말 및 이용약관</span>
+                    </div>
+                    <i class="ph ph-caret-right"></i>
                 </div>
             </div>
             
-            <div class="bg-gray-100 rounded-xl p-4 mt-6">
-                <h4 class="text-xs font-bold text-gray-500 mb-2">최근 이용 내역</h4>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center text-sm">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center"><i class="ph ph-minus"></i></div>
-                            <div>
-                                <p class="font-medium text-gray-800">세탁기 2번 사용</p>
-                                <p class="text-xs text-gray-400">어제 19:30</p>
-                            </div>
-                        </div>
-                        <span class="font-bold text-gray-800">-1,000 P</span>
-                    </div>
-                    <div class="flex justify-between items-center text-sm">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><i class="ph ph-plus"></i></div>
-                            <div>
-                                <p class="font-medium text-gray-800">카카오페이 충전</p>
-                                <p class="text-xs text-gray-400">3일 전</p>
-                            </div>
-                        </div>
-                        <span class="font-bold text-blue-600">+5,000 P</span>
-                    </div>
-                </div>
+            <div class="text-center">
+                <span class="text-xs text-gray-400 font-medium">Hanyang Univ. ERICA Living Lab Project</span>
             </div>
         </div>
 
     </main>
 
     <!-- 하단 네비게이션 바 -->
-    <nav class="absolute bottom-0 w-full bg-white border-t border-gray-200 flex justify-around pb-6 pt-2 px-2 z-10" style="padding-bottom: max(1.5rem, env(safe-area-inset-bottom));">
-        <button onclick="switchTab('laundry')" id="nav-laundry" class="flex flex-col items-center w-16 p-1 text-erica transition">
-            <i class="ph-fill ph-washing-machine text-2xl mb-1"></i>
-            <span class="text-[10px] font-medium mt-0.5">세탁실</span>
+    <nav class="absolute bottom-0 w-full bg-white border-t border-gray-200 flex justify-around pb-6 pt-3 px-2 z-10" style="padding-bottom: max(1.5rem, env(safe-area-inset-bottom));">
+        <button onclick="switchTab('home')" id="nav-home" class="nav-btn active flex flex-col items-center w-14 text-erica transition">
+            <i class="ph-fill ph-house text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navHome">홈</span>
         </button>
-        <button onclick="switchTab('wallet')" id="nav-wallet" class="flex flex-col items-center w-16 p-1 text-gray-400 hover:text-erica transition">
-            <i class="ph ph-wallet text-2xl mb-1"></i>
-            <span class="text-[10px] font-medium mt-0.5">내 지갑</span>
+        <button onclick="switchTab('laundry')" id="nav-laundry" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition">
+            <i class="ph ph-washing-machine text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navLaundry">세탁</span>
         </button>
-        <button onclick="showComingSoon('기숙사 커뮤니티')" class="flex flex-col items-center w-16 p-1 text-gray-400 hover:text-erica transition">
-            <i class="ph ph-users text-2xl mb-1"></i>
-            <span class="text-[10px] font-medium mt-0.5">커뮤니티</span>
+        <button onclick="switchTab('convenience')" id="nav-convenience" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition">
+            <i class="ph ph-storefront text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navConv">편의</span>
         </button>
-        <button onclick="showComingSoon('마이페이지')" class="flex flex-col items-center w-16 p-1 text-gray-400 hover:text-erica transition">
-            <i class="ph ph-user text-2xl mb-1"></i>
-            <span class="text-[10px] font-medium mt-0.5">마이</span>
+        <button onclick="switchTab('inquiry')" id="nav-inquiry" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition">
+            <i class="ph ph-chat-circle-dots text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navInq">문의</span>
+        </button>
+        <button onclick="switchTab('myinfo')" id="nav-myinfo" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition">
+            <i class="ph ph-user text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navMy">내 정보</span>
         </button>
     </nav>
 
-    <!-- 세탁 시작 바텀 시트 (모달) - 이제 앱 컨테이너 안에서만 동작함 -->
+    <!-- 세탁 시작 바텀 시트 (모달) -->
     <div id="overlay" class="overlay absolute inset-0 bg-black/50 z-20" onclick="closeModal()"></div>
     <div id="bottomSheet" class="bottom-sheet absolute bottom-0 w-full bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-30 flex flex-col pt-2 pb-8 px-5" style="padding-bottom: max(2rem, env(safe-area-inset-bottom));">
         <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4"></div>
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-gray-800"><span id="modalMachineName" class="text-erica">1번 세탁기</span> 예약하기</h2>
+            <h2 class="text-xl font-bold text-gray-800"><span id="modalMachineName" class="text-erica">1번 세탁기</span> <span data-i18n="modalTitle">예약하기</span></h2>
             <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600"><i class="ph ph-x text-2xl"></i></button>
         </div>
         
         <div class="space-y-4 mb-6">
             <div>
-                <label class="text-sm font-bold text-gray-600 mb-2 block">세탁 코스 선택</label>
+                <label class="text-sm font-bold text-gray-600 mb-2 block" data-i18n="modalSelect">세탁 코스 선택</label>
                 <div class="grid grid-cols-2 gap-2">
-                    <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1000, 40)">표준 세탁 (40분)</button>
-                    <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1500, 60)">이불/대형 (60분)</button>
+                    <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1000, 40)" data-i18n="modalCourse1">표준 세탁 (40분)</button>
+                    <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1500, 60)" data-i18n="modalCourse2">이불/대형 (60분)</button>
                 </div>
             </div>
             <div class="bg-gray-50 rounded-xl p-4 flex justify-between items-center">
-                <span class="text-gray-600 font-medium">결제 금액</span>
+                <span class="text-gray-600 font-medium" data-i18n="modalPriceLabel">결제 금액</span>
                 <span id="modalPrice" class="font-bold text-lg text-gray-800">1,000 P</span>
             </div>
         </div>
 
-        <button id="startLaundryBtn" onclick="startLaundry()" class="w-full bg-erica text-white rounded-xl py-4 font-bold text-lg shadow-lg active:bg-erica-700 transition">
-            세탁 시작하기
+        <button id="startLaundryBtn" onclick="startLaundry()" class="w-full bg-erica text-white rounded-xl py-4 font-bold text-lg shadow-lg active:bg-erica-700 transition flex justify-center items-center gap-2">
+            <i class="ph ph-contactless-payment text-xl"></i> <span data-i18n="modalPayBtn">NFC/QR 결제 및 시작</span>
         </button>
     </div>
 
 </div>
 
 <script>
-    // --- 상태 관리 (State) ---
-    let balance = 1500; // 초기 잔액
-    let selectedMachineId = null;
-    let selectedCourseTime = 40; // 분 단위
-    let selectedCoursePrice = 1000; // 포인트 단위
+    // --- 다국어 (i18n) 설정 ---
+    const dict = {
+        ko: {
+            appTitle: "창의인재관 라이프", cheatBtn: "시연 100x",
+            navHome: "홈", navLaundry: "세탁", navConv: "편의", navInq: "문의", navMy: "내 정보",
+            welcomeSub: "안녕하세요,", welcomeTitle: "님!",
+            homeLaundryTitle: "세탁실 현황", homeLaundrySub: "현재 1층 공용 세탁실", homeLaundryStatus: "대 사용 가능", homeLaundryBtn: "예약하기",
+            homeBalanceTitle: "내 잔액", homeDeliveryTitle: "무인 택배함", homeDeliveryStatus: "도착한 택배 있음",
+            homeMealTitle: "오늘의 학식 (중식)", more: "더보기", mealMenu: "치즈 돈까스 & 미니우동",
+            laundryTitle: "세탁실", filterAll: "전체 보기", filterAvailable: "사용 가능만", statusAvail: "가능", statusInUse: "사용중",
+            laundryNotice: "세탁 완료 후 10분 내에 수거하지 않으면, 매니저가 수거함으로 이동시킬 수 있습니다.",
+            convTitle: "생활 편의", convMeal: "주간 식단표", mealLunch: "중식 (11:30~13:30)", mealDinner: "석식 (17:30~19:00)", mealDinnerMenu: "제육덮밥 & 계란국",
+            convSpace: "공용 공간 예약", convSpaceDesc: "스터디룸, 휴게실 예약 기능이 V2에서 제공됩니다.",
+            inqTitle: "문의 및 수리", inqCategory: "분류", inqCat1: "시설 고장/수리", inqCat2: "세탁기 오류", inqCat3: "기타 건의사항", inqContent: "내용", inqSubmit: "접수하기",
+            myTitle: "내 정보", myBalance: "내 잔여 포인트", myChargeBtn: "+ 간편충전", myLang: "언어 설정 (Language)", myNoti: "세탁 종료 5분 전 알림", myHelp: "도움말 및 이용약관",
+            modalTitle: "예약하기", modalSelect: "세탁 코스 선택", modalCourse1: "표준 세탁 (40분)", modalCourse2: "이불/대형 (60분)", modalPriceLabel: "결제 금액", modalPayBtn: "NFC/QR 결제 및 시작",
+            machineM1: "1번 세탁기", machineM2: "2번 세탁기", machineM3: "3번 세탁기", machineM4: "4번 세탁기", machineM5: "5번 세탁기", machineM6: "6번 세탁기",
+            macAvail: "사용 가능", macInUse: "동작 중", macBroken: "점검 중",
+            alertNoPoint: "잔액 부족", alertNoPointSub: "잔액이 부족합니다. 내 정보에서 충전해주세요.",
+            alertStart: "작동 시작!", alertDoneTitle: "🔔 세탁 완료!", alertDoneSub: "세탁이 완료되었습니다. 빨래를 수거해주세요.", alertConfirm: "확인"
+        },
+        en: {
+            appTitle: "Dorm Life", cheatBtn: "Speed 100x",
+            navHome: "Home", navLaundry: "Laundry", navConv: "Living", navInq: "Inquiry", navMy: "My Info",
+            welcomeSub: "Hello,", welcomeTitle: "!",
+            homeLaundryTitle: "Laundry Status", homeLaundrySub: "1st Floor Public", homeLaundryStatus: " Available", homeLaundryBtn: "Reserve",
+            homeBalanceTitle: "My Balance", homeDeliveryTitle: "Package Box", homeDeliveryStatus: "1 Package Arrived",
+            homeMealTitle: "Today's Meal (Lunch)", more: "More", mealMenu: "Pork Cutlet & Udon",
+            laundryTitle: "Laundry Room", filterAll: "All", filterAvailable: "Available Only", statusAvail: "Avail", statusInUse: "In-use",
+            laundryNotice: "Please collect your laundry within 10 minutes after completion. Otherwise, it may be moved to the collection bin.",
+            convTitle: "Convenience", convMeal: "Weekly Menu", mealLunch: "Lunch (11:30~13:30)", mealDinner: "Dinner (17:30~19:00)", mealDinnerMenu: "Spicy Pork & Soup",
+            convSpace: "Space Booking", convSpaceDesc: "Study room booking will be supported in V2.",
+            inqTitle: "Inquiry & Repair", inqCategory: "Category", inqCat1: "Facility Repair", inqCat2: "Laundry Machine Error", inqCat3: "Other Suggestions", inqContent: "Details", inqSubmit: "Submit",
+            myTitle: "My Info", myBalance: "My Points", myChargeBtn: "+ Charge", myLang: "Language", myNoti: "Alert 5 mins before done", myHelp: "Help & Terms",
+            modalTitle: "Reserve", modalSelect: "Select Course", modalCourse1: "Standard (40m)", modalCourse2: "Blanket (60m)", modalPriceLabel: "Price", modalPayBtn: "Pay with NFC/QR & Start",
+            machineM1: "Machine 1", machineM2: "Machine 2", machineM3: "Machine 3", machineM4: "Machine 4", machineM5: "Machine 5", machineM6: "Machine 6",
+            macAvail: "Available", macInUse: "Running", macBroken: "Maintenance",
+            alertNoPoint: "Not enough points", alertNoPointSub: "Please recharge in My Info tab.",
+            alertStart: "Started!", alertDoneTitle: "🔔 Laundry Done!", alertDoneSub: "Your laundry is finished. Please collect it.", alertConfirm: "OK"
+        }
+    };
     
-    // 가상의 세탁기 데이터 (초기 상태)
+    let currentLang = 'ko';
+
+    // --- 상태 관리 (State) ---
+    let balance = 1500;
+    let selectedMachineId = null;
+    let selectedCourseTime = 40;
+    let selectedCoursePrice = 1000;
+    
     const machines = [
-        { id: 1, name: "1번 세탁기", status: "available", timeRemaining: 0 },
-        { id: 2, name: "2번 세탁기", status: "in-use", timeRemaining: 1250 }, // 약 20분
-        { id: 3, name: "3번 세탁기", status: "available", timeRemaining: 0 },
-        { id: 4, name: "4번 세탁기", status: "in-use", timeRemaining: 300 }, // 5분
-        { id: 5, name: "5번 세탁기", status: "broken", timeRemaining: 0 },
-        { id: 6, name: "6번 세탁기", status: "available", timeRemaining: 0 },
+        { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0 },
+        { id: 2, nameKey: "machineM2", status: "in-use", timeRemaining: 1250 },
+        { id: 3, nameKey: "machineM3", status: "available", timeRemaining: 0 },
+        { id: 4, nameKey: "machineM4", status: "in-use", timeRemaining: 300 },
+        { id: 5, nameKey: "machineM5", status: "broken", timeRemaining: 0 },
+        { id: 6, nameKey: "machineM6", status: "available", timeRemaining: 0 },
     ];
 
-    // --- UI 업데이트 함수 ---
-    
-    // 잔액 렌더링
-    function updateBalanceUI() {
-        document.getElementById('balanceDisplay').innerText = balance.toLocaleString();
+    // --- 다국어 적용 함수 ---
+    function setLang(lang) {
+        currentLang = lang;
+        
+        // 버튼 스타일 변경
+        if(lang === 'ko') {
+            document.getElementById('btnLangKo').className = "bg-white text-erica shadow-sm text-xs font-bold px-3 py-1.5 rounded-md transition";
+            document.getElementById('btnLangEn').className = "text-gray-500 hover:text-gray-800 text-xs font-bold px-3 py-1.5 rounded-md transition bg-transparent";
+        } else {
+            document.getElementById('btnLangEn').className = "bg-white text-erica shadow-sm text-xs font-bold px-3 py-1.5 rounded-md transition";
+            document.getElementById('btnLangKo').className = "text-gray-500 hover:text-gray-800 text-xs font-bold px-3 py-1.5 rounded-md transition bg-transparent";
+        }
+
+        // 텍스트 변환
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if(dict[currentLang][key]) el.innerText = dict[currentLang][key];
+        });
+        
+        renderMachines(); // 세탁기 상태 텍스트도 번역하기 위해 재렌더링
     }
 
-    // 초를 MM:SS 포맷으로 변환
+    // --- UI 업데이트 ---
+    function updateBalanceUI() {
+        const balStr = balance.toLocaleString();
+        document.getElementById('homeBalance').innerText = balStr;
+        document.getElementById('myinfoBalanceDisplay').innerText = balStr;
+    }
+
     function formatTime(seconds) {
         if(seconds <= 0) return "00:00";
         const m = Math.floor(seconds / 60);
@@ -296,11 +422,9 @@
         return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
-    // 세탁기 그리드 렌더링
     function renderMachines() {
         const grid = document.getElementById('machineGrid');
         grid.innerHTML = '';
-        
         let availableCount = 0;
 
         machines.forEach(m => {
@@ -322,55 +446,52 @@
             }
 
             const iconColor = m.status === 'available' ? 'text-green-600' : (m.status === 'in-use' ? 'text-red-400' : 'text-gray-400');
-            const statusText = m.status === 'available' ? '사용 가능' : (m.status === 'in-use' ? '동작 중' : '점검 중');
+            const statusTextKey = m.status === 'available' ? 'macAvail' : (m.status === 'in-use' ? 'macInUse' : 'macBroken');
             const statusTextColor = m.status === 'available' ? 'text-green-600' : (m.status === 'in-use' ? 'text-red-500' : 'text-gray-500');
 
-            const cardHTML = `
+            const machineName = dict[currentLang][m.nameKey];
+            const statusText = dict[currentLang][statusTextKey];
+
+            grid.innerHTML += `
                 <div class="${cardClasses}" ${onClickAttr}>
                     ${statusBadge}
                     <i class="ph ph-washing-machine text-4xl ${iconColor} mb-2"></i>
-                    <h4 class="font-bold text-gray-800 text-sm">${m.name}</h4>
+                    <h4 class="font-bold text-gray-800 text-sm">${machineName}</h4>
                     <p class="text-xs font-medium ${statusTextColor} mt-1">${statusText}</p>
                 </div>
             `;
-            grid.innerHTML += cardHTML;
         });
 
-        document.getElementById('availableCount').innerText = availableCount;
+        document.getElementById('homeAvailableCount').innerText = availableCount;
     }
 
     // --- 액션 및 로직 ---
-
-    // 탭 전환
     function switchTab(tabName) {
-        document.getElementById('tab-laundry').classList.add('hidden');
-        document.getElementById('tab-wallet').classList.add('hidden');
-        
-        document.getElementById('nav-laundry').classList.remove('text-erica');
-        document.getElementById('nav-laundry').classList.add('text-gray-400');
-        document.getElementById('nav-laundry').querySelector('i').classList.replace('ph-fill', 'ph');
-        
-        document.getElementById('nav-wallet').classList.remove('text-erica');
-        document.getElementById('nav-wallet').classList.add('text-gray-400');
-        document.getElementById('nav-wallet').querySelector('i').classList.replace('ph-fill', 'ph');
+        // 모든 탭 컨텐츠 숨기기
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        // 네비 아이콘 초기화
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('text-erica'); btn.classList.add('text-gray-400');
+            btn.querySelector('i').classList.replace('ph-fill', 'ph');
+        });
 
-        document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-        
+        // 선택된 탭 보이기
+        document.getElementById(`tab-${tabName}`).classList.add('active');
         const activeNav = document.getElementById(`nav-${tabName}`);
-        activeNav.classList.remove('text-gray-400');
-        activeNav.classList.add('text-erica');
+        activeNav.classList.remove('text-gray-400'); activeNav.classList.add('text-erica');
         activeNav.querySelector('i').classList.replace('ph', 'ph-fill');
+        
+        // 최상단으로 스크롤 이동
+        document.querySelector('.main-content').scrollTop = 0;
     }
 
-    // 모달 열기/닫기
     function openModal(machineId) {
         selectedMachineId = machineId;
         const machine = machines.find(m => m.id === machineId);
-        document.getElementById('modalMachineName').innerText = machine.name;
+        document.getElementById('modalMachineName').innerText = dict[currentLang][machine.nameKey];
         
-        // 초기화
         document.querySelectorAll('.course-btn').forEach((btn, index) => {
-            if(index === 0) selectCourse(btn, 1000, 40); // 기본 선택
+            if(index === 0) selectCourse(btn, 1000, 40);
         });
 
         document.getElementById('overlay').classList.add('open');
@@ -383,148 +504,97 @@
         selectedMachineId = null;
     }
 
-    // 코스 선택
     function selectCourse(btn, price, time) {
         document.querySelectorAll('.course-btn').forEach(b => {
             b.className = 'course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition';
         });
         btn.className = 'course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition';
-        
-        selectedCoursePrice = price;
-        selectedCourseTime = time;
+        selectedCoursePrice = price; selectedCourseTime = time;
         document.getElementById('modalPrice').innerText = `${price.toLocaleString()} P`;
     }
 
-    // 세탁 시작 (핵심 로직)
     function startLaundry() {
         if (balance < selectedCoursePrice) {
             Swal.fire({
-                icon: 'error',
-                title: '포인트 부족',
-                text: '잔액이 부족합니다. 지갑 탭에서 충전해주세요.',
-                confirmButtonColor: '#003E7A'
+                icon: 'error', title: dict[currentLang]['alertNoPoint'], text: dict[currentLang]['alertNoPointSub'], confirmButtonColor: '#003E7A'
             });
-            closeModal();
-            return;
+            closeModal(); return;
         }
 
-        // 결제 및 상태 변경
         balance -= selectedCoursePrice;
         updateBalanceUI();
 
         const machine = machines.find(m => m.id === selectedMachineId);
         machine.status = 'in-use';
-        machine.timeRemaining = selectedCourseTime * 60; // 초 단위
+        machine.timeRemaining = selectedCourseTime * 60;
 
-        closeModal();
-        renderMachines();
+        closeModal(); renderMachines();
 
-        // 성공 토스트 알림
         Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: `${machine.name} 작동이 시작되었습니다!`,
-            showConfirmButton: false,
-            timer: 2000
+            toast: true, position: 'top-end', icon: 'success', 
+            title: `${dict[currentLang][machine.nameKey]} ${dict[currentLang]['alertStart']}`, 
+            showConfirmButton: false, timer: 2000
+        });
+        
+        // 홈 화면으로 자동 전환하여 매끄러운 경험 제공
+        setTimeout(() => switchTab('home'), 1000);
+    }
+
+    function submitInquiry() {
+        Swal.fire({
+            icon: 'success', title: currentLang==='ko'?'접수 완료':'Submitted', 
+            text: currentLang==='ko'?'사감실로 정상적으로 전달되었습니다.':'Successfully sent to admin.', 
+            confirmButtonColor: '#003E7A'
+        });
+        document.querySelector('form').reset();
+    }
+
+    function recharge(amount) {
+        let timerInterval;
+        Swal.fire({
+            title: currentLang==='ko'?'결제 진행 중...':'Processing...', html: currentLang==='ko'?'NFC/카카오페이 대기중':'Waiting for Payment',
+            timer: 1500, timerProgressBar: true, didOpen: () => { Swal.showLoading(); },
+            willClose: () => { clearInterval(timerInterval); }
+        }).then((result) => {
+            balance += amount; updateBalanceUI();
+            Swal.fire({ icon: 'success', title: currentLang==='ko'?'충전 완료!':'Success!', confirmButtonColor: '#003E7A' });
         });
     }
 
-    // 타이머 루프 (1초마다 실행)
+    // 타이머 루프
     setInterval(() => {
         let needsRender = false;
         machines.forEach(m => {
             if (m.status === 'in-use' && m.timeRemaining > 0) {
-                m.timeRemaining -= 1;
-                needsRender = true;
-                
-                // 세탁 완료 시
+                m.timeRemaining -= 1; needsRender = true;
                 if (m.timeRemaining <= 0) {
-                    m.status = 'available';
-                    m.timeRemaining = 0;
-                    
-                    // 푸시 알림 시뮬레이션
+                    m.status = 'available'; m.timeRemaining = 0;
                     Swal.fire({
-                        title: '🔔 세탁 완료!',
-                        text: `${m.name}의 세탁이 완료되었습니다. 다음 사람을 위해 빨래를 수거해주세요.`,
-                        icon: 'info',
-                        confirmButtonText: '확인',
-                        confirmButtonColor: '#003E7A'
+                        title: dict[currentLang]['alertDoneTitle'], text: dict[currentLang]['alertDoneSub'],
+                        icon: 'info', confirmButtonText: dict[currentLang]['alertConfirm'], confirmButtonColor: '#003E7A'
                     });
                 }
             }
         });
-
         if (needsRender) renderMachines();
     }, 1000);
 
-    // 포인트 충전 (가상)
-    function recharge(amount) {
-        // 실제 결제 API 연동하는 척 하는 애니메이션
-        let timerInterval;
-        Swal.fire({
-            title: '결제 진행 중...',
-            html: '카카오페이를 호출하고 있습니다.',
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: () => {
-                Swal.showLoading();
-            },
-            willClose: () => {
-                clearInterval(timerInterval);
-            }
-        }).then((result) => {
-            balance += amount;
-            updateBalanceUI();
-            Swal.fire({
-                icon: 'success',
-                title: '충전 완료!',
-                text: `${amount.toLocaleString()}P가 성공적으로 충전되었습니다.`,
-                confirmButtonColor: '#003E7A'
-            });
-        });
-    }
-
-    // 미구현 기능 알림
-    function showComingSoon(feature) {
-        Swal.fire({
-            toast: true,
-            position: 'bottom',
-            icon: 'info',
-            title: `${feature} 기능은 V2에서 업데이트 예정입니다.`,
-            showConfirmButton: false,
-            timer: 2000
-        });
-    }
-
-    // 🌟 발표 시연용 치트키 (100배속) 🌟
+    // 치트키
     document.getElementById('cheatBtn').addEventListener('click', () => {
         let activeCount = 0;
         machines.forEach(m => {
             if (m.status === 'in-use' && m.timeRemaining > 10) {
-                m.timeRemaining = 5; // 남은 시간을 5초로 확 줄여버림
-                activeCount++;
+                m.timeRemaining = 5; activeCount++;
             }
         });
-        
         if (activeCount > 0) {
-            Swal.fire({
-                toast: true, position: 'top', icon: 'success', 
-                title: '[치트키] 실행 중인 세탁기가 5초 뒤 완료됩니다!', 
-                showConfirmButton: false, timer: 1500
-            });
-        } else {
-             Swal.fire({
-                toast: true, position: 'top', icon: 'warning', 
-                title: '현재 실행 중인 세탁기가 없습니다. 먼저 세탁을 시작해주세요.', 
-                showConfirmButton: false, timer: 2000
-            });
+            Swal.fire({ toast: true, position: 'top', icon: 'success', title: '5 seconds left!', showConfirmButton: false, timer: 1500 });
         }
     });
 
-    // 초기화 실행
+    // 초기화
     updateBalanceUI();
-    renderMachines();
+    setLang('ko'); // 기본 한국어 설정 및 렌더링 시작
 
 </script>
 </body>
