@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ERICA 기숙사 스마트 라이프</title>
+    
+    <!-- PWA 및 홈 화면 앱 아이콘 설정 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="창의인재관">
+    <meta name="theme-color" content="#003E7A">
+    <!-- 고화질 생성형 앱 아이콘 (파란 배경에 하얀색 E) -->
+    <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=E&background=003E7A&color=fff&size=512">
+    <link rel="icon" type="image/png" href="https://ui-avatars.com/api/?name=E&background=003E7A&color=fff&size=512">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -563,7 +573,7 @@
     let isMenuFetched = false;
     let isMealError = false;
 
-    // 세탁기 Mock Data
+    // 세탁기 Mock Data (isMine을 전부 false로 초기화)
     const machines = [
         { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0, isMine: false },
         { id: 2, nameKey: "machineM2", status: "in-use", timeRemaining: 1250, isMine: false },
@@ -706,9 +716,10 @@
         });
     }
 
+    // 실제 스마트폰 알림처럼 위에서 부드럽게 얇게 떨어지는 형태
     function sendPushNotification(title, body) {
         if ("Notification" in window && Notification.permission === "granted") {
-            new Notification(title, { body: body, icon: "https://api.dicebear.com/7.x/notionists/svg?seed=Erica" });
+            new Notification(title, { body: body, icon: "https://ui-avatars.com/api/?name=E&background=003E7A&color=fff&size=512" });
         } else {
             Swal.fire({
                 toast: true, position: 'top', title: title, text: body, showConfirmButton: false, timer: 4000,
@@ -719,6 +730,7 @@
         if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
     }
 
+    // API 호출 (앱 로딩 시 실행)
     async function fetchCafeteriaData(force = false) {
         if (isMenuFetched && !force && !isMealError) return;
         
@@ -739,8 +751,8 @@
             isMenuFetched = true;
             isMealError = false;
             
-            renderMeals();      
-            renderHomeMeals();  
+            renderMeals();      // 편의 탭 렌더링
+            renderHomeMeals();  // 홈 탭 렌더링
             
             document.getElementById('mealLoading').classList.add('hidden');
             document.getElementById('mealContent').classList.remove('hidden');
@@ -749,10 +761,11 @@
             isMealError = true;
             document.getElementById('mealLoading').classList.add('hidden');
             document.getElementById('mealError').classList.remove('hidden');
-            renderHomeMeals(); 
+            renderHomeMeals(); // 에러 상태를 홈 위젯에도 전달
         }
     }
 
+    // 편의 탭의 학식 리스트 렌더링
     function renderMeals() {
         if (!mealData || mealData.length === 0) return;
         
@@ -789,6 +802,7 @@
         container.innerHTML += `<p class="text-[10px] text-gray-400 text-right mt-1 border-t border-gray-100 pt-2">Updated: ${timeStr}</p>`;
     }
 
+    // 홈 화면의 시간대별 학식 렌더링 로직
     function renderHomeMeals() {
         const container = document.getElementById('homeMealContent');
         const titleEl = document.getElementById('homeMealTitle');
@@ -903,7 +917,6 @@
     function closeModal() {
         document.getElementById('overlay').classList.remove('open');
         document.getElementById('bottomSheet').classList.remove('open');
-        // 버그 해결: 여기서 selectedMachineId를 null로 지우지 않아야 QR 스캔 화면으로 넘어갔을 때 기억할 수 있습니다.
     }
 
     function selectCourse(btn, price, time) {
@@ -923,6 +936,7 @@
         }
         machine.status = 'reserved';
         machine.timeRemaining = 10 * 60; 
+        machine.isMine = true; // 🔴 내가 예약한 기기임을 식별
 
         closeModal(); renderMachines();
         Swal.fire({
@@ -934,12 +948,10 @@
     let qrStream = null;
     let scanAnimationReq = null;
 
-    // 실제 QR 코드 스캔 루프 (jsQR)
     function scanQRLoop() {
         if (!qrStream || document.getElementById('qrScanner').classList.contains('hidden')) return;
 
         const video = document.getElementById('qrVideo');
-        // 버그 해결: video.videoWidth가 준비되었는지 꼼꼼히 확인해야 iOS 등에서 작동합니다.
         if (video.readyState === video.HAVE_ENOUGH_DATA && video.videoWidth > 0) {
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth;
@@ -951,7 +963,6 @@
             
             if (typeof jsQR !== 'undefined') {
                 const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
-                // 어떤 QR이든 스캔 성공하면 즉시 결제 완료 처리
                 if (code && code.data) {
                     finishQRPayment(currentQrMachineId);
                     return;
@@ -967,13 +978,11 @@
             return;
         }
         
-        // 결제로 넘어갈 세탁기 ID를 변수에 안전하게 저장
         currentQrMachineId = selectedMachineId; 
         closeModal();
         
         document.getElementById('qrScanner').classList.remove('hidden');
         
-        // 실제 카메라 연동 (WebRTC)
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
             .then(function(stream) {
@@ -981,12 +990,10 @@
                 const videoEl = document.getElementById('qrVideo');
                 videoEl.srcObject = stream;
                 videoEl.play();
-                // 카메라 영상이 들어오면 QR 스캔 루프 시작
                 scanAnimationReq = requestAnimationFrame(scanQRLoop);
             })
             .catch(function(err) {
                 console.log("카메라 접근 불가:", err);
-                // 권한이 없어서 카메라가 안 켜지는 경우 2초 후 자동 스캔 시뮬레이션
                 setTimeout(() => {
                     if(!document.getElementById('qrScanner').classList.contains('hidden')) {
                         finishQRPayment(currentQrMachineId);
@@ -1027,7 +1034,7 @@
 
         machine.status = 'in-use';
         machine.timeRemaining = selectedCourseTime * 60;
-        machine.isMine = true;
+        machine.isMine = true; // 🔴 결제한 기기는 '내 기기'가 됨
 
         renderMachines();
         if (navigator.vibrate) navigator.vibrate(200);
@@ -1072,15 +1079,32 @@
         setTimeout(() => switchInquiryTab('history'), 1500);
     }
 
+    // 🔴 알림창 디자인 슬림하게 수정
     function recharge(amount) {
         let timerInterval;
         Swal.fire({
-            title: currentLang==='ko'?'결제 진행 중...':'Processing...', html: currentLang==='ko'?'NFC/카카오페이 대기중':'Waiting for Payment',
-            timer: 1500, timerProgressBar: true, didOpen: () => { Swal.showLoading(); },
+            title: currentLang==='ko'?'결제 진행 중...':'Processing...', 
+            html: currentLang==='ko'?'NFC/카카오페이 대기중':'Waiting for Payment',
+            timer: 1500, 
+            timerProgressBar: true, 
+            width: '280px', 
+            customClass: {
+                popup: 'rounded-3xl shadow-xl',
+                title: 'text-base font-bold',
+                htmlContainer: 'text-sm text-gray-500'
+            },
+            didOpen: () => { Swal.showLoading(); },
             willClose: () => { clearInterval(timerInterval); }
         }).then((result) => {
             balance += amount; updateBalanceUI();
-            Swal.fire({ icon: 'success', title: currentLang==='ko'?'충전 완료!':'Success!', confirmButtonColor: '#003E7A' });
+            Swal.fire({ 
+                icon: 'success', 
+                title: currentLang==='ko'?'충전 완료!':'Success!', 
+                showConfirmButton: false, 
+                timer: 1500,
+                width: '280px',
+                customClass: { popup: 'rounded-3xl shadow-xl', title: 'text-base' }
+            });
         });
     }
 
@@ -1099,12 +1123,16 @@
                         }
                     } else if (m.status === 'reserved') {
                         m.status = 'available'; m.timeRemaining = 0;
-                        Swal.fire({
-                            toast: true, position: 'top', icon: 'warning',
-                            title: currentLang==='ko'?'예약 만료':'Reservation Expired',
-                            text: currentLang==='ko'?'10분 내 결제가 없어 취소되었습니다.':'Cancelled due to no payment in 10 mins.',
-                            showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }
-                        });
+                        // 🔴 내가 예약한 기기일 경우에만 예약 취소 알림이 오도록 분기 처리
+                        if (m.isMine) {
+                            Swal.fire({
+                                toast: true, position: 'top', icon: 'warning',
+                                title: currentLang==='ko'?'예약 만료':'Reservation Expired',
+                                text: currentLang==='ko'?'10분 내 결제가 없어 취소되었습니다.':'Cancelled due to no payment in 10 mins.',
+                                showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }
+                            });
+                            m.isMine = false;
+                        }
                     }
                 }
             }
