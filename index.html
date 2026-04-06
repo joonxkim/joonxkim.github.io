@@ -10,9 +10,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="창의인재관">
     <meta name="theme-color" content="#003E7A">
-    <!-- 고화질 생성형 앱 아이콘 (파란 배경에 하얀색 E) -->
-    <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=E&background=003E7A&color=fff&size=512">
-    <link rel="icon" type="image/png" href="https://ui-avatars.com/api/?name=E&background=003E7A&color=fff&size=512">
+    <!-- 커스텀 디자인된 하양이(파란 갈기 사자) SVG 아이콘 -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23003E7A' rx='112'/%3E%3Ccircle cx='256' cy='256' r='140' fill='%231a75d2'/%3E%3Ccircle cx='256' cy='266' r='110' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='20' fill='%23fde68a'/%3E%3Ccircle cx='336' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='336' cy='186' r='20' fill='%23fde68a'/%3E%3Crect x='216' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Crect x='280' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Cpath d='M256 266 L266 276 L246 276 Z' fill='%231f2937'/%3E%3Cpath d='M256 276 Q276 296 286 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M256 276 Q236 296 226 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='186' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3Cellipse cx='326' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23003E7A' rx='112'/%3E%3Ccircle cx='256' cy='256' r='140' fill='%231a75d2'/%3E%3Ccircle cx='256' cy='266' r='110' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='20' fill='%23fde68a'/%3E%3Ccircle cx='336' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='336' cy='186' r='20' fill='%23fde68a'/%3E%3Crect x='216' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Crect x='280' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Cpath d='M256 266 L266 276 L246 276 Z' fill='%231f2937'/%3E%3Cpath d='M256 276 Q276 296 286 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M256 276 Q236 296 226 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='186' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3Cellipse cx='326' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3C/svg%3E">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,7 +20,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- jsQR: 실제 QR 코드 인식을 위한 경량 라이브러리 -->
+    <!-- jsQR -->
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     
     <script>
@@ -71,7 +71,6 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* QR 스캐너 시뮬레이션용 */
         .scan-line {
             width: 100%; height: 2px; background: #22c55e;
             position: absolute; top: 0; left: 0;
@@ -108,7 +107,8 @@
         
         <!-- 1. 홈 탭 -->
         <div id="tab-home" class="tab-content active p-4 space-y-4">
-            <div class="flex justify-between items-end mb-1">
+            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
+            <div class="flex justify-between items-end mb-1 px-2">
                 <div>
                     <p class="text-gray-500 text-sm font-medium" data-i18n="welcomeSub">안녕하세요,</p>
                     <h2 class="text-2xl font-bold text-gray-800"><span class="text-erica">김ERICA</span><span data-i18n="welcomeTitle">님!</span></h2>
@@ -170,7 +170,8 @@
 
         <!-- 2. 세탁 탭 -->
         <div id="tab-laundry" class="tab-content p-4 space-y-5">
-            <h2 class="text-2xl font-bold text-gray-800" data-i18n="laundryTitle">세탁실</h2>
+            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
+            <h2 class="text-2xl font-bold text-gray-800 px-2" data-i18n="laundryTitle">세탁실</h2>
             
             <div class="flex justify-between items-end">
                 <div class="flex gap-2">
@@ -194,9 +195,10 @@
             </div>
         </div>
 
-        <!-- 3. 편의 탭 (학식 + 택배함) -->
+        <!-- 3. 편의 탭 -->
         <div id="tab-convenience" class="tab-content p-4 space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800" data-i18n="convTitle">생활 편의</h2>
+            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
+            <h2 class="text-2xl font-bold text-gray-800 px-2" data-i18n="convTitle">생활 편의</h2>
             
             <div class="space-y-4">
                 <!-- 무인 택배함 섹션 -->
@@ -266,7 +268,8 @@
 
         <!-- 4. 문의 탭 -->
         <div id="tab-inquiry" class="tab-content p-4 space-y-5">
-            <div class="flex justify-between items-end mb-2">
+            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
+            <div class="flex justify-between items-end mb-2 px-2">
                 <h2 class="text-2xl font-bold text-gray-800" data-i18n="inqTitle">문의 및 수리</h2>
             </div>
             
@@ -361,9 +364,11 @@
 
         <!-- 5. 내 정보 탭 -->
         <div id="tab-myinfo" class="tab-content p-4 space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800" data-i18n="myTitle">내 정보</h2>
+            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
+            <h2 class="text-2xl font-bold text-gray-800 px-2" data-i18n="myTitle">내 정보</h2>
             
-            <div id="notiBanner" class="bg-red-50 border border-red-200 rounded-xl p-4 flex justify-between items-center">
+            <!-- 알림 권한 배너 (초기에는 숨김 처리) -->
+            <div id="notiBanner" style="display: none;" class="bg-red-50 border border-red-200 rounded-xl p-4 justify-between items-center">
                 <div>
                     <p class="text-sm font-bold text-red-600 flex items-center gap-1"><i class="ph-fill ph-warning-circle"></i> <span data-i18n="notiOffTitle">알림이 꺼져 있어요</span></p>
                     <p class="text-xs text-red-500 mt-0.5" data-i18n="notiOffDesc">세탁 완료 진동/소리 알림을 받으려면 허용해주세요.</p>
@@ -462,11 +467,9 @@
         </div>
     </div>
 
-    <!-- QR 스캐너 오버레이 (실제 카메라 및 jsQR 연동) -->
+    <!-- QR 스캐너 오버레이 -->
     <div id="qrScanner" class="hidden absolute inset-0 bg-black z-40 flex flex-col justify-center items-center">
-        <!-- 터치해도 넘어가는 백도어 유지 -->
         <div class="relative w-64 h-64 border-2 border-white/50 rounded-xl overflow-hidden mb-6 cursor-pointer" onclick="finishQRPayment(currentQrMachineId)">
-            <!-- 모바일 브라우저 카메라 정책 대응: autoplay playsinline muted -->
             <video id="qrVideo" autoplay playsinline muted class="w-full h-full object-cover"></video>
             <div class="scan-line"></div>
         </div>
@@ -562,13 +565,12 @@
     let currentLang = 'ko';
     let balance = 1500;
     
-    let selectedMachineId = null; // 모달창 열 때 선택된 머신
-    let currentQrMachineId = null; // 모달창 닫히고 QR 스캔할 때 저장해두는 머신 ID
+    let selectedMachineId = null; 
+    let currentQrMachineId = null; 
     let selectedCourseTime = 40;
     let selectedCoursePrice = 1000;
     
-    let filterStatus = 'all'; // 세탁기 탭 필터 (all 또는 available)
-    
+    let filterStatus = 'all'; 
     let mealData = null;
     let isMenuFetched = false;
     let isMealError = false;
@@ -622,7 +624,6 @@
         return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
-    // 필터 기능 (전체보기 / 사용가능만)
     function setFilter(type) {
         filterStatus = type;
         if (type === 'all') {
@@ -638,13 +639,9 @@
     function renderMachines() {
         const grid = document.getElementById('machineGrid');
         grid.innerHTML = '';
-        let availableCount = 0;
-
-        // 필터 로직 적용
+        
         const filteredMachines = filterStatus === 'all' ? machines : machines.filter(m => m.status === 'available');
-
-        // 홈 화면을 위한 전체 가용 대수는 필터와 무관하게 계산
-        availableCount = machines.filter(m => m.status === 'available').length;
+        const availableCount = machines.filter(m => m.status === 'available').length;
         document.getElementById('homeAvailableCount').innerText = availableCount;
 
         if (filteredMachines.length === 0) {
@@ -688,38 +685,50 @@
         });
     }
 
+    // 🔴 팝업창 슬림화 적용
     function requestNotification() {
         Swal.fire({
-            title: "시스템 알림 권한 허용",
-            text: "세탁 완료 및 5분 전 알림을 소리와 진동으로 받기 위해 권한이 필요합니다.",
+            title: currentLang==='ko'?'시스템 알림 권한 허용':'Enable Alerts',
+            text: currentLang==='ko'?'세탁 완료 및 5분 전 알림을 소리와 진동으로 받기 위해 권한이 필요합니다.':'Please allow permissions to get vibration/sound alerts.',
             icon: "info",
             showCancelButton: true,
             confirmButtonColor: "#003E7A",
-            cancelButtonText: "취소",
-            confirmButtonText: "허용하기"
+            cancelButtonText: currentLang==='ko'?'취소':'Cancel',
+            confirmButtonText: currentLang==='ko'?'허용하기':'Allow',
+            width: '300px',
+            customClass: {
+                popup: 'rounded-3xl shadow-xl',
+                title: 'text-base font-bold',
+                htmlContainer: 'text-sm text-gray-500'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 if ("Notification" in window) {
                     Notification.requestPermission().then(permission => {
                         if (permission === "granted") {
                             document.getElementById('notiBanner').style.display = 'none';
-                            Swal.fire({toast:true, position:'top', icon:'success', title:'알림이 켜졌습니다.', showConfirmButton:false, timer:1500});
+                            Swal.fire({toast:true, position:'top', icon:'success', title:currentLang==='ko'?'알림이 켜졌습니다.':'Enabled.', showConfirmButton:false, timer:1500});
                         } else {
-                            Swal.fire({toast:true, position:'top', icon:'warning', title:'알림 권한이 거부되었습니다.', showConfirmButton:false, timer:1500});
+                            document.getElementById('notiBanner').style.display = 'flex';
+                            Swal.fire({toast:true, position:'top', icon:'warning', title:currentLang==='ko'?'알림 권한이 거부되었습니다.':'Permission Denied.', showConfirmButton:false, timer:1500});
                         }
                     });
                 } else {
                     document.getElementById('notiBanner').style.display = 'none';
-                    Swal.fire({toast:true, position:'top', icon:'success', title:'앱 내 알림이 켜졌습니다.', showConfirmButton:false, timer:1500});
+                    Swal.fire({toast:true, position:'top', icon:'success', title:currentLang==='ko'?'앱 내 알림이 켜졌습니다.':'Enabled.', showConfirmButton:false, timer:1500});
                 }
+            } else {
+                document.getElementById('notiBanner').style.display = 'flex';
             }
         });
     }
 
-    // 실제 스마트폰 알림처럼 위에서 부드럽게 얇게 떨어지는 형태
+    // 앱 아이콘 (사자 이미지 SVG URI 재사용)
+    const customAppIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23003E7A' rx='112'/%3E%3Ccircle cx='256' cy='256' r='140' fill='%231a75d2'/%3E%3Ccircle cx='256' cy='266' r='110' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='20' fill='%23fde68a'/%3E%3Ccircle cx='336' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='336' cy='186' r='20' fill='%23fde68a'/%3E%3Crect x='216' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Crect x='280' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Cpath d='M256 266 L266 276 L246 276 Z' fill='%231f2937'/%3E%3Cpath d='M256 276 Q276 296 286 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M256 276 Q236 296 226 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='186' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3Cellipse cx='326' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3C/svg%3E";
+
     function sendPushNotification(title, body) {
         if ("Notification" in window && Notification.permission === "granted") {
-            new Notification(title, { body: body, icon: "https://ui-avatars.com/api/?name=E&background=003E7A&color=fff&size=512" });
+            new Notification(title, { body: body, icon: customAppIcon });
         } else {
             Swal.fire({
                 toast: true, position: 'top', title: title, text: body, showConfirmButton: false, timer: 4000,
@@ -730,7 +739,6 @@
         if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
     }
 
-    // API 호출 (앱 로딩 시 실행)
     async function fetchCafeteriaData(force = false) {
         if (isMenuFetched && !force && !isMealError) return;
         
@@ -751,8 +759,8 @@
             isMenuFetched = true;
             isMealError = false;
             
-            renderMeals();      // 편의 탭 렌더링
-            renderHomeMeals();  // 홈 탭 렌더링
+            renderMeals();      
+            renderHomeMeals();  
             
             document.getElementById('mealLoading').classList.add('hidden');
             document.getElementById('mealContent').classList.remove('hidden');
@@ -761,11 +769,10 @@
             isMealError = true;
             document.getElementById('mealLoading').classList.add('hidden');
             document.getElementById('mealError').classList.remove('hidden');
-            renderHomeMeals(); // 에러 상태를 홈 위젯에도 전달
+            renderHomeMeals(); 
         }
     }
 
-    // 편의 탭의 학식 리스트 렌더링
     function renderMeals() {
         if (!mealData || mealData.length === 0) return;
         
@@ -802,7 +809,6 @@
         container.innerHTML += `<p class="text-[10px] text-gray-400 text-right mt-1 border-t border-gray-100 pt-2">Updated: ${timeStr}</p>`;
     }
 
-    // 홈 화면의 시간대별 학식 렌더링 로직
     function renderHomeMeals() {
         const container = document.getElementById('homeMealContent');
         const titleEl = document.getElementById('homeMealTitle');
@@ -936,7 +942,7 @@
         }
         machine.status = 'reserved';
         machine.timeRemaining = 10 * 60; 
-        machine.isMine = true; // 🔴 내가 예약한 기기임을 식별
+        machine.isMine = true;
 
         closeModal(); renderMachines();
         Swal.fire({
@@ -1034,7 +1040,7 @@
 
         machine.status = 'in-use';
         machine.timeRemaining = selectedCourseTime * 60;
-        machine.isMine = true; // 🔴 결제한 기기는 '내 기기'가 됨
+        machine.isMine = true;
 
         renderMachines();
         if (navigator.vibrate) navigator.vibrate(200);
@@ -1079,7 +1085,7 @@
         setTimeout(() => switchInquiryTab('history'), 1500);
     }
 
-    // 🔴 알림창 디자인 슬림하게 수정
+    // 🔴 팝업창 슬림화 적용
     function recharge(amount) {
         let timerInterval;
         Swal.fire({
@@ -1123,7 +1129,7 @@
                         }
                     } else if (m.status === 'reserved') {
                         m.status = 'available'; m.timeRemaining = 0;
-                        // 🔴 내가 예약한 기기일 경우에만 예약 취소 알림이 오도록 분기 처리
+                        // 🔴 1. 내가 예약한 기기일 경우에만 예약 취소 알림이 오도록 분기 처리
                         if (m.isMine) {
                             Swal.fire({
                                 toast: true, position: 'top', icon: 'warning',
@@ -1152,7 +1158,52 @@
         }
     });
 
-    // 초기화 및 학식 데이터 가져오기
+    // 🔴 2. 앱 진입 시 알림 권한 팝업 물어보기 로직 (슬림하게)
+    setTimeout(() => {
+        if ("Notification" in window) {
+            if (Notification.permission === "default") {
+                Swal.fire({
+                    title: currentLang==='ko'?'알림을 켤까요?':'Enable Notifications?',
+                    text: currentLang==='ko'?'내 세탁이 끝나면 팝업과 진동으로 알려드려요!':'Get notified when your laundry is done.',
+                    showCancelButton: true,
+                    confirmButtonColor: '#003E7A',
+                    cancelButtonText: currentLang==='ko'?'나중에':'Later',
+                    confirmButtonText: currentLang==='ko'?'알림 켜기':'Enable',
+                    width: '300px',
+                    customClass: {
+                        popup: 'rounded-3xl shadow-xl',
+                        title: 'text-base font-bold',
+                        htmlContainer: 'text-sm text-gray-500'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Notification.requestPermission().then(permission => {
+                            if (permission === "granted") {
+                                document.getElementById('notiBanner').style.display = 'none';
+                                Swal.fire({toast:true, position:'top', icon:'success', title:currentLang==='ko'?'알림이 켜졌습니다.':'Enabled.', showConfirmButton:false, timer:1500});
+                            } else {
+                                document.getElementById('notiBanner').style.display = 'flex';
+                            }
+                        });
+                    } else {
+                        // '나중에' 누른 경우
+                        document.getElementById('notiBanner').style.display = 'flex';
+                    }
+                });
+            } else if (Notification.permission === "denied") {
+                // 이미 거부된 경우 배너 표시
+                document.getElementById('notiBanner').style.display = 'flex';
+            } else {
+                // 허용된 경우 배너 숨김
+                document.getElementById('notiBanner').style.display = 'none';
+            }
+        } else {
+            // 지원하지 않는 브라우저
+            document.getElementById('notiBanner').style.display = 'flex';
+        }
+    }, 1000);
+
+    // 초기화 및 데이터 가져오기
     updateBalanceUI();
     setLang('ko'); 
     fetchCafeteriaData(); 
