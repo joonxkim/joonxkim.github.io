@@ -10,6 +10,8 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jsQR: 실제 QR 코드 인식을 위한 경량 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -95,8 +97,8 @@
     <main class="main-content hide-scrollbar relative">
         
         <!-- 1. 홈 탭 -->
-        <div id="tab-home" class="tab-content active p-4 space-y-5">
-            <div class="flex justify-between items-end">
+        <div id="tab-home" class="tab-content active p-4 space-y-4">
+            <div class="flex justify-between items-end mb-1">
                 <div>
                     <p class="text-gray-500 text-sm font-medium" data-i18n="welcomeSub">안녕하세요,</p>
                     <h2 class="text-2xl font-bold text-gray-800"><span class="text-erica">김ERICA</span><span data-i18n="welcomeTitle">님!</span></h2>
@@ -136,6 +138,24 @@
                     <p class="font-bold text-gray-800 text-sm" data-i18n="homeDeliveryStatus">보관된 택배 있음</p>
                 </div>
             </div>
+
+            <!-- 홈 요약: 시간대별 학식 위젯 (신규 반영) -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5">
+                        <i class="ph-fill ph-bowl-food text-orange-500 text-lg"></i>
+                        <span id="homeMealTitle">오늘의 학식</span>
+                    </h3>
+                    <button onclick="switchTab('convenience')" class="text-xs text-gray-400 font-bold flex items-center hover:text-gray-600 transition">
+                        <span data-i18n="more">자세히 보기</span> <i class="ph ph-caret-right ml-0.5"></i>
+                    </button>
+                </div>
+                <div id="homeMealContent" class="bg-gray-50 rounded-xl p-3 min-h-[60px] flex flex-col justify-center">
+                    <div class="flex items-center justify-center">
+                        <i class="ph ph-spinner animate-spin text-erica text-xl"></i>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 2. 세탁 탭 -->
@@ -169,8 +189,7 @@
             <h2 class="text-2xl font-bold text-gray-800" data-i18n="convTitle">생활 편의</h2>
             
             <div class="space-y-4">
-                
-                <!-- 무인 택배함 섹션 (신규) -->
+                <!-- 무인 택배함 섹션 -->
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
                     <div class="flex justify-between items-center mb-3">
                         <h3 class="font-bold text-gray-800 flex items-center gap-2"><i class="ph-fill ph-package text-yellow-500 text-lg"></i> <span data-i18n="delTitle">무인 택배함 현황</span></h3>
@@ -235,21 +254,18 @@
             </div>
         </div>
 
-        <!-- 4. 문의 탭 (전면 개편) -->
+        <!-- 4. 문의 탭 -->
         <div id="tab-inquiry" class="tab-content p-4 space-y-5">
             <div class="flex justify-between items-end mb-2">
                 <h2 class="text-2xl font-bold text-gray-800" data-i18n="inqTitle">문의 및 수리</h2>
             </div>
             
-            <!-- 상단 미니 탭 -->
             <div class="flex bg-gray-200 p-1 rounded-xl mb-4">
                 <button id="btnInqWrite" onclick="switchInquiryTab('write')" class="flex-1 bg-white shadow-sm text-gray-800 font-bold text-sm py-2 rounded-lg transition" data-i18n="inqTabWrite">문의 작성</button>
                 <button id="btnInqHistory" onclick="switchInquiryTab('history')" class="flex-1 text-gray-500 hover:text-gray-700 font-bold text-sm py-2 rounded-lg transition" data-i18n="inqTabHistory">내역 확인</button>
             </div>
             
-            <!-- 4-1. 작성 화면 -->
             <div id="inquiryWriteView" class="space-y-4">
-                <!-- 처리 흐름 안내 -->
                 <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 flex justify-between items-center px-6">
                     <div class="text-center">
                         <div class="w-6 h-6 bg-erica text-white rounded-full flex items-center justify-center text-xs font-bold mx-auto mb-1">1</div>
@@ -296,7 +312,6 @@
                             <textarea id="inqTextArea" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica h-28 resize-none" data-i18n-placeholder="inqPlaceholder" placeholder="문제 상황을 상세히 적어주세요." required></textarea>
                         </div>
                         
-                        <!-- 사진 첨부 버튼 -->
                         <div>
                             <button type="button" class="w-full border border-dashed border-gray-300 bg-gray-50 text-gray-500 rounded-lg py-3 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition">
                                 <i class="ph ph-camera text-lg"></i> <span data-i18n="inqPhotoBtn">사진 첨부 (최대 3장)</span>
@@ -308,9 +323,8 @@
                 </div>
             </div>
 
-            <!-- 4-2. 내역 확인 화면 (기본 숨김) -->
+            <!-- 내역 확인 화면 -->
             <div id="inquiryHistoryView" class="hidden space-y-3">
-                <!-- 이전 접수 내역 (Mock) -->
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
                     <div class="flex justify-between items-start mb-2">
                         <span class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full" data-i18n="inqFlow2">처리 중</span>
@@ -438,14 +452,15 @@
         </div>
     </div>
 
-    <!-- QR 스캐너 오버레이 (실제 카메라 연동) -->
+    <!-- QR 스캐너 오버레이 (실제 카메라 및 jsQR 연동) -->
     <div id="qrScanner" class="hidden absolute inset-0 bg-black z-40 flex flex-col justify-center items-center">
+        <!-- 터치해도 넘어가는 백도어 유지 -->
         <div class="relative w-64 h-64 border-2 border-white/50 rounded-xl overflow-hidden mb-6 cursor-pointer" onclick="finishQRPayment(selectedMachineId)">
             <video id="qrVideo" autoplay playsinline class="w-full h-full object-cover"></video>
             <div class="scan-line"></div>
         </div>
         <p class="text-white font-bold" data-i18n="qrScanning">기기의 QR코드를 스캔해주세요...</p>
-        <p class="text-white/70 text-xs mt-2 animate-pulse">(화면을 터치하면 스캔이 완료됩니다)</p>
+        <p class="text-white/70 text-xs mt-2 animate-pulse">(아무 QR코드나 비추거나 화면을 터치하세요)</p>
         <button onclick="cancelQRPayment()" class="mt-8 text-white/70 underline" data-i18n="qrCancel">취소</button>
     </div>
 
@@ -460,6 +475,7 @@
             welcomeSub: "안녕하세요,", welcomeTitle: "님!",
             homeLaundryTitle: "세탁실 현황", homeLaundrySub: "현재 1층 공용 세탁실", homeLaundryStatus: "대 사용 가능", homeLaundryBtn: "예약/결제",
             homeBalanceTitle: "내 잔액", homeDeliveryTitle: "무인 택배함", homeDeliveryStatus: "보관된 택배 있음",
+            more: "자세히 보기",
             
             laundryTitle: "세탁실", filterAll: "전체 보기", filterAvailable: "사용 가능만", statusAvail: "가능", statusRsv: "예약됨", statusInUse: "사용중",
             laundryNotice: "현장 우선 정책: 예약 후 10분 내에 기기 앞에서 결제하지 않으면 자동 취소됩니다.",
@@ -497,6 +513,7 @@
             welcomeSub: "Hello,", welcomeTitle: "!",
             homeLaundryTitle: "Laundry Status", homeLaundrySub: "1st Floor Public", homeLaundryStatus: " Available", homeLaundryBtn: "Reserve/Pay",
             homeBalanceTitle: "My Balance", homeDeliveryTitle: "Package Box", homeDeliveryStatus: "1 Package Stored",
+            more: "View Details",
             
             laundryTitle: "Laundry Room", filterAll: "All", filterAvailable: "Available Only", statusAvail: "Avail", statusRsv: "Rsvd", statusInUse: "In-use",
             laundryNotice: "On-site Priority: Reservations auto-expire if not paid at the machine within 10 mins.",
@@ -536,17 +553,19 @@
     let selectedMachineId = null;
     let selectedCourseTime = 40;
     let selectedCoursePrice = 1000;
+    
     let mealData = null;
     let isMenuFetched = false;
     let isMealError = false;
 
+    // 세탁기 Mock Data (isMine 플래그 추가를 통해 내 알림만 울리도록 컨트롤 가능)
     const machines = [
-        { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0 },
-        { id: 2, nameKey: "machineM2", status: "in-use", timeRemaining: 1250 },
-        { id: 3, nameKey: "machineM3", status: "reserved", timeRemaining: 550 },
-        { id: 4, nameKey: "machineM4", status: "in-use", timeRemaining: 300 },
-        { id: 5, nameKey: "machineM5", status: "broken", timeRemaining: 0 },
-        { id: 6, nameKey: "machineM6", status: "available", timeRemaining: 0 },
+        { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0, isMine: false },
+        { id: 2, nameKey: "machineM2", status: "in-use", timeRemaining: 1250, isMine: false }, // 다른 사람이 쓰는 세탁기
+        { id: 3, nameKey: "machineM3", status: "reserved", timeRemaining: 550, isMine: false },
+        { id: 4, nameKey: "machineM4", status: "in-use", timeRemaining: 300, isMine: false },  // 다른 사람이 쓰는 세탁기
+        { id: 5, nameKey: "machineM5", status: "broken", timeRemaining: 0, isMine: false },
+        { id: 6, nameKey: "machineM6", status: "available", timeRemaining: 0, isMine: false },
     ];
 
     // --- 다국어 ---
@@ -569,7 +588,10 @@
         });
         
         renderMachines();
-        if(mealData) renderMeals();
+        if(mealData) {
+            renderMeals();
+            renderHomeMeals(); // 언어 변경 시 홈 화면 학식도 리렌더링
+        }
     }
 
     function updateBalanceUI() {
@@ -605,7 +627,8 @@
                 statusBadge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full">${formatTime(m.timeRemaining)}</div>`;
                 onClickAttr = `onclick="openModal(${m.id})"`; 
             } else if (m.status === 'in-use') {
-                cardClasses += 'bg-red-50 border-red-100 opacity-90';
+                // 내 세탁기일 때 카드에 미세한 테두리 하이라이트를 줄 수도 있습니다 (선택)
+                cardClasses += m.isMine ? 'bg-red-50 border-red-300 shadow-sm opacity-100' : 'bg-red-50 border-red-100 opacity-90';
                 statusBadge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full animate-pulse">${formatTime(m.timeRemaining)}</div>`;
             } else if (m.status === 'broken') {
                 cardClasses += 'bg-gray-100 border-gray-200 opacity-60';
@@ -656,11 +679,11 @@
         });
     }
 
+    // 실제 스마트폰 알림처럼 위에서 부드럽게 얇게 떨어지는 형태
     function sendPushNotification(title, body) {
         if ("Notification" in window && Notification.permission === "granted") {
             new Notification(title, { body: body, icon: "https://api.dicebear.com/7.x/notionists/svg?seed=Erica" });
         } else {
-            // 네이티브 권한이 없을 경우 앱 내에서 아이폰/갤럭시 알림처럼 상단에 얇게 내려오도록 튜닝
             Swal.fire({
                 toast: true, position: 'top', title: title, text: body, showConfirmButton: false, timer: 4000,
                 width: 'auto', padding: '0.8em',
@@ -670,6 +693,7 @@
         if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
     }
 
+    // API 호출 (앱 로딩 시 실행)
     async function fetchCafeteriaData(force = false) {
         if (isMenuFetched && !force && !isMealError) return;
         
@@ -690,7 +714,8 @@
             isMenuFetched = true;
             isMealError = false;
             
-            renderMeals();
+            renderMeals();      // 편의 탭 렌더링
+            renderHomeMeals();  // 홈 탭 렌더링 (신규)
             
             document.getElementById('mealLoading').classList.add('hidden');
             document.getElementById('mealContent').classList.remove('hidden');
@@ -699,9 +724,11 @@
             isMealError = true;
             document.getElementById('mealLoading').classList.add('hidden');
             document.getElementById('mealError').classList.remove('hidden');
+            renderHomeMeals(); // 에러 상태를 홈 위젯에도 전달
         }
     }
 
+    // 편의 탭의 학식 리스트 렌더링
     function renderMeals() {
         if (!mealData || mealData.length === 0) return;
         
@@ -738,6 +765,62 @@
         container.innerHTML += `<p class="text-[10px] text-gray-400 text-right mt-1 border-t border-gray-100 pt-2">Updated: ${timeStr}</p>`;
     }
 
+    // 홈 화면의 시간대별 학식 렌더링 로직 (신규 반영)
+    function renderHomeMeals() {
+        const container = document.getElementById('homeMealContent');
+        const titleEl = document.getElementById('homeMealTitle');
+
+        if (isMealError || !mealData || mealData.length === 0) {
+            container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">${dict[currentLang]['mealErrorDesc']}</p>`;
+            return;
+        }
+
+        const now = new Date();
+        const timeMinutes = now.getHours() * 60 + now.getMinutes();
+
+        let targetType = '';
+        let titlePrefix = currentLang === 'ko' ? '오늘의 ' : "Today's ";
+        let titleSuffix = '';
+
+        // 시간에 따른 분기 처리 (09:00, 13:20, 18:40 기준)
+        if (timeMinutes < 9 * 60) {
+            targetType = '조식';
+            titleSuffix = currentLang === 'ko' ? '조식' : 'Breakfast';
+        } else if (timeMinutes < 13 * 60 + 20) {
+            targetType = '중식';
+            titleSuffix = currentLang === 'ko' ? '중식' : 'Lunch';
+        } else if (timeMinutes < 18 * 60 + 40) {
+            targetType = '석식';
+            titleSuffix = currentLang === 'ko' ? '석식' : 'Dinner';
+        } else {
+            targetType = '조식'; // 다음날 조식 대비
+            titlePrefix = currentLang === 'ko' ? '내일의 ' : "Tomorrow's ";
+            titleSuffix = currentLang === 'ko' ? '조식' : 'Breakfast';
+        }
+
+        titleEl.innerText = `${titlePrefix}${titleSuffix}`;
+
+        const filteredMeals = mealData.filter(m => m.type === targetType);
+
+        if (filteredMeals.length === 0) {
+            container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">${currentLang === 'ko' ? '해당 시간대 메뉴가 없습니다.' : 'No menu available.'}</p>`;
+            return;
+        }
+
+        let html = '';
+        filteredMeals.forEach((item, index) => {
+            const textContent = currentLang === 'ko' ? item.kor : item.eng;
+            html += `
+                <div class="${index > 0 ? 'mt-2 pt-2 border-t border-gray-200' : ''} flex justify-between items-center">
+                    <div class="flex-1">
+                        <p class="font-bold text-sm text-gray-800 line-clamp-1">${textContent}</p>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
     function refreshDelivery() {
         const btn = document.querySelector('.ph-arrows-clockwise').parentElement;
         btn.classList.add('animate-spin');
@@ -761,10 +844,6 @@
         activeNav.querySelector('i').classList.replace('ph', 'ph-fill');
         
         document.querySelector('.main-content').scrollTop = 0;
-
-        if(tabName === 'convenience') {
-            fetchCafeteriaData();
-        }
     }
 
     // 문의 탭 내부 뷰 전환 로직
@@ -832,6 +911,33 @@
     }
 
     let qrStream = null;
+    let scanAnimationReq = null;
+
+    // 실제 QR 코드 스캔 루프 (jsQR)
+    function scanQRLoop() {
+        if (!qrStream || document.getElementById('qrScanner').classList.contains('hidden')) return;
+
+        const video = document.getElementById('qrVideo');
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            // 보이지 않는 캔버스에 비디오 프레임을 그리고 이미지 데이터 추출
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d', { willReadFrequently: true });
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            // jsQR로 아무 QR코드나 인식 시도
+            const code = typeof jsQR !== 'undefined' ? jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" }) : null;
+
+            if (code && code.data) {
+                // 어떤 QR이든 스캔 성공하면 즉시 결제 완료 처리
+                finishQRPayment(selectedMachineId);
+                return;
+            }
+        }
+        scanAnimationReq = requestAnimationFrame(scanQRLoop);
+    }
 
     function startQRPayment() {
         if (balance < selectedCoursePrice) {
@@ -848,11 +954,15 @@
             navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
             .then(function(stream) {
                 qrStream = stream;
-                document.getElementById('qrVideo').srcObject = stream;
+                const videoEl = document.getElementById('qrVideo');
+                videoEl.srcObject = stream;
+                videoEl.play();
+                // 카메라 영상이 들어오면 QR 스캔 루프 시작
+                scanAnimationReq = requestAnimationFrame(scanQRLoop);
             })
             .catch(function(err) {
                 console.log("카메라 접근 불가:", err);
-                // 데스크탑이거나 권한 거부 시 2초 후 자동 스캔 시뮬레이션
+                // PC이거나 권한이 없어서 카메라가 안 켜지는 경우 2초 후 자동 스캔 시뮬레이션
                 setTimeout(() => {
                     if(!document.getElementById('qrScanner').classList.contains('hidden')) {
                         finishQRPayment(machineIdToStart);
@@ -874,6 +984,7 @@
             qrStream.getTracks().forEach(track => track.stop());
             qrStream = null;
         }
+        if (scanAnimationReq) cancelAnimationFrame(scanAnimationReq);
     }
 
     function finishQRPayment(machineId) {
@@ -882,6 +993,7 @@
             qrStream.getTracks().forEach(track => track.stop());
             qrStream = null;
         }
+        if (scanAnimationReq) cancelAnimationFrame(scanAnimationReq);
         
         const machine = machines.find(m => m.id === machineId);
         if (!machine) return; 
@@ -891,6 +1003,9 @@
 
         machine.status = 'in-use';
         machine.timeRemaining = selectedCourseTime * 60;
+        
+        // 🔴 중요: 사용자가 직접 스캔한 세탁기에만 'isMine' 플래그를 true로 부여합니다!
+        machine.isMine = true;
 
         renderMachines();
         if (navigator.vibrate) navigator.vibrate(200);
@@ -906,7 +1021,6 @@
         const content = document.getElementById('inqTextArea').value;
         if(content.trim() === '') return;
         
-        // 입력된 폼 데이터 가져오기
         const category = document.getElementById('inqCategorySelect').options[document.getElementById('inqCategorySelect').selectedIndex].text;
         let title = document.getElementById('inqTitleInput').value;
         if (!title) title = (currentLang === 'ko' ? '제목 없음' : 'No Title');
@@ -914,11 +1028,10 @@
         Swal.fire({
             toast: true, position: 'top', icon: 'success', title: currentLang==='ko'?'접수 완료':'Submitted', 
             text: currentLang==='ko'?'사감실로 정상적으로 전달되었습니다.':'Successfully sent to admin.', 
-            showConfirmButton: false, timer: 2000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' }
+            showConfirmButton: false, timer: 2000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }
         });
         document.querySelector('#tab-inquiry form').reset();
         
-        // 내역에 새 항목 추가
         const today = new Date();
         const dateStr = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
         
@@ -934,8 +1047,6 @@
         `;
         
         document.getElementById('inquiryHistoryView').insertAdjacentHTML('afterbegin', newHistoryHtml);
-        
-        // 접수 완료 후 딜레이 약간 주고 내역 화면으로 넘기는 시뮬레이션
         setTimeout(() => switchInquiryTab('history'), 1500);
     }
 
@@ -960,14 +1071,20 @@
                 if (m.timeRemaining <= 0) {
                     if(m.status === 'in-use') {
                         m.status = 'available'; m.timeRemaining = 0;
-                        sendPushNotification(dict[currentLang]['alertDoneTitle'], dict[currentLang]['alertDoneSub']);
+                        
+                        // 🔴 중요: 해당 세탁기가 '내 것'일 때만 푸시 알림을 띄웁니다!
+                        if (m.isMine) {
+                            sendPushNotification(dict[currentLang]['alertDoneTitle'], dict[currentLang]['alertDoneSub']);
+                            m.isMine = false; // 알림 발송 후 권한 초기화
+                        }
+                        
                     } else if (m.status === 'reserved') {
                         m.status = 'available'; m.timeRemaining = 0;
                         Swal.fire({
                             toast: true, position: 'top', icon: 'warning',
                             title: currentLang==='ko'?'예약 만료':'Reservation Expired',
                             text: currentLang==='ko'?'10분 내 결제가 없어 취소되었습니다.':'Cancelled due to no payment in 10 mins.',
-                            showConfirmButton: false, timer: 3000
+                            showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }
                         });
                     }
                 }
@@ -979,6 +1096,7 @@
     document.getElementById('cheatBtn').addEventListener('click', () => {
         let activeCount = 0;
         machines.forEach(m => {
+            // 다른 사람이 쓰는 세탁기든, 내 세탁기든 테스트용으로 시간을 당겨줍니다
             if ((m.status === 'in-use' || m.status === 'reserved') && m.timeRemaining > 10) {
                 m.timeRemaining = 5; activeCount++;
             }
@@ -988,9 +1106,10 @@
         }
     });
 
-    // 초기화
+    // 초기화 및 학식 데이터 가져오기
     updateBalanceUI();
     setLang('ko'); 
+    fetchCafeteriaData(); // 앱 시작 시 자동으로 API를 호출해 홈 화면과 편의 탭을 채웁니다.
 
 </script>
 </body>
