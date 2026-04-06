@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ERICA 기숙사 스마트 라이프</title>
+    <title>창의인재관 라이프</title>
     
-    <!-- PWA 및 홈 화면 앱 아이콘 설정 -->
+    <!-- PWA 및 홈 화면 앱 아이콘 설정 (아이폰/안드로이드 완벽 대응) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="창의인재관">
     <meta name="theme-color" content="#003E7A">
-    <!-- 커스텀 디자인된 하양이(파란 갈기 사자) SVG 아이콘 -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23003E7A' rx='112'/%3E%3Ccircle cx='256' cy='256' r='140' fill='%231a75d2'/%3E%3Ccircle cx='256' cy='266' r='110' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='20' fill='%23fde68a'/%3E%3Ccircle cx='336' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='336' cy='186' r='20' fill='%23fde68a'/%3E%3Crect x='216' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Crect x='280' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Cpath d='M256 266 L266 276 L246 276 Z' fill='%231f2937'/%3E%3Cpath d='M256 276 Q276 296 286 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M256 276 Q236 296 226 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='186' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3Cellipse cx='326' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3C/svg%3E">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23003E7A' rx='112'/%3E%3Ccircle cx='256' cy='256' r='140' fill='%231a75d2'/%3E%3Ccircle cx='256' cy='266' r='110' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='20' fill='%23fde68a'/%3E%3Ccircle cx='336' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='336' cy='186' r='20' fill='%23fde68a'/%3E%3Crect x='216' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Crect x='280' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Cpath d='M256 266 L266 276 L246 276 Z' fill='%231f2937'/%3E%3Cpath d='M256 276 Q276 296 286 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M256 276 Q236 296 226 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='186' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3Cellipse cx='326' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3C/svg%3E">
+    
+    <!-- 🌟 PO님이 업로드한 PNG 아이콘으로 설정 -->
+    <!-- 참고: 이 코드가 작동하려면 깃허브에 코드를 올리실 때 첨부하신 이미지 이름을 'icon.png'로 변경하여 같은 폴더에 꼭 업로드해주세요! -->
+    <link rel="apple-touch-icon" href="./icon.png">
+    <link rel="icon" type="image/png" href="./icon.png">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -107,8 +109,8 @@
         
         <!-- 1. 홈 탭 -->
         <div id="tab-home" class="tab-content active p-4 space-y-4">
-            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
-            <div class="flex justify-between items-end mb-1 px-2">
+            <!-- 📌 pl-2 클래스 추가로 시각적 정렬 맞춤 -->
+            <div class="flex justify-between items-end mb-1 pl-2">
                 <div>
                     <p class="text-gray-500 text-sm font-medium" data-i18n="welcomeSub">안녕하세요,</p>
                     <h2 class="text-2xl font-bold text-gray-800"><span class="text-erica">김ERICA</span><span data-i18n="welcomeTitle">님!</span></h2>
@@ -170,8 +172,8 @@
 
         <!-- 2. 세탁 탭 -->
         <div id="tab-laundry" class="tab-content p-4 space-y-5">
-            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
-            <h2 class="text-2xl font-bold text-gray-800 px-2" data-i18n="laundryTitle">세탁실</h2>
+            <!-- 📌 pl-2 클래스 추가로 시각적 정렬 맞춤 -->
+            <h2 class="text-2xl font-bold text-gray-800 pl-2" data-i18n="laundryTitle">세탁실</h2>
             
             <div class="flex justify-between items-end">
                 <div class="flex gap-2">
@@ -195,10 +197,10 @@
             </div>
         </div>
 
-        <!-- 3. 편의 탭 -->
+        <!-- 3. 편의 탭 (학식 + 택배함) -->
         <div id="tab-convenience" class="tab-content p-4 space-y-6">
-            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
-            <h2 class="text-2xl font-bold text-gray-800 px-2" data-i18n="convTitle">생활 편의</h2>
+            <!-- 📌 pl-2 클래스 추가 -->
+            <h2 class="text-2xl font-bold text-gray-800 pl-2" data-i18n="convTitle">생활 편의</h2>
             
             <div class="space-y-4">
                 <!-- 무인 택배함 섹션 -->
@@ -268,8 +270,8 @@
 
         <!-- 4. 문의 탭 -->
         <div id="tab-inquiry" class="tab-content p-4 space-y-5">
-            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
-            <div class="flex justify-between items-end mb-2 px-2">
+            <!-- 📌 pl-2 클래스 추가 -->
+            <div class="flex justify-between items-end mb-2 pl-2">
                 <h2 class="text-2xl font-bold text-gray-800" data-i18n="inqTitle">문의 및 수리</h2>
             </div>
             
@@ -364,10 +366,10 @@
 
         <!-- 5. 내 정보 탭 -->
         <div id="tab-myinfo" class="tab-content p-4 space-y-6">
-            <!-- 📌 좌우 여백(px-2) 추가로 정렬 최적화 -->
-            <h2 class="text-2xl font-bold text-gray-800 px-2" data-i18n="myTitle">내 정보</h2>
+            <!-- 📌 pl-2 클래스 추가 -->
+            <h2 class="text-2xl font-bold text-gray-800 pl-2" data-i18n="myTitle">내 정보</h2>
             
-            <!-- 알림 권한 배너 (초기에는 숨김 처리) -->
+            <!-- 알림 권한 배너 (초기에는 숨김 처리, 거절 시 나타남) -->
             <div id="notiBanner" style="display: none;" class="bg-red-50 border border-red-200 rounded-xl p-4 justify-between items-center">
                 <div>
                     <p class="text-sm font-bold text-red-600 flex items-center gap-1"><i class="ph-fill ph-warning-circle"></i> <span data-i18n="notiOffTitle">알림이 꺼져 있어요</span></p>
@@ -575,7 +577,7 @@
     let isMenuFetched = false;
     let isMealError = false;
 
-    // 세탁기 Mock Data (isMine을 전부 false로 초기화)
+    // 세탁기 Mock Data (isMine을 전부 false로 초기화하여 남의 알림이 오지 않게 보장)
     const machines = [
         { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0, isMine: false },
         { id: 2, nameKey: "machineM2", status: "in-use", timeRemaining: 1250, isMine: false },
@@ -723,12 +725,9 @@
         });
     }
 
-    // 앱 아이콘 (사자 이미지 SVG URI 재사용)
-    const customAppIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23003E7A' rx='112'/%3E%3Ccircle cx='256' cy='256' r='140' fill='%231a75d2'/%3E%3Ccircle cx='256' cy='266' r='110' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='176' cy='186' r='20' fill='%23fde68a'/%3E%3Ccircle cx='336' cy='186' r='36' fill='%23ffffff'/%3E%3Ccircle cx='336' cy='186' r='20' fill='%23fde68a'/%3E%3Crect x='216' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Crect x='280' y='236' width='16' height='36' rx='8' fill='%231f2937'/%3E%3Cpath d='M256 266 L266 276 L246 276 Z' fill='%231f2937'/%3E%3Cpath d='M256 276 Q276 296 286 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M256 276 Q236 296 226 276' stroke='%231f2937' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='186' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3Cellipse cx='326' cy='286' rx='18' ry='10' fill='%23fca5a5'/%3E%3C/svg%3E";
-
     function sendPushNotification(title, body) {
         if ("Notification" in window && Notification.permission === "granted") {
-            new Notification(title, { body: body, icon: customAppIcon });
+            new Notification(title, { body: body, icon: "./icon.png" });
         } else {
             Swal.fire({
                 toast: true, position: 'top', title: title, text: body, showConfirmButton: false, timer: 4000,
@@ -942,7 +941,7 @@
         }
         machine.status = 'reserved';
         machine.timeRemaining = 10 * 60; 
-        machine.isMine = true;
+        machine.isMine = true; // 🔴 내가 예약한 기기임을 식별
 
         closeModal(); renderMachines();
         Swal.fire({
@@ -1085,7 +1084,7 @@
         setTimeout(() => switchInquiryTab('history'), 1500);
     }
 
-    // 🔴 팝업창 슬림화 적용
+    // 🔴 슬림한 충전 팝업
     function recharge(amount) {
         let timerInterval;
         Swal.fire({
@@ -1093,7 +1092,7 @@
             html: currentLang==='ko'?'NFC/카카오페이 대기중':'Waiting for Payment',
             timer: 1500, 
             timerProgressBar: true, 
-            width: '280px', 
+            width: '300px', 
             customClass: {
                 popup: 'rounded-3xl shadow-xl',
                 title: 'text-base font-bold',
@@ -1108,8 +1107,8 @@
                 title: currentLang==='ko'?'충전 완료!':'Success!', 
                 showConfirmButton: false, 
                 timer: 1500,
-                width: '280px',
-                customClass: { popup: 'rounded-3xl shadow-xl', title: 'text-base' }
+                width: '300px',
+                customClass: { popup: 'rounded-3xl shadow-xl', title: 'text-base font-bold' }
             });
         });
     }
@@ -1129,7 +1128,7 @@
                         }
                     } else if (m.status === 'reserved') {
                         m.status = 'available'; m.timeRemaining = 0;
-                        // 🔴 1. 내가 예약한 기기일 경우에만 예약 취소 알림이 오도록 분기 처리
+                        // 🔴 내가 예약한 기기일 경우에만 예약 취소 알림이 오도록 철저히 검증
                         if (m.isMine) {
                             Swal.fire({
                                 toast: true, position: 'top', icon: 'warning',
@@ -1158,7 +1157,7 @@
         }
     });
 
-    // 🔴 2. 앱 진입 시 알림 권한 팝업 물어보기 로직 (슬림하게)
+    // 🔴 2. 앱 진입 시 알림 권한 팝업 물어보기 (슬림하고 예쁜 디자인)
     setTimeout(() => {
         if ("Notification" in window) {
             if (Notification.permission === "default") {
@@ -1186,19 +1185,19 @@
                             }
                         });
                     } else {
-                        // '나중에' 누른 경우
+                        // '나중에'를 누르거나 팝업을 무시한 경우
                         document.getElementById('notiBanner').style.display = 'flex';
                     }
                 });
             } else if (Notification.permission === "denied") {
-                // 이미 거부된 경우 배너 표시
+                // 이미 거부된 상태면 배너 표시
                 document.getElementById('notiBanner').style.display = 'flex';
             } else {
-                // 허용된 경우 배너 숨김
+                // 이미 허용된 상태면 배너 숨김
                 document.getElementById('notiBanner').style.display = 'none';
             }
         } else {
-            // 지원하지 않는 브라우저
+            // 알림을 지원하지 않는 환경
             document.getElementById('notiBanner').style.display = 'flex';
         }
     }, 1000);
