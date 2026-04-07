@@ -84,7 +84,7 @@
 
 <div class="app-container">
     
-    <header class="bg-erica text-white p-4 flex justify-between items-center shadow-md z-10">
+    <header class="bg-erica text-white p-4 flex justify-between items-center shadow-md z-10 relative">
         <div class="flex items-center gap-2">
             <i class="ph ph-buildings text-2xl"></i>
             <h1 class="font-bold text-lg tracking-wide" data-i18n="appTitle">창의인재관 라이프</h1>
@@ -93,11 +93,25 @@
             <button id="cheatBtn" class="text-xs bg-white/20 px-2 py-1 rounded-full font-bold active:bg-white/40 transition">
                 <i class="ph ph-fast-forward"></i> <span data-i18n="cheatBtn">시연 100x</span>
             </button>
-            <i class="ph ph-bell text-xl relative">
-                <span class="absolute -top-1 -right-1 bg-red-500 w-2.5 h-2.5 rounded-full border border-erica"></span>
-            </i>
+            
+            <!-- 🌟 id="bellIconContainer" 추가 -->
+            <div id="bellIconContainer" class="relative cursor-pointer" onclick="toggleNotiPanel()">
+                <i class="ph ph-bell text-xl"></i>
+                <span id="notiRedDot" class="absolute -top-1 -right-1 bg-red-500 w-2.5 h-2.5 rounded-full border border-erica hidden"></span>
+            </div>
         </div>
     </header>
+
+    <!-- 🌟 알림 패널 -->
+    <div id="notiPanel" class="hidden absolute top-[72px] right-4 w-[280px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-[100] flex-col max-h-[400px]">
+        <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
+            <span class="font-bold text-gray-800 text-sm" data-i18n="notiTitle">알림</span>
+            <button onclick="clearAllNotis()" class="text-xs text-gray-500 hover:text-gray-800 font-bold" data-i18n="notiClear">모두 지우기</button>
+        </div>
+        <div id="notiList" class="overflow-y-auto flex-1 p-2 space-y-2 hide-scrollbar">
+            <!-- JS 렌더링 -->
+        </div>
+    </div>
 
     <main class="main-content hide-scrollbar relative">
         
@@ -300,7 +314,6 @@
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="inqLocField">위치/대상 (선택)</label>
-                                <!-- 🌟 위치/대상 placeholder 다국어 지원 추가 -->
                                 <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica" data-i18n-placeholder="inqLocPlaceholder" placeholder="예: 1층 세탁실">
                             </div>
                             <div>
@@ -313,15 +326,12 @@
                             <textarea id="inqTextArea" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica h-28 resize-none" data-i18n-placeholder="inqPlaceholder" placeholder="문제 상황을 상세히 적어주세요." required></textarea>
                         </div>
                         
-                        <!-- 🌟 사진 첨부 버튼 및 숨김 input 폼 (카메라/갤러리 분리) -->
                         <div>
-                            <button type="button" onclick="promptPhotoAttachment()" class="w-full border border-dashed border-gray-300 bg-gray-50 text-gray-500 rounded-lg py-3 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition">
+                            <button type="button" onclick="document.getElementById('inqFileInput').click()" class="w-full border border-dashed border-gray-300 bg-gray-50 text-gray-500 rounded-lg py-3 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition">
                                 <i class="ph ph-camera text-lg"></i> <span data-i18n="inqPhotoBtn">사진 첨부 (최대 3장)</span>
                             </button>
-                            <input type="file" id="inqCameraInput" accept="image/*" capture="environment" class="hidden" onchange="handlePhotoUpload(event)">
-                            <input type="file" id="inqGalleryInput" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+                            <input type="file" id="inqFileInput" accept="image/*" multiple class="hidden" onchange="handlePhotoUpload(event)">
                             
-                            <!-- 썸네일 미리보기 영역 -->
                             <div id="photoThumbnails" class="flex gap-2 mt-2 overflow-x-auto hide-scrollbar"></div>
                         </div>
 
@@ -330,16 +340,14 @@
                 </div>
             </div>
 
-            <!-- 내역 확인 화면 -->
             <div id="inquiryHistoryView" class="hidden space-y-3">
-                <!-- 동적으로 추가되는 내역이 최상단에 붙습니다 -->
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
                     <div class="flex justify-between items-start mb-2">
                         <span class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full" data-i18n="inqFlow2">처리 중</span>
                         <span class="text-[10px] text-gray-400">2026.04.05</span>
                     </div>
-                    <h4 class="font-bold text-gray-800 text-sm mb-1" data-i18n="histItem1Title">1층 세탁기 결제 오류</h4>
-                    <p class="text-xs text-gray-500 line-clamp-1" data-i18n="histItem1Desc">1번 세탁기에서 결제했는데 기기가 안돌아갑니다. 환불 요청합니다.</p>
+                    <h4 class="font-bold text-gray-800 text-sm mb-1">[세탁기 오류] 1층 세탁기 결제 오류</h4>
+                    <p class="text-xs text-gray-500 line-clamp-1">1번 세탁기에서 결제했는데 기기가 안돌아갑니다. 환불 요청합니다.</p>
                 </div>
                 
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 opacity-70">
@@ -347,11 +355,11 @@
                         <span class="text-[10px] bg-gray-200 text-gray-600 font-bold px-2 py-0.5 rounded-full" data-i18n="inqFlow3">완료</span>
                         <span class="text-[10px] text-gray-400">2026.03.20</span>
                     </div>
-                    <h4 class="font-bold text-gray-800 text-sm mb-1" data-i18n="histItem2Title">18층 화장실 수압 문제</h4>
-                    <p class="text-xs text-gray-500 line-clamp-1" data-i18n="histItem2Desc">샤워기 수압이 너무 약해서 씻기가 힘듭니다. 확인 부탁드려요.</p>
+                    <h4 class="font-bold text-gray-800 text-sm mb-1">[시설 고장/수리] 18층 화장실 수압 문제</h4>
+                    <p class="text-xs text-gray-500 line-clamp-1">샤워기 수압이 너무 약해서 씻기가 힘듭니다. 확인 부탁드려요.</p>
                     <div class="mt-3 bg-gray-50 p-2 rounded-lg border border-gray-100">
                         <p class="text-[10px] font-bold text-erica mb-0.5">사감실 답변</p>
-                        <p class="text-xs text-gray-600" data-i18n="histItem2Reply">시설팀에서 밸브 조절 완료했습니다. 확인 부탁드립니다.</p>
+                        <p class="text-xs text-gray-600">시설팀에서 밸브 조절 완료했습니다. 확인 부탁드립니다.</p>
                     </div>
                 </div>
             </div>
@@ -363,7 +371,7 @@
             
             <div id="notiBanner" style="display: none;" class="bg-red-50 border border-red-200 rounded-xl p-4 justify-between items-center">
                 <div>
-                    <p class="text-sm font-bold text-red-600 flex items-center gap-1"><i class="ph-fill ph-warning-circle"></i> <span data-i18n="notiOffTitle">알림이 꺼져 있어요</span></p>
+                    <p class="text-sm font-bold text-red-600 flex items-center gap-1"><i class="ph ph-warning-circle"></i> <span data-i18n="notiOffTitle">알림이 꺼져 있어요</span></p>
                     <p class="text-xs text-red-500 mt-0.5" data-i18n="notiOffDesc">세탁 완료 진동/소리 알림을 받으려면 허용해주세요.</p>
                 </div>
                 <button onclick="requestNotification()" class="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm" data-i18n="notiBtn">설정하기</button>
@@ -498,14 +506,11 @@
             inqTitleField: "제목 (선택)", inqTitleHolder: "간단한 요약을 적어주세요.", 
             inqLocField: "위치/대상 (선택)", inqLocPlaceholder: "예: 1층 세탁실", inqContactField: "연락처 (선택)", 
             inqContent: "내용 (필수)", inqPlaceholder: "문제 상황을 상세히 적어주세요.", 
-            inqPhotoBtn: "사진 첨부 (최대 3장)", inqSubmit: "접수하기",
-            camChoiceTitle: "사진 첨부 방식", camChoiceCamera: "카메라로 직접 촬영", camChoiceGallery: "갤러리에서 선택", photoAttachedBadge: "사진 첨부됨",
-            
-            histItem1Title: "1층 세탁기 결제 오류", histItem1Desc: "1번 세탁기에서 결제했는데 기기가 안돌아갑니다. 환불 요청합니다.",
-            histItem2Title: "18층 화장실 수압 문제", histItem2Desc: "샤워기 수압이 너무 약해서 씻기가 힘듭니다. 확인 부탁드려요.", histItem2Reply: "시설팀에서 밸브 조절 완료했습니다. 확인 부탁드립니다.",
+            inqPhotoBtn: "사진 첨부 (최대 3장)", inqSubmit: "접수하기", photoAttachedBadge: "사진 첨부됨",
             
             myTitle: "내 정보", notiOffTitle: "알림이 꺼져 있어요", notiOffDesc: "세탁 완료 진동/소리 알림을 받으려면 허용해주세요.", notiBtn: "설정하기",
             myBalance: "내 잔여 포인트", myChargeBtn: "+ 간편충전", myLang: "언어 설정 (Language)", myNoti: "종료 5분 전 및 즉시 알림",
+            notiTitle: "알림", notiClear: "모두 지우기", notiEmpty: "새로운 알림이 없습니다.",
             
             modalTitle: "사용하기", modalSelect: "세탁 코스 선택", modalCourse1: "표준 세탁 (40분)", modalCourse2: "이불/대형 (60분)", modalPriceLabel: "결제 금액", 
             modalQRBtn: "QR 스캔 결제 및 시작", modalReserveBtn: "10분 대기 예약 (찜하기)", qrScanning: "기기의 QR코드를 스캔해주세요...", qrCancel: "취소",
@@ -539,14 +544,11 @@
             inqTitleField: "Title (Opt)", inqTitleHolder: "Brief summary of the issue.", 
             inqLocField: "Location (Opt)", inqLocPlaceholder: "e.g., 1st Flr Laundry", inqContactField: "Contact (Opt)", 
             inqContent: "Details (Req)", inqPlaceholder: "Please describe the issue in detail.", 
-            inqPhotoBtn: "Attach Photo (Max 3)", inqSubmit: "Submit",
-            camChoiceTitle: "Attach Photo", camChoiceCamera: "Take Photo", camChoiceGallery: "Choose from Gallery", photoAttachedBadge: "Photo Attached",
-            
-            histItem1Title: "1st Flr Machine Error", histItem1Desc: "Paid for machine 1 but it's not starting. Requesting refund.",
-            histItem2Title: "18th Flr Shower Pressure", histItem2Desc: "Water pressure is too low to shower properly. Please check.", histItem2Reply: "Facility team adjusted the valve. Please check.",
+            inqPhotoBtn: "Attach Photo (Max 3)", inqSubmit: "Submit", photoAttachedBadge: "Photo Attached",
             
             myTitle: "My Info", notiOffTitle: "Notifications Off", notiOffDesc: "Please allow permissions to get vibration/sound alerts.", notiBtn: "Enable",
             myBalance: "My Points", myChargeBtn: "+ Charge", myLang: "Language", myNoti: "Alert 5m before & when done",
+            notiTitle: "Notifications", notiClear: "Clear All", notiEmpty: "No new notifications.",
             
             modalTitle: "Use Machine", modalSelect: "Select Course", modalCourse1: "Standard (40m)", modalCourse2: "Blanket (60m)", modalPriceLabel: "Price", 
             modalQRBtn: "Scan QR & Start", modalReserveBtn: "Reserve for 10 mins", qrScanning: "Please scan the machine's QR code...", qrCancel: "Cancel",
@@ -573,8 +575,11 @@
     let isMenuFetched = false;
     let isMealError = false;
 
-    // 🌟 사진 첨부 파일 관리를 위한 상태 변수
     let attachedPhotos = [];
+    
+    // 🌟 알림 시스템 상태 관리 (불필요한 기본 환영 알림 제거)
+    let notifications = [];
+    let isNotiPanelOpen = false;
 
     const machines = [
         { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0, isMine: false },
@@ -605,6 +610,7 @@
         });
         
         renderMachines();
+        renderNotis(); 
         if(mealData) {
             renderMeals();
             renderHomeMeals(); 
@@ -685,6 +691,84 @@
         });
     }
 
+    // 🌟 알림 패널 렌더링 및 조작 로직 (수정)
+    function renderNotis() {
+        const list = document.getElementById('notiList');
+        const dot = document.getElementById('notiRedDot');
+        
+        // 클릭 시 지워지는 방식이므로 notifications.length가 0보다 크면 알림이 있는 것
+        if(notifications.length > 0) dot.classList.remove('hidden');
+        else dot.classList.add('hidden');
+
+        if(notifications.length === 0) {
+            list.innerHTML = `<div class="py-6 text-center text-xs text-gray-400 font-medium">${dict[currentLang]['notiEmpty']}</div>`;
+            return;
+        }
+
+        let html = '';
+        [...notifications].reverse().forEach(n => {
+            // 알림 클릭 시 탭 이동 & 지우기
+            html += `
+                <div onclick="handleNotiClick(${n.id}, '${n.type}')" class="relative bg-blue-50/30 p-3 rounded-xl border border-blue-100 shadow-sm cursor-pointer hover:bg-blue-50 transition">
+                    <button onclick="event.stopPropagation(); removeNoti(${n.id})" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 p-1"><i class="ph ph-x text-sm"></i></button>
+                    <h4 class="text-xs font-bold text-gray-800 mb-0.5 pr-4">${n.title}</h4>
+                    <p class="text-[10px] text-gray-600 leading-snug">${n.body}</p>
+                    <span class="text-[8px] text-gray-400 block mt-1">${n.time}</span>
+                </div>
+            `;
+        });
+        list.innerHTML = html;
+    }
+
+    function toggleNotiPanel() {
+        const panel = document.getElementById('notiPanel');
+        isNotiPanelOpen = !isNotiPanelOpen;
+        if(isNotiPanelOpen) {
+            panel.classList.remove('hidden');
+            panel.classList.add('flex');
+            renderNotis();
+        } else {
+            panel.classList.add('hidden');
+            panel.classList.remove('flex');
+        }
+    }
+
+    function removeNoti(id) {
+        notifications = notifications.filter(n => n.id !== id);
+        renderNotis();
+    }
+
+    // 알림 클릭 핸들러 (지우고 이동)
+    function handleNotiClick(id, tabName) {
+        removeNoti(id);
+        if(tabName) switchTab(tabName);
+        
+        isNotiPanelOpen = false;
+        document.getElementById('notiPanel').classList.add('hidden');
+        document.getElementById('notiPanel').classList.remove('flex');
+    }
+
+    function clearAllNotis() {
+        notifications = [];
+        renderNotis();
+    }
+
+    function addInAppNoti(title, body, type = 'home') {
+        const now = new Date();
+        const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        const newId = Date.now() + Math.floor(Math.random()*1000);
+        notifications.push({
+            id: newId, 
+            title: title, 
+            body: body, 
+            isRead: false, 
+            time: timeStr,
+            type: type
+        });
+        renderNotis();
+        return newId; // 🌟 생성된 ID를 반환하여 푸시 클릭 시 연동
+    }
+
     function requestNotification() {
         Swal.fire({
             title: currentLang==='ko'?'시스템 알림 권한 허용':'Enable Alerts',
@@ -722,18 +806,44 @@
         });
     }
 
-    function sendPushNotification(title, body) {
+    function sendPushNotification(title, body, type = 'home') {
+        const notiId = addInAppNoti(title, body, type); 
+        
         if ("Notification" in window && Notification.permission === "granted") {
-            new Notification(title, { body: body, icon: "./icon.png" });
+            const noti = new Notification(title, { body: body, icon: "./icon.png" });
+            // 🌟 네이티브 푸시 알림 클릭 이벤트
+            noti.onclick = function() {
+                window.focus(); // 창 활성화
+                handleNotiClick(notiId, type); // 알림 지우고 관련 탭으로 이동
+                this.close(); // 네이티브 알림 닫기
+            };
         } else {
             Swal.fire({
                 toast: true, position: 'top', title: title, text: body, showConfirmButton: false, timer: 4000,
                 width: 'auto', padding: '0.8em',
-                customClass: { popup: 'rounded-2xl shadow-lg border border-gray-200 bg-white/95 backdrop-blur-sm mt-2 text-sm' }
+                customClass: { popup: 'rounded-2xl shadow-lg border border-gray-200 bg-white/95 backdrop-blur-sm mt-2 text-sm cursor-pointer' },
+                didOpen: (toast) => {
+                    // 🌟 인앱 토스트 알림 클릭 이벤트
+                    toast.addEventListener('click', () => {
+                        handleNotiClick(notiId, type);
+                        Swal.close();
+                    });
+                }
             });
         }
         if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
     }
+
+    // 🌟 화면 빈 곳 터치 시 알림창 닫기 로직
+    document.addEventListener('click', function(event) {
+        const panel = document.getElementById('notiPanel');
+        const bell = document.getElementById('bellIconContainer');
+        if (isNotiPanelOpen && panel && bell) {
+            if (!panel.contains(event.target) && !bell.contains(event.target)) {
+                toggleNotiPanel();
+            }
+        }
+    });
 
     function getFormattedDate(dateObj) {
         const year = dateObj.getFullYear();
@@ -744,7 +854,6 @@
         return `${year}-${month}-${day}(${dayName})`;
     }
 
-    // 🌟 영문 모드 시 "(월)" 같은 한글 요일을 "(Mon)" 형태로 변환해주는 헬퍼
     function localizeDateKey(dateKeyStr) {
         if (currentLang === 'en') {
             return dateKeyStr.replace(/\(일\)/, '(Sun)')
@@ -859,7 +968,7 @@
             let html = '';
             for (const [dateKey, meals] of Object.entries(mealData)) {
                 const isToday = dateKey === todayStr;
-                const displayDateKey = localizeDateKey(dateKey); // 🌟 다국어 요일 번역 적용
+                const displayDateKey = localizeDateKey(dateKey);
                 
                 html += `
                     <div class="mb-5 last:mb-0">
@@ -969,6 +1078,9 @@
     }
 
     function switchTab(tabName) {
+        // 🌟 탭 전환 시 알림 패널이 열려있다면 닫아주기
+        if (isNotiPanelOpen) toggleNotiPanel();
+
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.classList.remove('text-erica'); btn.classList.add('text-gray-400');
@@ -1138,6 +1250,8 @@
         machine.isMine = true;
 
         renderMachines();
+        
+        // 🌟 단순 결제 액션 알림은 알림 센터에 남기지 않고 제외함
         if (navigator.vibrate) navigator.vibrate(200);
 
         Swal.fire({
@@ -1147,54 +1261,23 @@
         });
     }
 
-    // 🌟 사진 첨부 팝업 (카메라 vs 갤러리 선택) 로직
-    function promptPhotoAttachment() {
-        if (attachedPhotos.length >= 3) {
-            Swal.fire({toast: true, position: 'top', icon: 'warning', title: currentLang==='ko'?'최대 3장까지 첨부 가능합니다.':'Max 3 photos allowed.', showConfirmButton: false, timer: 2000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }});
-            return;
-        }
-        
-        Swal.fire({
-            title: dict[currentLang]['camChoiceTitle'],
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: `<i class="ph ph-camera align-middle mr-1"></i> ${dict[currentLang]['camChoiceCamera']}`,
-            denyButtonText: `<i class="ph ph-image align-middle mr-1"></i> ${dict[currentLang]['camChoiceGallery']}`,
-            cancelButtonText: dict[currentLang]['qrCancel'],
-            confirmButtonColor: '#003E7A',
-            denyButtonColor: '#4B5563',
-            width: '320px',
-            customClass: { 
-                popup: 'rounded-3xl shadow-xl', 
-                title: 'text-base font-bold pb-2',
-                actions: 'flex-col gap-2 w-full px-4',
-                confirmButton: 'w-full m-0 rounded-xl',
-                denyButton: 'w-full m-0 rounded-xl',
-                cancelButton: 'w-full m-0 rounded-xl bg-gray-100 text-gray-600'
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // 카메라 실행
-                document.getElementById('inqCameraInput').click();
-            } else if (result.isDenied) {
-                // 갤러리 열기
-                document.getElementById('inqGalleryInput').click();
-            }
-        });
-    }
-
-    // 🌟 첨부된 사진 처리 및 썸네일 생성 로직
     function handlePhotoUpload(event) {
-        const file = event.target.files[0];
-        if (!file) return;
+        const files = event.target.files;
+        if (!files) return;
         
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            attachedPhotos.push(e.target.result);
-            renderPhotoThumbnails();
+        for(let i=0; i<files.length; i++) {
+            if (attachedPhotos.length >= 3) {
+                Swal.fire({toast: true, position: 'top', icon: 'warning', title: currentLang==='ko'?'최대 3장까지 첨부 가능합니다.':'Max 3 photos allowed.', showConfirmButton: false, timer: 2000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }});
+                break;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                attachedPhotos.push(e.target.result);
+                renderPhotoThumbnails();
+            }
+            reader.readAsDataURL(files[i]);
         }
-        reader.readAsDataURL(file);
-        event.target.value = ''; // 같은 파일을 다시 올려도 반응하도록 input 초기화
+        event.target.value = ''; 
     }
 
     function removePhoto(index) {
@@ -1230,10 +1313,9 @@
         });
         document.querySelector('#tab-inquiry form').reset();
         
-        // 🌟 내역 화면에 사진 뱃지 추가 처리
         let attachmentBadge = '';
         if (attachedPhotos.length > 0) {
-            attachmentBadge = `<div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500 bg-gray-50 px-2 py-1 rounded-md w-fit border border-gray-100"><i class="ph ph-paperclip"></i> ${dict[currentLang]['photoAttachedBadge']} (${attachedPhotos.length})</div>`;
+            attachmentBadge = `<div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500 bg-gray-50 px-2 py-1 rounded-md w-fit border border-gray-100"><i class="ph ph-paperclip"></i> <span data-i18n="photoAttachedBadge">${dict[currentLang]['photoAttachedBadge']}</span> (${attachedPhotos.length})</div>`;
         }
 
         const today = new Date();
@@ -1253,7 +1335,8 @@
         
         document.getElementById('inquiryHistoryView').insertAdjacentHTML('afterbegin', newHistoryHtml);
         
-        // 제출 완료 후 사진 썸네일 데이터 초기화
+        // 🌟 단순 접수 액션 알림은 알림 센터에 남기지 않고 제외함 (나중에 '답변 완료' 등만 노출되도록 유지)
+
         attachedPhotos = [];
         renderPhotoThumbnails();
 
@@ -1277,6 +1360,7 @@
             willClose: () => { clearInterval(timerInterval); }
         }).then((result) => {
             balance += amount; updateBalanceUI();
+            // 🌟 단순 충전 액션 알림은 알림 센터에 남기지 않고 제외함
             Swal.fire({ 
                 icon: 'success', 
                 title: currentLang==='ko'?'충전 완료!':'Success!', 
@@ -1298,18 +1382,16 @@
                     if(m.status === 'in-use') {
                         m.status = 'available'; m.timeRemaining = 0;
                         if (m.isMine) {
-                            sendPushNotification(dict[currentLang]['alertDoneTitle'], dict[currentLang]['alertDoneSub']);
+                            sendPushNotification(dict[currentLang]['alertDoneTitle'], dict[currentLang]['alertDoneSub'], 'laundry');
                             m.isMine = false; 
                         }
                     } else if (m.status === 'reserved') {
                         m.status = 'available'; m.timeRemaining = 0;
                         if (m.isMine) {
-                            Swal.fire({
-                                toast: true, position: 'top', icon: 'warning',
-                                title: currentLang==='ko'?'예약 만료':'Reservation Expired',
-                                text: currentLang==='ko'?'10분 내 결제가 없어 취소되었습니다.':'Cancelled due to no payment in 10 mins.',
-                                showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }
-                            });
+                            let title = currentLang==='ko'?'예약 만료':'Reservation Expired';
+                            let body = currentLang==='ko'?'10분 내 결제가 없어 취소되었습니다.':'Cancelled due to no payment in 10 mins.';
+                            // 🌟 예약 취소 등 중요한 알림만 알림 센터에 보관되도록 통합된 함수 사용
+                            sendPushNotification(title, body, 'laundry');
                             m.isMine = false;
                         }
                     }
@@ -1371,10 +1453,11 @@
         }
     }, 1000);
 
-    // 초기화 및 데이터 가져오기
+    // 초기화
     updateBalanceUI();
     setLang('ko'); 
     fetchCafeteriaData(); 
+    renderNotis(); 
 
 </script>
 </body>
