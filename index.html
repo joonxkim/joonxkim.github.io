@@ -380,7 +380,8 @@
                 <i class="ph ph-wallet absolute -right-4 -bottom-4 text-8xl text-white/10"></i>
                 <div class="flex justify-between items-center mb-1">
                     <p class="text-white/80 text-sm font-medium" data-i18n="myBalance">내 잔여 포인트</p>
-                    <button class="bg-white/20 text-white text-[10px] px-2 py-1 rounded-full font-bold" onclick="recharge(5000)" data-i18n="myChargeBtn">+ 간편충전</button>
+                    <!-- 🌟 간편충전 버튼 터치 영역 확장 (relative, after:absolute, after:-inset-4 클래스 추가) -->
+                    <button class="relative bg-white/20 text-white text-[10px] px-2 py-1 rounded-full font-bold after:absolute after:-inset-4 after:content-['']" onclick="recharge(5000)" data-i18n="myChargeBtn">+ 간편충전</button>
                 </div>
                 <div class="flex items-baseline gap-1">
                     <h3 class="text-3xl font-bold" id="myinfoBalanceDisplay">1,500</h3>
@@ -832,6 +833,9 @@
         const todayStr = getFormattedDate(new Date());
 
         if (currentMealTab === 'today') {
+            // 🌟 '오늘' 탭일 때는 높이 제한과 스크롤을 해제
+            container.classList.remove('max-h-[350px]', 'overflow-y-auto', 'hide-scrollbar');
+
             const todayMeals = mealData[todayStr] || [];
             
             if (todayMeals.length === 0) {
@@ -840,6 +844,9 @@
                 container.innerHTML = generateMealHTML(todayMeals);
             }
         } else {
+            // 🌟 '이번 주' 탭일 때는 위젯 높이를 350px로 제한하고 내부 스크롤 적용
+            container.classList.add('max-h-[350px]', 'overflow-y-auto', 'hide-scrollbar');
+
             let html = '';
             for (const [dateKey, meals] of Object.entries(mealData)) {
                 const isToday = dateKey === todayStr;
