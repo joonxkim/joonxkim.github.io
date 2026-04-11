@@ -6,7 +6,7 @@
     <title>창의인재관 라이프</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="창의인재관">
     <meta name="theme-color" content="#003E7A">
     
@@ -40,7 +40,7 @@
         body {
             -webkit-tap-highlight-color: transparent;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f3f4f6;
+            background-color: #003E7A; 
             margin: 0; padding: 0; overflow: hidden;
         }
         .app-container {
@@ -79,8 +79,8 @@
 
 <div class="app-container">
     
-    <!-- 🌟 로그인 화면 -->
-    <div id="loginView" class="absolute inset-0 z-[200] bg-gradient-to-b from-erica-900 to-erica-700 flex flex-col items-center justify-center px-8 transition-transform duration-500">
+    <!-- 로그인 화면 -->
+    <div id="loginView" class="absolute inset-0 z-[200] bg-erica flex flex-col items-center justify-center px-8 transition-transform duration-500">
         <div class="bg-white p-4 rounded-3xl mb-6 shadow-lg shadow-black/20">
             <i class="ph-fill ph-buildings text-5xl text-erica"></i>
         </div>
@@ -96,7 +96,7 @@
         <button onclick="handleGuestLogin()" class="w-full border border-white/30 text-white font-medium rounded-xl py-4 hover:bg-white/10 transition active:scale-95" data-i18n="loginGuestBtn">둘러보기 (로그인 없이 시작)</button>
     </div>
 
-    <!-- 🌟 메인 앱 -->
+    <!-- 메인 앱 -->
     <div id="mainAppView" class="hidden flex-col h-full">
         
         <header class="bg-erica text-white p-4 flex justify-between items-center shadow-md z-10 relative">
@@ -115,7 +115,6 @@
             </div>
         </header>
 
-        <!-- 알림 패널 -->
         <div id="notiPanel" class="hidden absolute top-[72px] right-4 w-[280px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-[100] flex-col max-h-[400px]">
             <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
                 <span class="font-bold text-gray-800 text-sm" data-i18n="notiTitle">알림</span>
@@ -136,7 +135,7 @@
                     <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Guest&backgroundColor=cce1f5" id="homeUserImg" alt="profile" class="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white">
                 </div>
 
-                <!-- 🌟 학생/게스트용 홈 위젯 컨테이너 -->
+                <!-- 학생/게스트용 홈 위젯 컨테이너 -->
                 <div id="studentHomeContent" class="space-y-4">
                     <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
@@ -192,10 +191,8 @@
                     </div>
                 </div>
                 
-                <!-- 🌟 관리자(Admin) 전용 홈 위젯 컨테이너 (기본 숨김) -->
+                <!-- 관리자용 홈 위젯 컨테이너 -->
                 <div id="adminHomeContent" class="hidden space-y-4">
-                    
-                    <!-- 공지사항 관리 위젯 -->
                     <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
                             <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5"><i class="ph-fill ph-megaphone text-erica text-lg"></i> 공지사항 관리</h3>
@@ -203,17 +200,7 @@
                         </div>
                         <div id="adminNoticeContent" class="space-y-2"></div>
                     </div>
-
-                    <!-- 세탁기 통합 관리 위젯 -->
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5"><i class="ph-fill ph-washing-machine text-erica text-lg"></i> 세탁기 현황 제어</h3>
-                            <span class="text-[10px] text-gray-400 font-medium">실시간 상태 강제 변경</span>
-                        </div>
-                        <div id="adminLaundryContent" class="space-y-2"></div>
-                    </div>
                 </div>
-
             </div>
 
             <!-- 2. 세탁 탭 -->
@@ -225,7 +212,10 @@
                     <button onclick="handleLogout()" class="bg-erica text-white text-sm font-bold px-6 py-3 rounded-xl shadow-md active:scale-95 transition" data-i18n="lockBtn">로그인 하러 가기</button>
                 </div>
 
-                <h2 class="text-2xl font-bold text-gray-800 pl-2" data-i18n="laundryTitle">세탁실</h2>
+                <div class="flex justify-between items-end pl-2">
+                    <h2 class="text-2xl font-bold text-gray-800" data-i18n="laundryTitle">세탁실</h2>
+                    <span id="adminLaundrySubtitle" class="hidden text-xs text-erica font-bold bg-blue-50 px-2 py-1 rounded-md">관리자 제어 모드</span>
+                </div>
                 
                 <div class="flex justify-between items-end">
                     <div class="flex gap-2">
@@ -241,7 +231,7 @@
                 
                 <div class="grid grid-cols-2 gap-3" id="machineGrid"></div>
                 
-                <div class="bg-blue-50 text-blue-800 text-xs p-3 rounded-lg flex items-start gap-2 leading-relaxed">
+                <div id="laundryNoticeBox" class="bg-blue-50 text-blue-800 text-xs p-3 rounded-lg flex items-start gap-2 leading-relaxed">
                     <i class="ph ph-info mt-0.5 text-base"></i>
                     <p data-i18n="laundryNotice">현장 우선 정책: 예약 후 10분 내에 기기 앞에서 결제하지 않으면 자동 취소됩니다.</p>
                 </div>
@@ -381,6 +371,14 @@
                 </div>
 
                 <h2 class="text-2xl font-bold text-gray-800 pl-2" data-i18n="myTitle">내 정보</h2>
+                
+                <div id="notiBanner" style="display: none;" class="bg-red-50 border border-red-200 rounded-xl p-4 justify-between items-center">
+                    <div>
+                        <p class="text-sm font-bold text-red-600 flex items-center gap-1"><i class="ph-fill ph-warning-circle"></i> <span data-i18n="notiOffTitle">알림이 꺼져 있어요</span></p>
+                        <p class="text-xs text-red-500 mt-0.5" data-i18n="notiOffDesc">세탁 완료 진동/소리 알림을 받으려면 허용해주세요.</p>
+                    </div>
+                    <button onclick="requestNotification()" class="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm" data-i18n="notiBtn">설정하기</button>
+                </div>
 
                 <div class="bg-gradient-to-br from-erica to-erica-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
                     <i class="ph ph-wallet absolute -right-4 -bottom-4 text-8xl text-white/10"></i>
@@ -405,15 +403,52 @@
                             <button onclick="setLang('en')" id="btnLangEn" class="text-gray-500 hover:text-gray-800 text-xs font-bold px-3 py-1.5 rounded-md transition bg-transparent">English</button>
                         </div>
                     </div>
-                    <div class="p-4 border-b border-gray-100 flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <i class="ph ph-bell-ringing text-xl text-gray-500"></i>
-                            <span class="font-bold text-gray-700 text-sm" data-i18n="myNoti">앱 기본 푸시 알림 허용</span>
+                    
+                    <!-- 푸시 알림 세부 설정 아코디언 메뉴 -->
+                    <div class="flex flex-col border-b border-gray-100">
+                        <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition" onclick="toggleSubNotiMenu()">
+                            <div class="flex items-center gap-2">
+                                <i class="ph ph-bell-ringing text-xl text-gray-500"></i>
+                                <span class="font-bold text-gray-700 text-sm" data-i18n="myNoti">푸시 알림 허용</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <!-- 메인 토글 -->
+                                <div id="mainNotiToggle" class="w-10 h-6 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleMainNotiSwitch(event, this)">
+                                    <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-4 shadow-sm"></div>
+                                </div>
+                                <i id="notiExpandIcon" class="ph ph-caret-down text-gray-400 transition-transform duration-300"></i>
+                            </div>
                         </div>
-                        <div class="w-10 h-6 bg-erica rounded-full relative cursor-pointer" onclick="requestNotification(); this.classList.toggle('bg-gray-300'); this.classList.toggle('bg-erica');">
-                            <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
+                        
+                        <div id="subNotiMenu" class="hidden bg-gray-50/50 px-4 py-1 space-y-4 pb-4 border-t border-gray-100">
+                            <div class="flex justify-between items-center pl-7 pr-1 mt-2">
+                                <span class="text-xs font-bold text-gray-600" data-i18n="notiSubLaundry">세탁기 완료/만료 알림</span>
+                                <!-- 서브 토글 개별 함수 적용 -->
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this)">
+                                    <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pl-7 pr-1">
+                                <span class="text-xs font-bold text-gray-600" data-i18n="notiSubDelivery">택배 도착 알림</span>
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this)">
+                                    <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pl-7 pr-1">
+                                <span class="text-xs font-bold text-gray-600" data-i18n="notiSubNotice">기숙사 공지 알림</span>
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this)">
+                                    <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pl-7 pr-1">
+                                <span class="text-xs font-bold text-gray-600" data-i18n="notiSubInquiry">문의 답변 알림</span>
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this)">
+                                    <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition" onclick="handleLogout()">
                         <div class="flex items-center gap-2">
                             <i class="ph ph-sign-out text-xl text-red-400"></i>
@@ -445,7 +480,7 @@
         </nav>
     </div>
 
-    <!-- 세탁 예약/결제 바텀 시트 -->
+    <!-- 세탁 예약/결제 바텀 시트 (학생 전용) -->
     <div id="overlay" class="overlay absolute inset-0 bg-black/50 z-20" onclick="closeModal()"></div>
     <div id="bottomSheet" class="bottom-sheet absolute bottom-0 w-full bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-30 flex flex-col pt-2 pb-8 px-5" style="padding-bottom: max(2rem, env(safe-area-inset-bottom));">
         <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4"></div>
@@ -522,7 +557,8 @@
             inqPhotoBtn: "사진 첨부 (최대 3장)", inqSubmit: "접수하기", photoAttachedBadge: "사진 첨부됨",
             
             myTitle: "내 정보", notiOffTitle: "알림이 꺼져 있어요", notiOffDesc: "세탁 완료 진동/소리 알림을 받으려면 허용해주세요.", notiBtn: "설정하기",
-            myBalance: "내 잔여 포인트", myChargeBtn: "+ 간편충전", myLang: "언어 설정 (Language)", myNoti: "앱 기본 푸시 알림 허용", logoutBtn: "로그아웃",
+            myBalance: "내 잔여 포인트", myChargeBtn: "+ 간편충전", myLang: "언어 설정 (Language)", logoutBtn: "로그아웃",
+            myNoti: "푸시 알림 허용", notiSubLaundry: "세탁기 완료/만료 알림", notiSubDelivery: "택배 도착 알림", notiSubNotice: "기숙사 공지 알림", notiSubInquiry: "문의 답변 알림",
             notiTitle: "알림", notiClear: "모두 지우기", notiEmpty: "새로운 알림이 없습니다.",
             
             modalTitle: "사용하기", modalSelect: "세탁 코스 선택", modalCourse1: "표준 세탁 (40분)", modalCourse2: "이불/대형 (60분)", modalPriceLabel: "결제 금액", 
@@ -563,7 +599,8 @@
             inqPhotoBtn: "Attach Photo (Max 3)", inqSubmit: "Submit", photoAttachedBadge: "Photo Attached",
             
             myTitle: "My Info", notiOffTitle: "Notifications Off", notiOffDesc: "Please allow permissions to get vibration/sound alerts.", notiBtn: "Enable",
-            myBalance: "My Points", myChargeBtn: "+ Charge", myLang: "Language", myNoti: "Enable Native Push Alerts", logoutBtn: "Logout",
+            myBalance: "My Points", myChargeBtn: "+ Charge", myLang: "Language", logoutBtn: "Logout",
+            myNoti: "Enable Push Alerts", notiSubLaundry: "Laundry Done/Expired", notiSubDelivery: "Package Arrival", notiSubNotice: "Dormitory Notices", notiSubInquiry: "Inquiry Replies",
             notiTitle: "Notifications", notiClear: "Clear All", notiEmpty: "No new notifications.",
             
             modalTitle: "Use Machine", modalSelect: "Select Course", modalCourse1: "Standard (40m)", modalCourse2: "Blanket (60m)", modalPriceLabel: "Price", 
@@ -576,11 +613,51 @@
         }
     };
     
-    // --- 🌟 인증 상태 및 전역 변수 초기화 ---
     let currentLang = 'ko';
     let isLoggedIn = false;
     let userRole = 'guest'; 
     let userName = '게스트';
+
+    function formatTime(seconds) {
+        if(seconds <= 0) return "00:00";
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function getFormattedDate(dateObj) {
+        const year = dateObj.getFullYear(); const month = String(dateObj.getMonth() + 1).padStart(2, '0'); const day = String(dateObj.getDate()).padStart(2, '0');
+        const weekDays = ['일', '월', '화', '수', '목', '금', '토']; const dayName = weekDays[dateObj.getDay()];
+        return `${year}-${month}-${day}(${dayName})`;
+    }
+
+    function localizeDateKey(dateKeyStr) {
+        if (currentLang === 'en') return dateKeyStr.replace(/\(일\)/, '(Sun)').replace(/\(월\)/, '(Mon)').replace(/\(화\)/, '(Tue)').replace(/\(수\)/, '(Wed)').replace(/\(목\)/, '(Thu)').replace(/\(금\)/, '(Fri)').replace(/\(토\)/, '(Sat)');
+        return dateKeyStr;
+    }
+
+    function updateBalanceUI() {
+        const balStr = balance.toLocaleString();
+        if (document.getElementById('homeBalance')) document.getElementById('homeBalance').innerText = balStr;
+        if (document.getElementById('myinfoBalanceDisplay')) document.getElementById('myinfoBalanceDisplay').innerText = balStr;
+    }
+
+    function requestNotification() {
+        if ("Notification" in window) {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    if (document.getElementById('notiBanner')) document.getElementById('notiBanner').style.display = 'none';
+                    Swal.fire({toast:true, position:'top', icon:'success', title:currentLang==='ko'?'알림이 켜졌습니다.':'Enabled.', showConfirmButton:false, timer:1500});
+                } else {
+                    if (document.getElementById('notiBanner')) document.getElementById('notiBanner').style.display = 'flex';
+                    Swal.fire({toast:true, position:'top', icon:'warning', title:currentLang==='ko'?'알림 권한이 거부되었습니다.':'Permission Denied.', showConfirmButton:false, timer:1500});
+                }
+            });
+        } else {
+            if (document.getElementById('notiBanner')) document.getElementById('notiBanner').style.display = 'none';
+            Swal.fire({toast:true, position:'top', icon:'success', title:currentLang==='ko'?'앱 내 알림이 켜졌습니다.':'Enabled.', showConfirmButton:false, timer:1500});
+        }
+    }
 
     const mealTypeEnMap = { '조식': 'Breakfast', '중식': 'Lunch', '석식': 'Dinner' };
     let balance = 1500;
@@ -595,24 +672,20 @@
     let isMealError = false;
     let attachedPhotos = [];
     
-    // 알림 시스템 상태 관리
     let notifications = [];
     let isNotiPanelOpen = false;
 
-    // 공지사항 데이터 (관리자 모드 반영)
     let systemNotices = [
         { id: 1, title: "[필독] 1층 무인택배함 점검 안내", date: "2026.04.08", content: "무인택배함 시스템 업데이트로 인해 금일 14:00~16:00 사용이 제한됩니다.", isPinned: true },
         { id: 2, title: "기숙사 야간 소음 주의", date: "2026.04.07", content: "최근 야간 소음 민원이 급증하고 있습니다. 22시 이후에는 정숙해주시기 바랍니다.", isPinned: false }
     ];
 
-    // 문의 내역 데이터
     let inquiryData = [
         { id: 1, isMine: true, status: '처리 중', date: '2026.04.05', category: '세탁기 오류', title: '1층 세탁기 결제 오류', content: '1번 세탁기에서 결제했는데 기기가 안돌아갑니다. 환불 요청합니다.', reply: null, hasPhoto: false },
         { id: 2, isMine: true, status: '완료', date: '2026.03.20', category: '시설 고장/수리', title: '18층 화장실 수압 문제', content: '샤워기 수압이 너무 약해서 씻기가 힘듭니다. 확인 부탁드려요.', reply: '시설팀에서 밸브 조절 완료했습니다. 확인 부탁드립니다.', hasPhoto: false },
         { id: 3, isMine: false, status: '접수', date: '2026.04.08', category: '기타 건의사항', title: '휴게실 에어컨 청소 요청', content: '에어컨에서 냄새가 납니다. 필터 청소 부탁드립니다.', reply: null, hasPhoto: false }
     ];
 
-    // 세탁기 데이터
     const machines = [
         { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0, isMine: false },
         { id: 2, nameKey: "machineM2", status: "in-use", timeRemaining: 1250, isMine: false },
@@ -622,38 +695,24 @@
         { id: 6, nameKey: "machineM6", status: "available", timeRemaining: 0, isMine: false },
     ];
 
-    // --- 🌟 로그인 시스템 제어 (안전하게 처리) ---
     function handleLogin() {
         const idInput = document.getElementById('loginId').value.trim();
-        if(!idInput) {
-            Swal.fire({toast: true, position: 'top', icon: 'error', title: '아이디를 입력해주세요.', showConfirmButton: false, timer: 1500});
-            return;
-        }
+        if(!idInput) { Swal.fire({toast: true, position: 'top', icon: 'error', title: '아이디를 입력해주세요.', showConfirmButton: false, timer: 1500}); return; }
 
         isLoggedIn = true;
-        if (idInput === 'admin') {
-            userRole = 'admin';
-            userName = '관리자';
-        } else {
-            userRole = 'student';
-            userName = '김ERICA';
-        }
-        
+        if (idInput === 'admin') { userRole = 'admin'; userName = '관리자'; } 
+        else { userRole = 'student'; userName = '김ERICA'; }
         enterApp();
     }
 
     function handleGuestLogin() {
-        isLoggedIn = false;
-        userRole = 'guest';
-        userName = '게스트';
+        isLoggedIn = false; userRole = 'guest'; userName = '게스트';
         enterApp();
     }
 
     function handleLogout() {
-        isLoggedIn = false;
-        userRole = 'guest';
-        document.getElementById('loginId').value = '';
-        document.getElementById('loginPw').value = '';
+        isLoggedIn = false; userRole = 'guest';
+        document.getElementById('loginId').value = ''; document.getElementById('loginPw').value = '';
         
         document.getElementById('mainAppView').classList.add('hidden');
         const loginView = document.getElementById('loginView');
@@ -661,11 +720,9 @@
         setTimeout(() => loginView.classList.remove('hidden'), 50); 
     }
 
-    // 🌟 팝업 제거를 통해 블랙스크린 해결
     function enterApp() {
         const loginView = document.getElementById('loginView');
         loginView.classList.add('-translate-y-full', 'opacity-0');
-        
         setTimeout(() => {
             loginView.classList.add('hidden');
             document.getElementById('mainAppView').classList.remove('hidden');
@@ -673,300 +730,41 @@
             
             initUserUI();
             switchTab('home');
-            // 🚨 앱 진입 시 뜨던 알림 허용 팝업(Swal.fire)을 완전히 제거하여 충돌을 막았습니다. 
         }, 500); 
     }
 
     function initUserUI() {
         document.getElementById('homeUserName').innerText = userName;
-        document.getElementById('homeUserImg').src = userRole === 'admin' 
-            ? "https://api.dicebear.com/7.x/notionists/svg?seed=Admin&backgroundColor=fca5a5" 
-            : "https://api.dicebear.com/7.x/notionists/svg?seed=Erica&backgroundColor=cce1f5";
+        document.getElementById('homeUserImg').src = userRole === 'admin' ? "https://api.dicebear.com/7.x/notionists/svg?seed=Admin&backgroundColor=fca5a5" : "https://api.dicebear.com/7.x/notionists/svg?seed=Erica&backgroundColor=cce1f5";
 
         const lockTabs = ['laundry', 'myinfo', 'inquiry'];
         lockTabs.forEach(t => {
             const overlay = document.getElementById(`lockOverlay-${t}`);
-            if(overlay) {
-                if(!isLoggedIn) overlay.classList.remove('hidden');
-                else overlay.classList.add('hidden');
-            }
+            if(overlay) { if(!isLoggedIn) overlay.classList.remove('hidden'); else overlay.classList.add('hidden'); }
         });
 
-        // 🌟 관리자 모드 UI 활성화
         if (userRole === 'admin') {
             document.getElementById('studentHomeContent').classList.add('hidden');
             document.getElementById('adminHomeContent').classList.remove('hidden');
-            
             document.getElementById('inquiryTabControl').classList.add('hidden'); 
             document.getElementById('inquiryWriteView').classList.add('hidden'); 
             document.getElementById('inquiryHistoryView').classList.remove('hidden');
             document.getElementById('inquiryMainTitle').setAttribute('data-i18n', 'inqAdminTitle');
-            
-            renderAdminNotices();
-            renderAdminLaundry();
+            document.getElementById('laundryNoticeBox').classList.add('hidden');
+            document.getElementById('adminLaundrySubtitle').classList.remove('hidden');
         } else {
             document.getElementById('studentHomeContent').classList.remove('hidden');
             document.getElementById('adminHomeContent').classList.add('hidden');
-            
             document.getElementById('inquiryTabControl').classList.remove('hidden');
             document.getElementById('inquiryMainTitle').setAttribute('data-i18n', 'inqTitle');
+            document.getElementById('laundryNoticeBox').classList.remove('hidden');
+            document.getElementById('adminLaundrySubtitle').classList.add('hidden');
             switchInquiryTab('write');
         }
         
-        renderNotices();
-        renderInquiryHistory();
-        setLang(currentLang);
+        renderNotices(); renderInquiryHistory(); setLang(currentLang);
     }
 
-    // --- 🌟 공지사항 관리 ---
-    function renderNotices() {
-        let html = '';
-        if(systemNotices.length === 0) {
-            html = `<div class="py-4 text-center text-xs text-gray-400 font-bold">등록된 공지사항이 없습니다.</div>`;
-        } else {
-            systemNotices.forEach(n => {
-                html += `
-                    <div class="bg-gray-50 rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition" onclick="showNoticeDetail(${n.id})">
-                        <div class="flex items-center gap-2 mb-1">
-                            ${n.isPinned ? `<span class="bg-erica text-white text-[9px] font-bold px-1.5 py-0.5 rounded">필독</span>` : ''}
-                            <h4 class="font-bold text-xs text-gray-800 line-clamp-1">${n.title}</h4>
-                        </div>
-                        <p class="text-[10px] text-gray-500">${n.date}</p>
-                    </div>
-                `;
-            });
-        }
-        if(document.getElementById('homeNoticeContent')) document.getElementById('homeNoticeContent').innerHTML = html;
-        if(document.getElementById('convNoticeContent')) document.getElementById('convNoticeContent').innerHTML = html;
-    }
-
-    function renderAdminNotices() {
-        const container = document.getElementById('adminNoticeContent');
-        if(!container) return;
-        let html = '';
-        if(systemNotices.length === 0) {
-            html = `<div class="py-4 text-center text-xs text-gray-400 font-bold">등록된 공지사항이 없습니다.</div>`;
-        } else {
-            systemNotices.forEach(n => {
-                html += `
-                    <div class="bg-gray-50 rounded-lg p-3 flex justify-between items-center border border-gray-100 mb-2">
-                        <div class="flex-1 cursor-pointer pr-3" onclick="showNoticeDetail(${n.id})">
-                            <div class="flex items-center gap-2 mb-1">
-                                ${n.isPinned ? `<span class="bg-erica text-white text-[9px] font-bold px-1.5 py-0.5 rounded">필독</span>` : ''}
-                                <h4 class="font-bold text-xs text-gray-800 line-clamp-1">${n.title}</h4>
-                            </div>
-                            <p class="text-[10px] text-gray-500">${n.date}</p>
-                        </div>
-                        <div class="flex gap-1">
-                            <button onclick="adminEditNotice(${n.id})" class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-1 rounded shadow-sm font-bold active:scale-95">수정</button>
-                            <button onclick="adminDeleteNotice(${n.id})" class="text-xs bg-red-50 text-red-500 px-2 py-1 rounded font-bold active:scale-95">삭제</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-        container.innerHTML = html;
-    }
-
-    function showNoticeDetail(id) {
-        const notice = systemNotices.find(n => n.id === id);
-        Swal.fire({
-            title: notice.title,
-            html: `<div class="text-left text-sm mt-3 text-gray-700 whitespace-pre-wrap leading-relaxed">${notice.content}</div>`,
-            showCancelButton: true,
-            confirmButtonText: `<i class="ph ph-browser align-middle mr-1"></i> ${currentLang==='ko'?'웹에서 보기':'View on Web'}`,
-            cancelButtonText: currentLang==='ko'?'닫기':'Close',
-            confirmButtonColor: '#003E7A',
-            cancelButtonColor: '#9CA3AF',
-            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' }
-        }).then(result => {
-            if(result.isConfirmed) {
-                Swal.fire({toast:true, position:'top', icon:'info', title:currentLang==='ko'?'웹 브라우저로 이동합니다.':'Opening in browser.', showConfirmButton:false, timer:1500});
-            }
-        });
-    }
-
-    function adminAddNotice() {
-        Swal.fire({
-            title: '새 공지사항 작성',
-            html: `
-                <input id="swal-notice-title" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica mt-2" placeholder="공지 제목">
-                <textarea id="swal-notice-content" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica mt-3 h-32 resize-none" placeholder="공지 내용"></textarea>
-                <label class="flex items-center gap-2 mt-3 text-sm font-bold text-gray-700 ml-1 cursor-pointer">
-                    <input type="checkbox" id="swal-notice-pinned" class="w-4 h-4 text-erica rounded"> 필독(고정) 공지 설정
-                </label>
-            `,
-            showCancelButton: true, confirmButtonText: '등록', cancelButtonText: '취소', confirmButtonColor: '#003E7A',
-            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' },
-            preConfirm: () => {
-                const title = document.getElementById('swal-notice-title').value;
-                const content = document.getElementById('swal-notice-content').value;
-                const isPinned = document.getElementById('swal-notice-pinned').checked;
-                if (!title || !content) Swal.showValidationMessage('제목과 내용을 모두 입력해주세요.');
-                return { title, content, isPinned };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const today = new Date();
-                const dateStr = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-                systemNotices.unshift({ id: Date.now(), title: result.value.title, content: result.value.content, date: dateStr, isPinned: result.value.isPinned });
-                Swal.fire({toast:true, position:'top', icon:'success', title:'공지가 등록되었습니다.', showConfirmButton:false, timer:1500});
-                renderNotices(); renderAdminNotices();
-            }
-        });
-    }
-
-    function adminEditNotice(id) {
-        const notice = systemNotices.find(n => n.id === id);
-        Swal.fire({
-            title: '공지사항 수정',
-            html: `
-                <input id="swal-notice-title" value="${notice.title}" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica mt-2">
-                <textarea id="swal-notice-content" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica mt-3 h-32 resize-none">${notice.content}</textarea>
-                <label class="flex items-center gap-2 mt-3 text-sm font-bold text-gray-700 ml-1 cursor-pointer">
-                    <input type="checkbox" id="swal-notice-pinned" class="w-4 h-4 text-erica rounded" ${notice.isPinned ? 'checked' : ''}> 필독(고정) 공지 설정
-                </label>
-            `,
-            showCancelButton: true, confirmButtonText: '수정', cancelButtonText: '취소', confirmButtonColor: '#003E7A',
-            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' },
-            preConfirm: () => {
-                const title = document.getElementById('swal-notice-title').value;
-                const content = document.getElementById('swal-notice-content').value;
-                const isPinned = document.getElementById('swal-notice-pinned').checked;
-                if (!title || !content) Swal.showValidationMessage('제목과 내용을 모두 입력해주세요.');
-                return { title, content, isPinned };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                notice.title = result.value.title; notice.content = result.value.content; notice.isPinned = result.value.isPinned;
-                Swal.fire({toast:true, position:'top', icon:'success', title:'수정되었습니다.', showConfirmButton:false, timer:1500});
-                renderNotices(); renderAdminNotices();
-            }
-        });
-    }
-
-    function adminDeleteNotice(id) {
-        Swal.fire({
-            title: '공지 삭제', text: '정말로 이 공지를 삭제하시겠습니까?', icon: 'warning',
-            showCancelButton: true, confirmButtonText: '삭제', cancelButtonText: '취소', confirmButtonColor: '#ef4444',
-            customClass: { popup: 'rounded-3xl shadow-xl', title: 'text-base font-bold' }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const idx = systemNotices.findIndex(n => n.id === id);
-                if(idx > -1) systemNotices.splice(idx, 1);
-                Swal.fire({toast:true, position:'top', icon:'success', title:'삭제되었습니다.', showConfirmButton:false, timer:1500});
-                renderNotices(); renderAdminNotices();
-            }
-        });
-    }
-
-    // --- 🌟 관리자 세탁기 제어 ---
-    function renderAdminLaundry() {
-        const container = document.getElementById('adminLaundryContent');
-        if(!container) return;
-        let html = '';
-        machines.forEach(m => {
-            let statusText = ''; let actionBtn = '';
-            if (m.status === 'available') {
-                statusText = '<span class="text-green-500 font-bold">사용 가능</span>';
-                actionBtn = `<button onclick="adminToggleBroken(${m.id})" class="text-[10px] bg-red-50 text-red-500 px-3 py-1.5 rounded-lg font-bold shadow-sm active:scale-95">고장 등록</button>`;
-            } else if (m.status === 'broken') {
-                statusText = '<span class="text-gray-400 font-bold">점검/수리중</span>';
-                actionBtn = `<button onclick="adminToggleBroken(${m.id})" class="text-[10px] bg-green-50 text-green-600 px-3 py-1.5 rounded-lg font-bold shadow-sm active:scale-95">정상 복구</button>`;
-            } else {
-                statusText = `<span class="text-orange-500 font-bold">${m.status === 'in-use' ? '사용중' : '예약됨'}</span> <span class="text-gray-400">(${formatTime(m.timeRemaining)})</span>`;
-                actionBtn = `<button onclick="adminForceCancel(${m.id})" class="text-[10px] bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg font-bold shadow-sm active:scale-95 border border-gray-200">강제 취소</button>`;
-            }
-
-            html += `
-                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100 mb-2">
-                    <div>
-                        <span class="font-bold text-sm text-gray-800">${dict[currentLang][m.nameKey]}</span>
-                        <div class="text-[10px] mt-0.5">${statusText}</div>
-                    </div>
-                    <div>${actionBtn}</div>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-    }
-
-    function adminToggleBroken(id) {
-        const machine = machines.find(m => m.id === id);
-        if (machine.status === 'available') machine.status = 'broken';
-        else if (machine.status === 'broken') machine.status = 'available';
-        renderMachines(); renderAdminLaundry();
-    }
-
-    function adminForceCancel(id) {
-        const machine = machines.find(m => m.id === id);
-        Swal.fire({
-            title: '결제/예약 강제 취소', text: '사용 중이거나 예약된 기기를 강제로 초기화(사용 가능 상태) 하시겠습니까?', icon: 'warning',
-            showCancelButton: true, confirmButtonText: '초기화 진행', cancelButtonText: '닫기', confirmButtonColor: '#ef4444',
-            customClass: { popup: 'rounded-3xl shadow-xl', title: 'text-base font-bold' }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                machine.status = 'available'; machine.timeRemaining = 0; machine.isMine = false; 
-                renderMachines(); renderAdminLaundry();
-                Swal.fire({toast:true, position:'top', icon:'success', title:'초기화 되었습니다.', showConfirmButton:false, timer:1500});
-            }
-        });
-    }
-
-    // --- 🌟 다국어 및 UI 처리 ---
-    function setLang(lang) {
-        currentLang = lang;
-        if(lang === 'ko') {
-            document.getElementById('btnLangKo').className = "bg-white text-erica shadow-sm text-xs font-bold px-3 py-1.5 rounded-md transition";
-            document.getElementById('btnLangEn').className = "text-gray-500 hover:text-gray-800 text-xs font-bold px-3 py-1.5 rounded-md transition bg-transparent";
-        } else {
-            document.getElementById('btnLangEn').className = "bg-white text-erica shadow-sm text-xs font-bold px-3 py-1.5 rounded-md transition";
-            document.getElementById('btnLangKo').className = "text-gray-500 hover:text-gray-800 text-xs font-bold px-3 py-1.5 rounded-md transition bg-transparent";
-        }
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if(dict[currentLang][key]) {
-                if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = dict[currentLang][key]; 
-                else el.innerHTML = dict[currentLang][key]; 
-            }
-        });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-            const key = el.getAttribute('data-i18n-placeholder');
-            if(dict[currentLang][key]) el.placeholder = dict[currentLang][key];
-        });
-        
-        renderMachines();
-        if(userRole === 'admin') renderAdminLaundry();
-        renderNotis(); 
-        if(mealData) { renderMeals(); renderHomeMeals(); }
-    }
-
-    function updateBalanceUI() {
-        const balStr = balance.toLocaleString();
-        document.getElementById('homeBalance').innerText = balStr;
-        document.getElementById('myinfoBalanceDisplay').innerText = balStr;
-    }
-
-    function formatTime(seconds) {
-        if(seconds <= 0) return "00:00";
-        const m = Math.floor(seconds / 60);
-        const s = seconds % 60;
-        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    }
-
-    function setFilter(type) {
-        filterStatus = type;
-        if (type === 'all') {
-            document.getElementById('filterAllBtn').className = "bg-erica text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm cursor-pointer transition";
-            document.getElementById('filterAvailBtn').className = "bg-white border border-gray-200 text-gray-500 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm cursor-pointer transition";
-        } else {
-            document.getElementById('filterAllBtn').className = "bg-white border border-gray-200 text-gray-500 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm cursor-pointer transition";
-            document.getElementById('filterAvailBtn').className = "bg-erica text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm cursor-pointer transition";
-        }
-        renderMachines();
-    }
-
-    // 🌟 전역 함수 선언 (오류 방지)
     function renderMachines() {
         const grid = document.getElementById('machineGrid');
         if(!grid) return;
@@ -984,19 +782,27 @@
         filteredMachines.forEach(m => {
             let statusBadge = ''; let cardClasses = 'relative rounded-2xl p-4 border transition-all duration-200 '; let onClickAttr = '';
 
+            if (userRole === 'admin') {
+                onClickAttr = `onclick="adminMachineAction(${m.id})"`;
+            } else {
+                if (m.status === 'available' || m.status === 'reserved') {
+                    onClickAttr = `onclick="openModal(${m.id})"`;
+                }
+            }
+
             if (m.status === 'available') {
                 cardClasses += 'bg-white border-green-200 shadow-sm hover:border-green-500 hover:shadow cursor-pointer';
                 statusBadge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>`;
-                onClickAttr = `onclick="openModal(${m.id})"`;
             } else if (m.status === 'reserved') {
-                cardClasses += 'bg-orange-50 border-orange-200 opacity-90';
+                cardClasses += 'bg-orange-50 border-orange-200 opacity-90 cursor-pointer';
                 statusBadge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full">${formatTime(m.timeRemaining)}</div>`;
-                onClickAttr = `onclick="openModal(${m.id})"`; 
             } else if (m.status === 'in-use') {
                 cardClasses += m.isMine ? 'bg-red-50 border-red-300 shadow-sm opacity-100' : 'bg-red-50 border-red-100 opacity-90';
+                if(userRole === 'admin') cardClasses += ' cursor-pointer hover:border-red-400';
                 statusBadge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full animate-pulse">${formatTime(m.timeRemaining)}</div>`;
             } else if (m.status === 'broken') {
                 cardClasses += 'bg-gray-100 border-gray-200 opacity-60';
+                if(userRole === 'admin') cardClasses += ' cursor-pointer hover:border-gray-400';
                 statusBadge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-gray-400"></div>`;
             }
 
@@ -1004,41 +810,251 @@
             const statusTextKey = m.status === 'available' ? 'macAvail' : (m.status === 'reserved' ? 'macRsv' : (m.status === 'in-use' ? 'macInUse' : 'macBroken'));
             const statusTextColor = m.status === 'available' ? 'text-green-600' : (m.status === 'reserved' ? 'text-orange-500' : (m.status === 'in-use' ? 'text-red-500' : 'text-gray-500'));
 
-            grid.innerHTML += `
-                <div class="${cardClasses}" ${onClickAttr}>
-                    ${statusBadge}
-                    <i class="ph ph-washing-machine text-4xl ${iconColor} mb-2"></i>
-                    <h4 class="font-bold text-gray-800 text-sm">${dict[currentLang][m.nameKey]}</h4>
-                    <p class="text-[10px] font-medium ${statusTextColor} mt-1">${dict[currentLang][statusTextKey]}</p>
-                </div>
-            `;
+            grid.innerHTML += `<div class="${cardClasses}" ${onClickAttr}>${statusBadge}<i class="ph ph-washing-machine text-4xl ${iconColor} mb-2"></i><h4 class="font-bold text-gray-800 text-sm">${dict[currentLang][m.nameKey]}</h4><p class="text-[10px] font-medium ${statusTextColor} mt-1">${dict[currentLang][statusTextKey]}</p></div>`;
         });
     }
 
-    // --- 🌟 알림 시스템 처리 로직 ---
+    function setFilter(type) {
+        filterStatus = type;
+        if (type === 'all') {
+            document.getElementById('filterAllBtn').className = "bg-erica text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm cursor-pointer transition";
+            document.getElementById('filterAvailBtn').className = "bg-white border border-gray-200 text-gray-500 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm cursor-pointer transition";
+        } else {
+            document.getElementById('filterAllBtn').className = "bg-white border border-gray-200 text-gray-500 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm cursor-pointer transition";
+            document.getElementById('filterAvailBtn').className = "bg-erica text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm cursor-pointer transition";
+        }
+        renderMachines();
+    }
+
+    function renderNotices() {
+        let html = '';
+        if(systemNotices.length === 0) { html = `<div class="py-4 text-center text-xs text-gray-400 font-bold">등록된 공지사항이 없습니다.</div>`; } 
+        else {
+            systemNotices.forEach(n => {
+                html += `<div class="bg-gray-50 rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition" onclick="showNoticeDetail(${n.id})"><div class="flex items-center gap-2 mb-1">${n.isPinned ? `<span class="bg-erica text-white text-[9px] font-bold px-1.5 py-0.5 rounded">필독</span>` : ''}<h4 class="font-bold text-xs text-gray-800 line-clamp-1">${n.title}</h4></div><p class="text-[10px] text-gray-500">${n.date}</p></div>`;
+            });
+        }
+        if(document.getElementById('homeNoticeContent')) document.getElementById('homeNoticeContent').innerHTML = html;
+        if(document.getElementById('convNoticeContent')) document.getElementById('convNoticeContent').innerHTML = html;
+        if(userRole === 'admin') renderAdminNotices();
+    }
+
+    function renderAdminNotices() {
+        const container = document.getElementById('adminNoticeContent'); if(!container) return;
+        let html = '';
+        if(systemNotices.length === 0) { html = `<div class="py-4 text-center text-xs text-gray-400 font-bold">등록된 공지사항이 없습니다.</div>`; } 
+        else {
+            systemNotices.forEach(n => {
+                html += `<div class="bg-gray-50 rounded-lg p-3 flex justify-between items-center border border-gray-100 mb-2"><div class="flex-1 cursor-pointer pr-3" onclick="showNoticeDetail(${n.id})"><div class="flex items-center gap-2 mb-1">${n.isPinned ? `<span class="bg-erica text-white text-[9px] font-bold px-1.5 py-0.5 rounded">필독</span>` : ''}<h4 class="font-bold text-xs text-gray-800 line-clamp-1">${n.title}</h4></div><p class="text-[10px] text-gray-500">${n.date}</p></div><div class="flex gap-1"><button onclick="adminEditNotice(${n.id})" class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-1 rounded shadow-sm font-bold active:scale-95">수정</button><button onclick="adminDeleteNotice(${n.id})" class="text-xs bg-red-50 text-red-500 px-2 py-1 rounded font-bold active:scale-95">삭제</button></div></div>`;
+            });
+        }
+        container.innerHTML = html;
+    }
+
+    function showNoticeDetail(id) {
+        const notice = systemNotices.find(n => n.id === id);
+        Swal.fire({
+            title: notice.title,
+            html: `<div class="text-left text-sm mt-3 text-gray-700 whitespace-pre-wrap leading-relaxed">${notice.content}</div>`,
+            showCancelButton: true, confirmButtonText: `<i class="ph ph-browser align-middle mr-1"></i> ${currentLang==='ko'?'웹에서 보기':'View on Web'}`,
+            cancelButtonText: currentLang==='ko'?'닫기':'Close', confirmButtonColor: '#003E7A', cancelButtonColor: '#9CA3AF',
+            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' }
+        }).then(result => { if(result.isConfirmed) { Swal.fire({toast:true, position:'top', icon:'info', title:currentLang==='ko'?'웹 브라우저로 이동합니다.':'Opening in browser.', showConfirmButton:false, timer:1500}); } });
+    }
+
+    function adminAddNotice() {
+        Swal.fire({
+            title: '새 공지사항 작성',
+            html: `<input id="swal-notice-title" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica mt-2" placeholder="공지 제목"><textarea id="swal-notice-content" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica mt-3 h-32 resize-none" placeholder="공지 내용"></textarea><label class="flex items-center gap-2 mt-3 text-sm font-bold text-gray-700 ml-1 cursor-pointer"><input type="checkbox" id="swal-notice-pinned" class="w-4 h-4 text-erica rounded"> 필독(고정) 공지 설정</label>`,
+            showCancelButton: true, confirmButtonText: '등록', cancelButtonText: '취소', confirmButtonColor: '#003E7A',
+            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' },
+            preConfirm: () => {
+                const title = document.getElementById('swal-notice-title').value; const content = document.getElementById('swal-notice-content').value; const isPinned = document.getElementById('swal-notice-pinned').checked;
+                if (!title || !content) Swal.showValidationMessage('제목과 내용을 모두 입력해주세요.');
+                return { title, content, isPinned };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const today = new Date(); const dateStr = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+                systemNotices.unshift({ id: Date.now(), title: result.value.title, content: result.value.content, date: dateStr, isPinned: result.value.isPinned });
+                Swal.fire({toast:true, position:'top', icon:'success', title:'공지가 등록되었습니다.', showConfirmButton:false, timer:1500});
+                renderNotices(); 
+            }
+        });
+    }
+
+    function adminEditNotice(id) {
+        const notice = systemNotices.find(n => n.id === id);
+        Swal.fire({
+            title: '공지사항 수정',
+            html: `<input id="swal-notice-title" value="${notice.title}" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica mt-2"><textarea id="swal-notice-content" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica mt-3 h-32 resize-none">${notice.content}</textarea><label class="flex items-center gap-2 mt-3 text-sm font-bold text-gray-700 ml-1 cursor-pointer"><input type="checkbox" id="swal-notice-pinned" class="w-4 h-4 text-erica rounded" ${notice.isPinned ? 'checked' : ''}> 필독(고정) 공지 설정</label>`,
+            showCancelButton: true, confirmButtonText: '수정', cancelButtonText: '취소', confirmButtonColor: '#003E7A',
+            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' },
+            preConfirm: () => {
+                const title = document.getElementById('swal-notice-title').value; const content = document.getElementById('swal-notice-content').value; const isPinned = document.getElementById('swal-notice-pinned').checked;
+                if (!title || !content) Swal.showValidationMessage('제목과 내용을 모두 입력해주세요.');
+                return { title, content, isPinned };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                notice.title = result.value.title; notice.content = result.value.content; notice.isPinned = result.value.isPinned;
+                Swal.fire({toast:true, position:'top', icon:'success', title:'수정되었습니다.', showConfirmButton:false, timer:1500});
+                renderNotices(); 
+            }
+        });
+    }
+
+    function adminDeleteNotice(id) {
+        Swal.fire({
+            title: '공지 삭제', text: '정말로 이 공지를 삭제하시겠습니까?', icon: 'warning', showCancelButton: true, confirmButtonText: '삭제', cancelButtonText: '취소', confirmButtonColor: '#ef4444',
+            customClass: { popup: 'rounded-3xl shadow-xl', title: 'text-base font-bold' }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const idx = systemNotices.findIndex(n => n.id === id); if(idx > -1) systemNotices.splice(idx, 1);
+                Swal.fire({toast:true, position:'top', icon:'success', title:'삭제되었습니다.', showConfirmButton:false, timer:1500});
+                renderNotices(); 
+            }
+        });
+    }
+
+    function adminMachineAction(id) {
+        const machine = machines.find(m => m.id === id);
+        const mName = dict[currentLang][machine.nameKey];
+        
+        let html = `<div class="space-y-2 mt-4 text-left">`;
+        if (machine.status === 'available') {
+            html += `<button onclick="Swal.close(); adminToggleBroken(${id})" class="w-full bg-red-50 text-red-500 font-bold p-3 rounded-xl border border-red-100 active:scale-95 transition">고장 등록 (사용 불가 처리)</button>`;
+        } else if (machine.status === 'broken') {
+            html += `<button onclick="Swal.close(); adminToggleBroken(${id})" class="w-full bg-green-50 text-green-600 font-bold p-3 rounded-xl border border-green-100 active:scale-95 transition">수리 완료 (정상 복구)</button>`;
+        } else {
+            html += `<button onclick="Swal.close(); adminForceCancel(${id})" class="w-full bg-gray-100 text-gray-700 font-bold p-3 rounded-xl border border-gray-200 active:scale-95 transition">강제 취소 (예약/결제 초기화)</button>`;
+            html += `<button onclick="Swal.close(); adminToggleBroken(${id})" class="w-full bg-red-50 text-red-500 font-bold p-3 rounded-xl border border-red-100 mt-2 active:scale-95 transition">고장 등록 (사용 불가 처리)</button>`;
+        }
+        html += `</div>`;
+
+        Swal.fire({
+            title: `${mName} 관리`,
+            html: html, showConfirmButton: false, showCancelButton: true, cancelButtonText: currentLang==='ko'?'닫기':'Close',
+            customClass: { popup: 'rounded-3xl shadow-xl p-4', title: 'text-base font-bold' }
+        });
+    }
+
+    function adminToggleBroken(id) {
+        const machine = machines.find(m => m.id === id);
+        if (machine.status === 'available' || machine.status === 'in-use' || machine.status === 'reserved') {
+            machine.status = 'broken'; machine.timeRemaining = 0; machine.isMine = false;
+        } else if (machine.status === 'broken') {
+            machine.status = 'available';
+        }
+        renderMachines();
+    }
+
+    function adminForceCancel(id) {
+        const machine = machines.find(m => m.id === id);
+        Swal.fire({
+            title: '결제/예약 강제 취소', text: '사용 중이거나 예약된 기기를 강제로 초기화(사용 가능 상태) 하시겠습니까?', icon: 'warning',
+            showCancelButton: true, confirmButtonText: '초기화 진행', cancelButtonText: '닫기', confirmButtonColor: '#ef4444',
+            customClass: { popup: 'rounded-3xl shadow-xl', title: 'text-base font-bold' }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                machine.status = 'available'; machine.timeRemaining = 0; machine.isMine = false; 
+                renderMachines(); 
+                Swal.fire({toast:true, position:'top', icon:'success', title:'초기화 되었습니다.', showConfirmButton:false, timer:1500});
+            }
+        });
+    }
+
+    function toggleSubNotiMenu() {
+        const menu = document.getElementById('subNotiMenu');
+        const icon = document.getElementById('notiExpandIcon');
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden'); icon.classList.add('rotate-180');
+        } else {
+            menu.classList.add('hidden'); icon.classList.remove('rotate-180');
+        }
+    }
+
+    // 🌟 개별 토글 조작 함수
+    function toggleSubNotiSwitch(el) {
+        const circle = el.children[0];
+        if (el.classList.contains('bg-erica')) {
+            el.classList.replace('bg-erica', 'bg-gray-300');
+            circle.classList.remove('translate-x-3');
+            circle.classList.add('translate-x-0');
+        } else {
+            el.classList.replace('bg-gray-300', 'bg-erica');
+            circle.classList.remove('translate-x-0');
+            circle.classList.add('translate-x-3');
+        }
+        checkSubTogglesState(); 
+    }
+
+    function checkSubTogglesState() {
+        const subs = document.querySelectorAll('.sub-noti-toggle');
+        let anyOn = false;
+        subs.forEach(sub => {
+            if (sub.classList.contains('bg-erica')) anyOn = true;
+        });
+
+        const mainToggle = document.getElementById('mainNotiToggle');
+        if (mainToggle) {
+            const mainCircle = mainToggle.children[0];
+            if (!anyOn) {
+                mainToggle.classList.replace('bg-erica', 'bg-gray-300');
+                mainCircle.classList.replace('translate-x-4', 'translate-x-0');
+            } else {
+                mainToggle.classList.replace('bg-gray-300', 'bg-erica');
+                mainCircle.classList.replace('translate-x-0', 'translate-x-4');
+            }
+        }
+    }
+
+    function toggleMainNotiSwitch(event, el) {
+        event.stopPropagation(); 
+        
+        const circle = el.children[0];
+        const isTurningOn = el.classList.contains('bg-gray-300');
+        
+        if (isTurningOn) {
+            el.classList.replace('bg-gray-300', 'bg-erica');
+            circle.classList.replace('translate-x-0', 'translate-x-4');
+        } else {
+            el.classList.replace('bg-erica', 'bg-gray-300');
+            circle.classList.replace('translate-x-4', 'translate-x-0');
+        }
+
+        const isOn = isTurningOn;
+        
+        document.querySelectorAll('.sub-noti-toggle').forEach(sub => {
+            const subCircle = sub.children[0];
+            if (isOn) {
+                sub.classList.replace('bg-gray-300', 'bg-erica');
+                if(subCircle) {
+                    subCircle.classList.remove('translate-x-0');
+                    subCircle.classList.add('translate-x-3');
+                }
+            } else {
+                sub.classList.replace('bg-erica', 'bg-gray-300');
+                if(subCircle) {
+                    subCircle.classList.remove('translate-x-3');
+                    subCircle.classList.add('translate-x-0');
+                }
+            }
+        });
+    }
+
     function renderNotis() {
-        const list = document.getElementById('notiList');
-        const dot = document.getElementById('notiRedDot');
+        const list = document.getElementById('notiList'); const dot = document.getElementById('notiRedDot');
         if(!list || !dot) return;
         
         if(notifications.length > 0) dot.classList.remove('hidden');
         else dot.classList.add('hidden');
 
-        if(notifications.length === 0) {
-            list.innerHTML = `<div class="py-6 text-center text-xs text-gray-400 font-medium">${dict[currentLang]['notiEmpty']}</div>`;
-            return;
-        }
+        if(notifications.length === 0) { list.innerHTML = `<div class="py-6 text-center text-xs text-gray-400 font-medium">${dict[currentLang]['notiEmpty']}</div>`; return; }
 
         let html = '';
         [...notifications].reverse().forEach(n => {
-            html += `
-                <div onclick="handleNotiClick(${n.id}, '${n.type}')" class="relative bg-blue-50/30 p-3 rounded-xl border border-blue-100 shadow-sm cursor-pointer hover:bg-blue-50 transition">
-                    <button onclick="event.stopPropagation(); removeNoti(${n.id})" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 p-1"><i class="ph ph-x text-sm"></i></button>
-                    <h4 class="text-xs font-bold text-gray-800 mb-0.5 pr-4">${n.title}</h4>
-                    <p class="text-[10px] text-gray-600 leading-snug">${n.body}</p>
-                    <span class="text-[8px] text-gray-400 block mt-1">${n.time}</span>
-                </div>
-            `;
+            html += `<div onclick="handleNotiClick(${n.id}, '${n.type}')" class="relative bg-blue-50/30 p-3 rounded-xl border border-blue-100 shadow-sm cursor-pointer hover:bg-blue-50 transition"><button onclick="event.stopPropagation(); removeNoti(${n.id})" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 p-1"><i class="ph ph-x text-sm"></i></button><h4 class="text-xs font-bold text-gray-800 mb-0.5 pr-4">${n.title}</h4><p class="text-[10px] text-gray-600 leading-snug">${n.body}</p><span class="text-[8px] text-gray-400 block mt-1">${n.time}</span></div>`;
         });
         list.innerHTML = html;
     }
@@ -1046,11 +1062,8 @@
     function toggleNotiPanel() {
         const panel = document.getElementById('notiPanel');
         isNotiPanelOpen = !isNotiPanelOpen;
-        if(isNotiPanelOpen) {
-            panel.classList.remove('hidden'); panel.classList.add('flex'); renderNotis();
-        } else {
-            panel.classList.add('hidden'); panel.classList.remove('flex');
-        }
+        if(isNotiPanelOpen) { panel.classList.remove('hidden'); panel.classList.add('flex'); renderNotis(); } 
+        else { panel.classList.add('hidden'); panel.classList.remove('flex'); }
     }
 
     function removeNoti(id) { notifications = notifications.filter(n => n.id !== id); renderNotis(); }
@@ -1059,19 +1072,16 @@
         removeNoti(id);
         if(tabName) switchTab(tabName);
         isNotiPanelOpen = false;
-        document.getElementById('notiPanel').classList.add('hidden');
-        document.getElementById('notiPanel').classList.remove('flex');
+        document.getElementById('notiPanel').classList.add('hidden'); document.getElementById('notiPanel').classList.remove('flex');
     }
 
     function clearAllNotis() { notifications = []; renderNotis(); }
 
     function addInAppNoti(title, body, type = 'home') {
-        const now = new Date();
-        const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        const now = new Date(); const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         const newId = Date.now() + Math.floor(Math.random()*1000);
         notifications.push({ id: newId, title: title, body: body, isRead: false, time: timeStr, type: type });
-        renderNotis();
-        return newId;
+        renderNotis(); return newId;
     }
 
     function sendPushNotification(title, body, type = 'home') {
@@ -1091,45 +1101,15 @@
     }
 
     document.addEventListener('click', function(event) {
-        const panel = document.getElementById('notiPanel');
-        const bell = document.getElementById('bellIconContainer');
-        if (isNotiPanelOpen && panel && bell) {
-            if (!panel.contains(event.target) && !bell.contains(event.target)) toggleNotiPanel();
-        }
+        const panel = document.getElementById('notiPanel'); const bell = document.getElementById('bellIconContainer');
+        if (isNotiPanelOpen && panel && bell) { if (!panel.contains(event.target) && !bell.contains(event.target)) toggleNotiPanel(); }
     });
 
-    // 앱 내부 알림 토글 시 브라우저 권한 묻기 (세팅 메뉴용)
-    function requestNotification() {
-        if ("Notification" in window) {
-            Notification.requestPermission().then(permission => {
-                if (permission === "granted") {
-                    Swal.fire({toast:true, position:'top', icon:'success', title:currentLang==='ko'?'알림이 켜졌습니다.':'Enabled.', showConfirmButton:false, timer:1500});
-                } else {
-                    Swal.fire({toast:true, position:'top', icon:'warning', title:currentLang==='ko'?'알림 권한이 거부되었습니다.':'Permission Denied.', showConfirmButton:false, timer:1500});
-                }
-            });
-        }
-    }
-
-    // --- 🌟 데이터 및 기타 로직 ---
-    function getFormattedDate(dateObj) {
-        const year = dateObj.getFullYear(); const month = String(dateObj.getMonth() + 1).padStart(2, '0'); const day = String(dateObj.getDate()).padStart(2, '0');
-        const weekDays = ['일', '월', '화', '수', '목', '금', '토']; const dayName = weekDays[dateObj.getDay()];
-        return `${year}-${month}-${day}(${dayName})`;
-    }
-
-    function localizeDateKey(dateKeyStr) {
-        if (currentLang === 'en') return dateKeyStr.replace(/\(일\)/, '(Sun)').replace(/\(월\)/, '(Mon)').replace(/\(화\)/, '(Tue)').replace(/\(수\)/, '(Wed)').replace(/\(목\)/, '(Thu)').replace(/\(금\)/, '(Fri)').replace(/\(토\)/, '(Sat)');
-        return dateKeyStr;
-    }
-
-    // 🌟 학식 무한로딩 방지 및 캐시 제거 반영
     async function fetchCafeteriaData(force = false) {
         if (isMenuFetched && !force && !isMealError) return;
         document.getElementById('mealLoading').classList.remove('hidden'); document.getElementById('mealContent').classList.add('hidden'); document.getElementById('mealError').classList.add('hidden');
         try {
             if(force) await new Promise(resolve => setTimeout(resolve, 800));
-            // github.io 캐시 우회를 위해 파라미터 추가
             const response = await fetch('https://joonxkim.github.io/hanyang-menu-api/weekly_menu.json?t=' + new Date().getTime());
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
@@ -1316,7 +1296,7 @@
         if (scanAnimationReq) cancelAnimationFrame(scanAnimationReq);
         const machine = machines.find(m => m.id === machineId); if (!machine) return; 
         balance -= selectedCoursePrice; updateBalanceUI(); machine.status = 'in-use'; machine.timeRemaining = selectedCourseTime * 60; machine.isMine = true;
-        renderMachines(); if(userRole === 'admin') renderAdminLaundry();
+        renderMachines();
 
         if (navigator.vibrate) navigator.vibrate(200);
         Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${dict[currentLang][machine.nameKey]} ${dict[currentLang]['alertStart']}`, showConfirmButton: false, timer: 2000 });
@@ -1351,10 +1331,8 @@
 
             const replyHtml = item.reply ? `<div class="mt-3 bg-gray-50 p-2 rounded-lg border border-gray-100"><p class="text-[10px] font-bold text-erica mb-0.5">사감실 답변</p><p class="text-xs text-gray-600">${item.reply}</p></div>` : '';
             const badgeHtml = item.hasPhoto ? `<div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500 bg-gray-50 px-2 py-1 rounded-md w-fit border border-gray-100"><i class="ph ph-paperclip"></i> <span>사진 첨부됨</span> (1)</div>` : '';
-            const onclickAttr = userRole === 'admin' && item.status !== '완료' ? `onclick="adminReplyPrompt(${item.id})"` : '';
-            const cursorClass = userRole === 'admin' && item.status !== '완료' ? 'cursor-pointer hover:border-erica transition' : '';
 
-            html += `<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3 ${cursorClass}" ${onclickAttr}><div class="flex justify-between items-start mb-2"><span class="text-[10px] ${statusBadgeClass} font-bold px-2 py-0.5 rounded-full">${item.status}</span><span class="text-[10px] text-gray-400">${item.date}</span></div><h4 class="font-bold text-gray-800 text-sm mb-1">[${item.category}] ${item.title}</h4><p class="text-xs text-gray-500 line-clamp-2">${item.content}</p>${badgeHtml}${replyHtml}${userRole === 'admin' && item.status !== '완료' ? `<p class="text-[10px] text-erica font-bold mt-2 text-right">답변 달기 <i class="ph-fill ph-arrow-circle-right"></i></p>` : ''}</div>`;
+            html += `<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3"><div class="flex justify-between items-start mb-2"><span class="text-[10px] ${statusBadgeClass} font-bold px-2 py-0.5 rounded-full">${item.status}</span><span class="text-[10px] text-gray-400">${item.date}</span></div><h4 class="font-bold text-gray-800 text-sm mb-1">[${item.category}] ${item.title}</h4><p class="text-xs text-gray-500 line-clamp-2">${item.content}</p>${badgeHtml}${replyHtml}</div>`;
         });
         container.innerHTML = html;
     }
@@ -1364,30 +1342,13 @@
         const category = document.getElementById('inqCategorySelect').options[document.getElementById('inqCategorySelect').selectedIndex].text;
         let title = document.getElementById('inqTitleInput').value; if (!title) title = (currentLang === 'ko' ? '제목 없음' : 'No Title');
         
-        Swal.fire({ toast: true, position: 'top', icon: 'success', title: currentLang==='ko'?'접수 완료':'Submitted', text: currentLang==='ko'?'사감실로 정상적으로 전달되었습니다.':'Successfully sent to admin.', showConfirmButton: false, timer: 2000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' } });
+        Swal.fire({ toast: true, position: 'top', icon: 'success', title: currentLang==='ko'?'접수 완료':'Submitted', showConfirmButton: false, timer: 2000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' } });
         document.querySelector('#tab-inquiry form').reset();
         
         const today = new Date(); const dateStr = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
         inquiryData.unshift({ id: Date.now(), isMine: true, status: '접수', date: dateStr, category: category, title: title, content: content, reply: null, hasPhoto: attachedPhotos.length > 0 });
         attachedPhotos = []; document.getElementById('photoThumbnails').innerHTML = '';
         setTimeout(() => { switchInquiryTab('history'); renderInquiryHistory(); }, 1000);
-    }
-
-    function adminReplyPrompt(id) {
-        const item = inquiryData.find(i => i.id === id); if(!item) return;
-        Swal.fire({
-            title: `답변 등록`,
-            html: `<div class="text-left mb-3"><p class="text-xs font-bold text-gray-800">[${item.category}] ${item.title}</p><p class="text-xs text-gray-500 mt-1">${item.content}</p></div><textarea id="adminReplyText" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica h-24 resize-none" placeholder="학생에게 보낼 답변을 입력하세요."></textarea>`,
-            showCancelButton: true, confirmButtonText: '답변 및 완료처리', cancelButtonText: '취소', confirmButtonColor: '#003E7A',
-            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold pb-2' },
-            preConfirm: () => { const text = document.getElementById('adminReplyText').value; if (!text) Swal.showValidationMessage('답변 내용을 입력해주세요.'); return text; }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                item.reply = result.value; item.status = '완료'; renderInquiryHistory();
-                Swal.fire({toast:true, position:'top', icon:'success', title:'답변이 등록되었습니다.', showConfirmButton:false, timer:1500});
-                if(item.isMine) sendPushNotification('문의 답변 도착', `[${item.title}]에 대한 사감실의 답변이 등록되었습니다.`, 'inquiry');
-            }
-        });
     }
 
     function recharge(amount) {
@@ -1422,16 +1383,43 @@
                 }
             }
         });
-        if (needsRender) { renderMachines(); if(userRole === 'admin') renderAdminLaundry(); }
+        if (needsRender) { renderMachines(); }
     }, 1000);
 
     document.getElementById('cheatBtn').addEventListener('click', () => {
         let activeCount = 0;
         machines.forEach(m => { if ((m.status === 'in-use' || m.status === 'reserved') && m.timeRemaining > 10) { m.timeRemaining = 5; activeCount++; } });
-        if (activeCount > 0) Swal.fire({ toast: true, position: 'top', icon: 'success', title: '5 seconds left!', showConfirmButton: false, timer: 1500 });
+        if (activeCount > 0) {
+            Swal.fire({ toast: true, position: 'top', icon: 'success', title: currentLang === 'ko' ? '5초 남았습니다!' : '5 seconds left!', showConfirmButton: false, timer: 1500 });
+        }
     });
 
-    // 앱 렌더링 초기화
+    function setLang(lang) {
+        currentLang = lang;
+        if(lang === 'ko') {
+            document.getElementById('btnLangKo').className = "bg-white text-erica shadow-sm text-xs font-bold px-3 py-1.5 rounded-md transition";
+            document.getElementById('btnLangEn').className = "text-gray-500 hover:text-gray-800 text-xs font-bold px-3 py-1.5 rounded-md transition bg-transparent";
+        } else {
+            document.getElementById('btnLangEn').className = "bg-white text-erica shadow-sm text-xs font-bold px-3 py-1.5 rounded-md transition";
+            document.getElementById('btnLangKo').className = "text-gray-500 hover:text-gray-800 text-xs font-bold px-3 py-1.5 rounded-md transition bg-transparent";
+        }
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if(dict[currentLang][key]) {
+                if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = dict[currentLang][key]; 
+                else el.innerHTML = dict[currentLang][key]; 
+            }
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if(dict[currentLang][key]) el.placeholder = dict[currentLang][key];
+        });
+        
+        renderMachines();
+        renderNotis(); 
+        if(mealData) { renderMeals(); renderHomeMeals(); }
+    }
+
     updateBalanceUI();
     setLang('ko'); 
     fetchCafeteriaData(); 
