@@ -79,7 +79,7 @@
 
 <div class="app-container">
     
-    <!-- 로그인 화면 -->
+    <!-- 🌟 로그인 화면 -->
     <div id="loginView" class="absolute inset-0 z-[200] bg-erica flex flex-col items-center justify-center px-8 transition-transform duration-500">
         <div class="bg-white p-4 rounded-3xl mb-6 shadow-lg shadow-black/20">
             <i class="ph-fill ph-buildings text-5xl text-erica"></i>
@@ -88,15 +88,15 @@
         <p class="text-sm text-white/70 mb-10 font-medium" data-i18n="loginSubTitle">한양대 ERICA 기숙사생 통합 플랫폼</p>
         
         <div class="w-full space-y-3 mb-8">
-            <input type="text" id="loginId" placeholder="포털 아이디 (관리자는 'admin')" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white placeholder-white/50 outline-none focus:bg-white/20 transition">
-            <input type="password" id="loginPw" placeholder="비밀번호" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white placeholder-white/50 outline-none focus:bg-white/20 transition">
+            <input type="text" id="loginId" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="포털 아이디 (관리자는 'admin')" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white placeholder-white/50 outline-none focus:bg-white/20 transition">
+            <input type="password" id="loginPw" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="비밀번호" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white placeholder-white/50 outline-none focus:bg-white/20 transition">
         </div>
         
         <button onclick="handleLogin()" class="w-full bg-white text-erica font-bold rounded-xl py-4 shadow-lg mb-4 hover:bg-gray-100 transition active:scale-95" data-i18n="loginBtn">로그인</button>
         <button onclick="handleGuestLogin()" class="w-full border border-white/30 text-white font-medium rounded-xl py-4 hover:bg-white/10 transition active:scale-95" data-i18n="loginGuestBtn">둘러보기 (로그인 없이 시작)</button>
     </div>
 
-    <!-- 메인 앱 -->
+    <!-- 🌟 메인 앱 -->
     <div id="mainAppView" class="hidden flex-col h-full">
         
         <header class="bg-erica text-white p-4 flex justify-between items-center shadow-md z-10 relative">
@@ -371,14 +371,6 @@
                 </div>
 
                 <h2 class="text-2xl font-bold text-gray-800 pl-2" data-i18n="myTitle">내 정보</h2>
-                
-                <div id="notiBanner" style="display: none;" class="bg-red-50 border border-red-200 rounded-xl p-4 justify-between items-center">
-                    <div>
-                        <p class="text-sm font-bold text-red-600 flex items-center gap-1"><i class="ph-fill ph-warning-circle"></i> <span data-i18n="notiOffTitle">알림이 꺼져 있어요</span></p>
-                        <p class="text-xs text-red-500 mt-0.5" data-i18n="notiOffDesc">세탁 완료 진동/소리 알림을 받으려면 허용해주세요.</p>
-                    </div>
-                    <button onclick="requestNotification()" class="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm" data-i18n="notiBtn">설정하기</button>
-                </div>
 
                 <div class="bg-gradient-to-br from-erica to-erica-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
                     <i class="ph ph-wallet absolute -right-4 -bottom-4 text-8xl text-white/10"></i>
@@ -424,25 +416,25 @@
                             <div class="flex justify-between items-center pl-7 pr-1 mt-2">
                                 <span class="text-xs font-bold text-gray-600" data-i18n="notiSubLaundry">세탁기 완료/만료 알림</span>
                                 <!-- 서브 토글 개별 함수 적용 -->
-                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this)">
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this, 'laundry')">
                                     <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center pl-7 pr-1">
                                 <span class="text-xs font-bold text-gray-600" data-i18n="notiSubDelivery">택배 도착 알림</span>
-                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this)">
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this, 'delivery')">
                                     <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center pl-7 pr-1">
                                 <span class="text-xs font-bold text-gray-600" data-i18n="notiSubNotice">기숙사 공지 알림</span>
-                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this)">
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this, 'notice')">
                                     <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center pl-7 pr-1">
                                 <span class="text-xs font-bold text-gray-600" data-i18n="notiSubInquiry">문의 답변 알림</span>
-                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this)">
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this, 'inquiry')">
                                     <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
                                 </div>
                             </div>
@@ -618,6 +610,15 @@
     let userRole = 'guest'; 
     let userName = '게스트';
 
+    // 🌟 알림 권한 제어 설정 상태 (전역)
+    let notiSettings = {
+        main: true,
+        laundry: true,
+        delivery: true,
+        notice: true,
+        inquiry: true
+    };
+
     function formatTime(seconds) {
         if(seconds <= 0) return "00:00";
         const m = Math.floor(seconds / 60);
@@ -765,6 +766,37 @@
         renderNotices(); renderInquiryHistory(); setLang(currentLang);
     }
 
+    // 🌟 추가 복구된 함수: renderAdminLaundry (관리자 세탁기 제어 화면)
+    function renderAdminLaundry() {
+        const container = document.getElementById('adminLaundryContent');
+        if(!container) return;
+        let html = '';
+        machines.forEach(m => {
+            let statusText = ''; let actionBtn = '';
+            if (m.status === 'available') {
+                statusText = '<span class="text-green-500 font-bold">사용 가능</span>';
+                actionBtn = `<button onclick="adminToggleBroken(${m.id})" class="text-[10px] bg-red-50 text-red-500 px-3 py-1.5 rounded-lg font-bold shadow-sm active:scale-95">고장 등록</button>`;
+            } else if (m.status === 'broken') {
+                statusText = '<span class="text-gray-400 font-bold">점검/수리중</span>';
+                actionBtn = `<button onclick="adminToggleBroken(${m.id})" class="text-[10px] bg-green-50 text-green-600 px-3 py-1.5 rounded-lg font-bold shadow-sm active:scale-95">정상 복구</button>`;
+            } else {
+                statusText = `<span class="text-orange-500 font-bold">${m.status === 'in-use' ? '사용중' : '예약됨'}</span> <span class="text-gray-400">(${formatTime(m.timeRemaining)})</span>`;
+                actionBtn = `<button onclick="adminForceCancel(${m.id})" class="text-[10px] bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg font-bold shadow-sm active:scale-95 border border-gray-200">강제 취소</button>`;
+            }
+
+            html += `
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100 mb-2">
+                    <div>
+                        <span class="font-bold text-sm text-gray-800">${dict[currentLang][m.nameKey]}</span>
+                        <div class="text-[10px] mt-0.5">${statusText}</div>
+                    </div>
+                    <div>${actionBtn}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
     function renderMachines() {
         const grid = document.getElementById('machineGrid');
         if(!grid) return;
@@ -879,6 +911,8 @@
                 systemNotices.unshift({ id: Date.now(), title: result.value.title, content: result.value.content, date: dateStr, isPinned: result.value.isPinned });
                 Swal.fire({toast:true, position:'top', icon:'success', title:'공지가 등록되었습니다.', showConfirmButton:false, timer:1500});
                 renderNotices(); 
+                
+                sendPushNotification('새로운 기숙사 공지', result.value.title, 'notice');
             }
         });
     }
@@ -947,6 +981,7 @@
             machine.status = 'available';
         }
         renderMachines();
+        if(userRole === 'admin') renderAdminLaundry();
     }
 
     function adminForceCancel(id) {
@@ -959,6 +994,7 @@
             if (result.isConfirmed) {
                 machine.status = 'available'; machine.timeRemaining = 0; machine.isMine = false; 
                 renderMachines(); 
+                if(userRole === 'admin') renderAdminLaundry();
                 Swal.fire({toast:true, position:'top', icon:'success', title:'초기화 되었습니다.', showConfirmButton:false, timer:1500});
             }
         });
@@ -974,27 +1010,24 @@
         }
     }
 
-    // 🌟 개별 토글 조작 함수
-    function toggleSubNotiSwitch(el) {
+    function toggleSubNotiSwitch(el, key) {
         const circle = el.children[0];
         if (el.classList.contains('bg-erica')) {
             el.classList.replace('bg-erica', 'bg-gray-300');
             circle.classList.remove('translate-x-3');
             circle.classList.add('translate-x-0');
+            notiSettings[key] = false; 
         } else {
             el.classList.replace('bg-gray-300', 'bg-erica');
             circle.classList.remove('translate-x-0');
             circle.classList.add('translate-x-3');
+            notiSettings[key] = true;  
         }
         checkSubTogglesState(); 
     }
 
     function checkSubTogglesState() {
-        const subs = document.querySelectorAll('.sub-noti-toggle');
-        let anyOn = false;
-        subs.forEach(sub => {
-            if (sub.classList.contains('bg-erica')) anyOn = true;
-        });
+        let anyOn = notiSettings.laundry || notiSettings.delivery || notiSettings.notice || notiSettings.inquiry;
 
         const mainToggle = document.getElementById('mainNotiToggle');
         if (mainToggle) {
@@ -1002,9 +1035,11 @@
             if (!anyOn) {
                 mainToggle.classList.replace('bg-erica', 'bg-gray-300');
                 mainCircle.classList.replace('translate-x-4', 'translate-x-0');
+                notiSettings.main = false;
             } else {
                 mainToggle.classList.replace('bg-gray-300', 'bg-erica');
                 mainCircle.classList.replace('translate-x-0', 'translate-x-4');
+                notiSettings.main = true;
             }
         }
     }
@@ -1018,9 +1053,11 @@
         if (isTurningOn) {
             el.classList.replace('bg-gray-300', 'bg-erica');
             circle.classList.replace('translate-x-0', 'translate-x-4');
+            notiSettings = { main: true, laundry: true, delivery: true, notice: true, inquiry: true };
         } else {
             el.classList.replace('bg-erica', 'bg-gray-300');
             circle.classList.replace('translate-x-4', 'translate-x-0');
+            notiSettings = { main: false, laundry: false, delivery: false, notice: false, inquiry: false };
         }
 
         const isOn = isTurningOn;
@@ -1041,6 +1078,8 @@
                 }
             }
         });
+        
+        if (isOn) requestNotification();
     }
 
     function renderNotis() {
@@ -1085,7 +1124,14 @@
     }
 
     function sendPushNotification(title, body, type = 'home') {
+        if (!notiSettings.main) return; 
+        if (type === 'laundry' && !notiSettings.laundry) return;
+        if (type === 'inquiry' && !notiSettings.inquiry) return;
+        if (type === 'notice' && !notiSettings.notice) return;
+        if (type === 'delivery' && !notiSettings.delivery) return;
+
         const notiId = addInAppNoti(title, body, type); 
+        
         if ("Notification" in window && Notification.permission === "granted") {
             const noti = new Notification(title, { body: body, icon: "./icon.png" });
             noti.onclick = function() { window.focus(); handleNotiClick(notiId, type); this.close(); };
@@ -1331,8 +1377,10 @@
 
             const replyHtml = item.reply ? `<div class="mt-3 bg-gray-50 p-2 rounded-lg border border-gray-100"><p class="text-[10px] font-bold text-erica mb-0.5">사감실 답변</p><p class="text-xs text-gray-600">${item.reply}</p></div>` : '';
             const badgeHtml = item.hasPhoto ? `<div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500 bg-gray-50 px-2 py-1 rounded-md w-fit border border-gray-100"><i class="ph ph-paperclip"></i> <span>사진 첨부됨</span> (1)</div>` : '';
+            const onclickAttr = userRole === 'admin' && item.status !== '완료' ? `onclick="adminReplyPrompt(${item.id})"` : '';
+            const cursorClass = userRole === 'admin' && item.status !== '완료' ? 'cursor-pointer hover:border-erica transition' : '';
 
-            html += `<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3"><div class="flex justify-between items-start mb-2"><span class="text-[10px] ${statusBadgeClass} font-bold px-2 py-0.5 rounded-full">${item.status}</span><span class="text-[10px] text-gray-400">${item.date}</span></div><h4 class="font-bold text-gray-800 text-sm mb-1">[${item.category}] ${item.title}</h4><p class="text-xs text-gray-500 line-clamp-2">${item.content}</p>${badgeHtml}${replyHtml}</div>`;
+            html += `<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3 ${cursorClass}" ${onclickAttr}><div class="flex justify-between items-start mb-2"><span class="text-[10px] ${statusBadgeClass} font-bold px-2 py-0.5 rounded-full">${item.status}</span><span class="text-[10px] text-gray-400">${item.date}</span></div><h4 class="font-bold text-gray-800 text-sm mb-1">[${item.category}] ${item.title}</h4><p class="text-xs text-gray-500 line-clamp-2">${item.content}</p>${badgeHtml}${replyHtml}${userRole === 'admin' && item.status !== '완료' ? `<p class="text-[10px] text-erica font-bold mt-2 text-right">답변 달기 <i class="ph-fill ph-arrow-circle-right"></i></p>` : ''}</div>`;
         });
         container.innerHTML = html;
     }
@@ -1349,6 +1397,23 @@
         inquiryData.unshift({ id: Date.now(), isMine: true, status: '접수', date: dateStr, category: category, title: title, content: content, reply: null, hasPhoto: attachedPhotos.length > 0 });
         attachedPhotos = []; document.getElementById('photoThumbnails').innerHTML = '';
         setTimeout(() => { switchInquiryTab('history'); renderInquiryHistory(); }, 1000);
+    }
+
+    function adminReplyPrompt(id) {
+        const item = inquiryData.find(i => i.id === id); if(!item) return;
+        Swal.fire({
+            title: `답변 등록`,
+            html: `<div class="text-left mb-3"><p class="text-xs font-bold text-gray-800">[${item.category}] ${item.title}</p><p class="text-xs text-gray-500 mt-1">${item.content}</p></div><textarea id="adminReplyText" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica h-24 resize-none" placeholder="학생에게 보낼 답변을 입력하세요."></textarea>`,
+            showCancelButton: true, confirmButtonText: '답변 및 완료처리', cancelButtonText: '취소', confirmButtonColor: '#003E7A',
+            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold pb-2' },
+            preConfirm: () => { const text = document.getElementById('adminReplyText').value; if (!text) Swal.showValidationMessage('답변 내용을 입력해주세요.'); return text; }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                item.reply = result.value; item.status = '완료'; renderInquiryHistory();
+                Swal.fire({toast:true, position:'top', icon:'success', title:'답변이 등록되었습니다.', showConfirmButton:false, timer:1500});
+                if(item.isMine) sendPushNotification('문의 답변 도착', `[${item.title}]에 대한 사감실의 답변이 등록되었습니다.`, 'inquiry');
+            }
+        });
     }
 
     function recharge(amount) {
@@ -1383,7 +1448,7 @@
                 }
             }
         });
-        if (needsRender) { renderMachines(); }
+        if (needsRender) { renderMachines(); if(userRole === 'admin') renderAdminLaundry(); }
     }, 1000);
 
     document.getElementById('cheatBtn').addEventListener('click', () => {
@@ -1416,6 +1481,7 @@
         });
         
         renderMachines();
+        if(userRole === 'admin') renderAdminLaundry();
         renderNotis(); 
         if(mealData) { renderMeals(); renderHomeMeals(); }
     }
