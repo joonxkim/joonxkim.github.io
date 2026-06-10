@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>창의인재관 라이프 V3.5</title>
+    <title>창의인재관 라이프 V3.6</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -252,7 +252,7 @@
                 <!-- 세탁기 / 건조기 선택형 세그먼트 스위치 -->
                 <div id="laundryTypeSelector" class="flex bg-gray-200 p-1 rounded-xl mb-4 border border-gray-200/50 shadow-inner">
                     <button id="btnSelectWasher" onclick="switchLaundryType('washer')" class="flex-1 bg-white shadow-sm text-gray-800 font-bold text-xs py-2 rounded-lg transition" data-i18n="facilityLaundry">공용 세탁기</button>
-                    <button id="btnSelectDryer" onclick="switchLaundryType('dryer')" class="flex-1 text-gray-500 hover:text-gray-700 font-bold text-xs py-2 rounded-lg transition" data-i18n="facilityDryer">공용 건조기</button>
+                    <button id="btnSelectDryer" onclick="switchLaundryType('dryer')" class="flex-1 text-gray-500 hover:text-gray-700 font-bold text-xs py-2 rounded-lg transition bg-transparent text-gray-400" data-i18n="facilityDryer">공용 건조기</button>
                 </div>
                 
                 <div class="flex justify-between items-end">
@@ -289,27 +289,27 @@
                             <!-- iOS 스타일 대시보드 전면 토글 -->
                             <div class="bg-gray-100 p-0.5 rounded-xl flex border border-gray-200 shadow-inner">
                                 <button id="btnCongestionLive" onclick="switchCongestionMode('live')" class="bg-white text-gray-800 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm transition-all" data-i18n="btnCongestionLive">실시간</button>
-                                <button id="btnCongestionTrend" onclick="switchCongestionMode('trend')" class="text-gray-400 text-[10px] font-bold px-2.5 py-1 rounded-lg transition-all" data-i18n="btnCongestionTrend">요일별 추이</button>
+                                <button id="btnCongestionTrend" onclick="switchCongestionMode('trend')" class="text-gray-400 text-[10px] font-bold px-2.5 py-1 rounded-lg transition-all bg-transparent text-gray-400" data-i18n="btnCongestionTrend">요일별 추이</button>
                             </div>
                         </div>
 
                         <!-- 요일 선택 바 (추이 모드일 때만 노출) -->
                         <div id="congestionDaySelector" class="hidden flex justify-between items-center bg-gray-50 p-2 rounded-xl border border-gray-200 mb-3 animate-[fadeIn_0.2s_ease-in-out]">
-                            <button onclick="setCongestionDay('월')" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent">월</button>
-                            <button onclick="setCongestionDay('화')" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent">화</button>
-                            <button onclick="setCongestionDay('수')" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent">수</button>
-                            <button onclick="setCongestionDay('목')" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent">목</button>
-                            <button onclick="setCongestionDay('금')" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent">금</button>
-                            <button onclick="setCongestionDay('토')" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent">토</button>
-                            <button onclick="setCongestionDay('일')" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent">일</button>
+                            <button onclick="setCongestionDay('Mon')" id="dayBtn-Mon" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent" data-i18n="dayMon">월</button>
+                            <button onclick="setCongestionDay('Tue')" id="dayBtn-Tue" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent" data-i18n="dayTue">화</button>
+                            <button onclick="setCongestionDay('Wed')" id="dayBtn-Wed" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent" data-i18n="dayWed">수</button>
+                            <button onclick="setCongestionDay('Thu')" id="dayBtn-Thu" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent" data-i18n="dayThu">목</button>
+                            <button onclick="setCongestionDay('Fri')" id="dayBtn-Fri" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent" data-i18n="dayFri">금</button>
+                            <button onclick="setCongestionDay('Sat')" id="dayBtn-Sat" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent" data-i18n="daySat">토</button>
+                            <button onclick="setCongestionDay('Sun')" id="dayBtn-Sun" class="congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent" data-i18n="daySun">일</button>
                         </div>
 
                         <!-- 시설 개별 필터 서브 세그먼트 (요일별 추이 선택 시 노출) -->
                         <div id="congestionFacilitySelector" class="hidden flex bg-gray-100 p-1 rounded-xl mb-3 border border-gray-200/50 shadow-inner animate-[fadeIn_0.2s_ease-in-out]">
                             <button onclick="setCongestionFacility('cafeteria')" id="btnFacCafeteria" class="flex-1 bg-white shadow-sm text-gray-800 font-bold text-[10px] py-1.5 rounded-lg transition-all" data-i18n="facilityCafeteria">기숙사 식당</button>
-                            <button onclick="setCongestionFacility('laundry')" id="btnFacLaundry" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent" data-i18n="facilityLaundry">공용 세탁기</button>
-                            <button onclick="setCongestionFacility('dryer')" id="btnFacDryer" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent" data-i18n="facilityDryer">공용 건조기</button>
-                            <button onclick="setCongestionFacility('gym')" id="btnFacGym" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent" data-i18n="facilityGym">헬스장</button>
+                            <button onclick="setCongestionFacility('laundry')" id="btnFacLaundry" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent text-gray-400" data-i18n="facilityLaundry">공용 세탁기</button>
+                            <button onclick="setCongestionFacility('dryer')" id="btnFacDryer" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent text-gray-400" data-i18n="facilityDryer">공용 건조기</button>
+                            <button onclick="setCongestionFacility('gym')" id="btnFacGym" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent text-gray-400" data-i18n="facilityGym">헬스장</button>
                         </div>
 
                         <div id="congestionContainer" class="space-y-4">
@@ -454,8 +454,8 @@
                     <i class="ph ph-wallet absolute -right-4 -bottom-4 text-8xl text-white/10"></i>
                     <div class="flex justify-between items-center mb-1">
                         <p class="text-white/80 text-sm font-medium" data-i18n="myBalance">내 잔여 포인트</p>
-                        <!-- 🌟 V3.5: 버튼 태그 전체가 아닌, 내부 텍스트만 번역 필터링하여 CSS 보존 -->
-                        <button class="relative bg-white/20 text-white text-[10px] px-2.5 py-1 rounded-full font-bold after:absolute after:-inset-4 after:content-['']" onclick="openPaymentGate(5000)">
+                        <!-- V3.6: 충전 모달(금액 선택)로 연결 -->
+                        <button class="relative bg-white/20 text-white text-[10px] px-2.5 py-1 rounded-full font-bold after:absolute after:-inset-4 after:content-['']" onclick="openChargeModal()">
                             <span data-i18n="myChargeBtn">+ 간편충전</span>
                         </button>
                     </div>
@@ -467,7 +467,6 @@
 
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-visible">
                     
-                    <!-- 🌟 V3.5: 상벌점 UI를 깔끔한 슬림 리스트 항목으로 통합 배치 -->
                     <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/40 rounded-t-2xl">
                         <div class="flex items-center gap-2">
                             <i class="ph-fill ph-shield-check text-xl text-erica"></i>
@@ -485,14 +484,13 @@
                         </div>
                     </div>
                     
-                    <!-- 다국어 드롭다운/아코디언 메뉴 도입부 -->
+                    <!-- 다국어 드롭다운 -->
                     <div class="p-4 border-b border-gray-100 flex justify-between items-center overflow-visible">
                         <div class="flex items-center gap-2">
                             <i class="ph ph-translate text-xl text-gray-500"></i>
                             <span class="font-bold text-gray-700 text-sm" data-i18n="myLang">언어 설정 (Language)</span>
                         </div>
                         
-                        <!-- 드롭다운 기어 박스 -->
                         <div class="relative inline-block text-left w-32 overflow-visible z-[150]">
                             <button type="button" onclick="toggleLanguageDropdown(event)" class="inline-flex justify-between items-center w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none transition-all" id="langDropdownBtn">
                                 <span id="currentLangLabel">한국어</span>
@@ -612,6 +610,34 @@
         </div>
     </div>
 
+    <!-- 🌟 포인트 충전 금액 입력창 오버레이 (V3.6 신규) -->
+    <div id="chargeAmountOverlay" class="hidden absolute inset-0 bg-black/60 z-[300] flex flex-col justify-end">
+        <div class="bg-white rounded-t-3xl shadow-[0_-10px_30px_rgba(0,0,0,0.15)] w-full max-h-[90%] pb-10 flex flex-col animate-[fadeIn_0.25s_ease-out]">
+            <div class="w-12 h-1 bg-gray-200 rounded-full mx-auto my-3"></div>
+            <div class="px-5 border-b border-gray-100 pb-3 flex justify-between items-center">
+                <div>
+                    <h2 class="text-base font-black text-gray-800" data-i18n="chargeTitle">포인트 충전</h2>
+                    <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="chargeSub">충전할 금액을 입력해주세요.</p>
+                </div>
+                <button onclick="closeChargeModal()" class="text-gray-400 hover:text-gray-700"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <div class="p-5 flex flex-col items-center">
+                <p class="text-[11px] font-bold text-erica mb-1" data-i18n="chargeTotal">충전 금액</p>
+                <div class="flex items-baseline gap-1 mb-6">
+                    <span id="displayChargeAmount" class="text-4xl font-black text-gray-800 tracking-tight">0</span>
+                    <span class="text-xl font-bold text-gray-800" data-i18n="chargeUnit">원</span>
+                </div>
+                <div class="grid grid-cols-4 gap-2 w-full mb-4">
+                    <button onclick="addChargeAmount(1000)" class="bg-blue-50 text-erica font-bold py-2.5 rounded-xl text-sm border border-blue-100 active:scale-95 transition" data-i18n="btnAdd1k">+ 1천</button>
+                    <button onclick="addChargeAmount(5000)" class="bg-blue-50 text-erica font-bold py-2.5 rounded-xl text-sm border border-blue-100 active:scale-95 transition" data-i18n="btnAdd5k">+ 5천</button>
+                    <button onclick="addChargeAmount(10000)" class="bg-blue-50 text-erica font-bold py-2.5 rounded-xl text-sm border border-blue-100 active:scale-95 transition" data-i18n="btnAdd10k">+ 1만</button>
+                    <button onclick="resetChargeAmount()" class="bg-gray-100 text-gray-500 font-bold py-2.5 rounded-xl text-sm active:scale-95 transition" data-i18n="chargeReset">초기화</button>
+                </div>
+                <button onclick="proceedToPayment()" id="btnProceedCharge" class="w-full bg-gray-300 text-gray-500 font-black rounded-2xl py-4 transition pointer-events-none" data-i18n="chargeBtn">결제하기</button>
+            </div>
+        </div>
+    </div>
+
     <!-- PG 오버레이 -->
     <div id="paymentGateOverlay" class="hidden absolute inset-0 bg-black/60 z-[300] flex flex-col justify-end">
         <div class="bg-white rounded-t-3xl shadow-[0_-10px_30px_rgba(0,0,0,0.15)] w-full max-h-[90%] pb-10 flex flex-col animate-[fadeIn_0.25s_ease-out]">
@@ -629,14 +655,13 @@
             <div class="m-5 bg-gray-50 rounded-2xl p-4 border border-gray-100 flex justify-between items-center">
                 <div>
                     <span class="text-[10px] bg-erica/10 text-erica font-bold px-2 py-0.5 rounded-full">Dorm Point</span>
-                    <h3 class="text-sm font-black text-gray-800 mt-1.5" id="pgItemName">기숙사 포인트 5,000 P 충전</h3>
+                    <h3 class="text-sm font-black text-gray-800 mt-1.5" id="pgItemName">기숙사 포인트 충전</h3>
                 </div>
                 <div class="text-right">
-                    <p class="text-lg font-black text-erica" id="pgPriceLabel">5,000 원</p>
+                    <p class="text-lg font-black text-erica" id="pgPriceLabel">0 원</p>
                 </div>
             </div>
 
-            <!-- 신용카드 결제 버튼 (고유 ID 사용으로 화이트아웃 방지) -->
             <div class="px-5 mb-3">
                 <button onclick="selectPGMethod('card')" id="pg-btn-card" class="pg-card-btn w-full border-2 border-erica bg-erica-50 rounded-2xl p-3.5 flex items-center justify-between transition active:scale-95">
                     <div class="flex items-center gap-3">
@@ -650,29 +675,26 @@
                 </button>
             </div>
 
-            <!-- 간편 결제 수단 그리드 -->
+            <!-- 간편 결제 수단 그리드 (WeChat 제거됨, 2x2 깔끔 배치) -->
             <div class="px-5">
                 <p class="text-[11px] font-bold text-gray-500 mb-2">간편 결제</p>
                 <div class="grid grid-cols-2 gap-2" id="paymentMethodList">
                     <button onclick="selectPGMethod('kakao')" id="pg-btn-kakao" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95">
                         <span class="w-6 h-6 rounded-full bg-[#fee500] text-gray-900 flex items-center justify-center font-black text-[10px]">K</span>
-                        <span class="text-[11px] font-bold text-gray-800">카카오페이</span>
+                        <span class="text-[11px] font-bold text-gray-800" data-i18n="payKakao">카카오페이</span>
                     </button>
                     <button onclick="selectPGMethod('naver')" id="pg-btn-naver" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95">
                         <span class="w-6 h-6 rounded-full bg-[#03c75a] text-white flex items-center justify-center font-black text-[10px]">N</span>
-                        <span class="text-[11px] font-bold text-gray-800">네이버페이</span>
+                        <span class="text-[11px] font-bold text-gray-800" data-i18n="payNaver">네이버페이</span>
                     </button>
                     <button onclick="selectPGMethod('toss')" id="pg-btn-toss" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95">
                         <span class="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center font-black text-[10px]">T</span>
-                        <span class="text-[11px] font-bold text-gray-800">토스페이</span>
+                        <span class="text-[11px] font-bold text-gray-800" data-i18n="payToss">토스페이</span>
                     </button>
+                    <!-- Alipay 깔끔한 텍스트 반영 -->
                     <button onclick="selectPGMethod('alipay')" id="pg-btn-alipay" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95">
-                        <span class="w-6 h-6 rounded-full bg-[#1677ff] text-white flex items-center justify-center font-black text-[10px]">支</span>
-                        <span class="text-[11px] font-bold text-gray-800">Alipay (支付宝)</span>
-                    </button>
-                    <button onclick="selectPGMethod('wechat')" id="pg-btn-wechat" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95 col-span-2 justify-center">
-                        <span class="w-6 h-6 rounded-full bg-[#09bb07] text-white flex items-center justify-center font-black text-[10px]">微</span>
-                        <span class="text-[11px] font-bold text-gray-800">WeChat Pay (微信支付)</span>
+                        <span class="w-6 h-6 rounded-full bg-[#1677ff] text-white flex items-center justify-center font-black text-[10px]">A</span>
+                        <span class="text-[11px] font-bold text-gray-800" data-i18n="payAlipay">Alipay</span>
                     </button>
                 </div>
             </div>
@@ -701,8 +723,52 @@
 </div>
 
 <script>
-    // 🌟 1. 글로벌 핵심 데이터 완전 보호 구역 (호이스팅 에러 방지)
     // ==========================================
+    // 🌟 에러 완벽 차단용: 모든 전역 변수/데이터 최상단 선언 구역 (Hoisting Issue 해결)
+    // ==========================================
+    
+    // 기본 변수들
+    let currentLang = 'ko';
+    let isLoggedIn = false;
+    let userRole = 'guest'; 
+    let userName = '게스트';
+    let userLoginId = 'guest'; 
+    let notiSettings = { main: true, laundry: true, delivery: true, notice: true, inquiry: true };
+    let notifications = [];
+    let isNotiPanelOpen = false;
+
+    let forcedSoldOutItems = new Set();
+    let mealData = null;
+    let currentMealTab = 'today';
+    let isMenuFetched = false;
+    let isMealError = false;
+
+    let congestionMode = 'live'; 
+    const weekDaysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const apiWeekDaysMap = ['일', '월', '화', '수', '목', '금', '토'];
+    let selectedCongestionDay = weekDaysMap[new Date().getDay()]; 
+    let selectedCongestionFacility = 'cafeteria'; 
+
+    let balance = 1500;
+    let filterStatus = 'all'; 
+    let attachedPhotos = [];
+    let selectedMachineId = null; 
+    let currentQrMachineId = null; 
+    let selectedCourseTime = 40;
+    let selectedCoursePrice = 1000;
+
+    let currentLaundryType = 'washer';
+    let activePGMethod = 'card';
+    let pendingRechargeAmount = 0;
+    let currentChargeAmount = 0;
+
+    let qrStream = null; 
+    let scanAnimationReq = null;
+
+    // 데이터 소스
+    const mealTimes = { '조식': '07:40~09:00', '중식': '11:30~13:20', '석식': '17:10~18:40' };
+    const mealTypeEnMap = { '조식': 'Breakfast', '중식': 'Lunch', '석식': 'Dinner' };
+
     let systemNotices = [
         { id: 1, title: "[필독] 1층 무인택배함 점검 안내", date: "2026.04.08", content: "무인택배함 시스템 업데이트로 인해 금일 14:00~16:00 사용이 제한됩니다.", isPinned: true },
         { id: 2, title: "기숙사 야간 소음 주의", date: "2026.04.07", content: "최근 야간 소음 민원이 급증하고 있습니다. 22시 이후에는 정숙해주시기 바랍니다.", isPinned: false }
@@ -734,40 +800,40 @@
 
     const facilitiesTrendData = {
         cafeteria: {
-            '월': [12, 45, 15, 110, 25, 15, 95, 30, 10, 0],
-            '화': [15, 50, 20, 105, 30, 20, 90, 35, 15, 0],
-            '수': [10, 40, 15, 115, 20, 15, 100, 25, 10, 0],
-            '목': [12, 48, 18, 108, 28, 18, 92, 32, 12, 0],
-            '금': [5,  30, 10, 80, 15, 10, 75, 95, 50, 5],
-            '토': [0,  15, 30, 70, 45, 35, 80, 60, 25, 0],
-            '일': [0,  10, 25, 75, 55, 45, 85, 68, 35, 0]
+            'Mon': [12, 45, 15, 110, 25, 15, 95, 30, 10, 0],
+            'Tue': [15, 50, 20, 105, 30, 20, 90, 35, 15, 0],
+            'Wed': [10, 40, 15, 115, 20, 15, 100, 25, 10, 0],
+            'Thu': [12, 48, 18, 108, 28, 18, 92, 32, 12, 0],
+            'Fri': [5,  30, 10, 80, 15, 10, 75, 95, 50, 5],
+            'Sat': [0,  15, 30, 70, 45, 35, 80, 60, 25, 0],
+            'Sun': [0,  10, 25, 75, 55, 45, 85, 68, 35, 0]
         },
         laundry: {
-            '월': [2, 3, 4, 5, 5, 5, 6, 5, 4, 1],
-            '화': [3, 3, 4, 5, 5, 5, 6, 5, 4, 1],
-            '수': [2, 3, 4, 5, 5, 5, 6, 5, 4, 1],
-            '목': [2, 3, 4, 5, 5, 5, 6, 5, 5, 2],
-            '금': [2, 3, 3, 4, 4, 5, 5, 5, 4, 1],
-            '토': [3, 4, 5, 5, 6, 6, 6, 6, 5, 3],
-            '일': [3, 4, 5, 5, 6, 6, 6, 6, 5, 3]
+            'Mon': [2, 3, 4, 5, 5, 5, 6, 5, 4, 1],
+            'Tue': [3, 3, 4, 5, 5, 5, 6, 5, 4, 1],
+            'Wed': [2, 3, 4, 5, 5, 5, 6, 5, 4, 1],
+            'Thu': [2, 3, 4, 5, 5, 5, 6, 5, 5, 2],
+            'Fri': [2, 3, 3, 4, 4, 5, 5, 5, 4, 1],
+            'Sat': [3, 4, 5, 5, 6, 6, 6, 6, 5, 3],
+            'Sun': [3, 4, 5, 5, 6, 6, 6, 6, 5, 3]
         },
         dryer: {
-            '월': [1, 2, 3, 4, 5, 5, 5, 6, 5, 2],
-            '화': [2, 2, 3, 4, 5, 5, 5, 6, 5, 2],
-            '수': [1, 2, 3, 4, 5, 5, 5, 6, 5, 2],
-            '목': [1, 2, 3, 4, 5, 5, 5, 6, 5, 3],
-            '금': [1, 2, 2, 3, 4, 5, 5, 5, 5, 2],
-            '토': [2, 3, 4, 5, 5, 6, 6, 6, 6, 4],
-            '일': [2, 3, 4, 5, 5, 6, 6, 6, 6, 4]
+            'Mon': [1, 2, 3, 4, 5, 5, 5, 6, 5, 2],
+            'Tue': [2, 2, 3, 4, 5, 5, 5, 6, 5, 2],
+            'Wed': [1, 2, 3, 4, 5, 5, 5, 6, 5, 2],
+            'Thu': [1, 2, 3, 4, 5, 5, 5, 6, 5, 3],
+            'Fri': [1, 2, 2, 3, 4, 5, 5, 5, 5, 2],
+            'Sat': [2, 3, 4, 5, 5, 6, 6, 6, 6, 4],
+            'Sun': [2, 3, 4, 5, 5, 6, 6, 6, 6, 4]
         },
         gym: {
-            '월': [8,  18, 12, 22, 28, 35, 45, 48, 30, 10],
-            '화': [10, 22, 15, 25, 30, 38, 46, 49, 32, 12],
-            '수': [9,  20, 14, 24, 29, 36, 44, 47, 31, 11],
-            '목': [8,  18, 12, 22, 28, 35, 45, 46, 30, 10],
-            '금': [5,  12, 10, 18, 25, 30, 40, 42, 25, 8],
-            '토': [2,  8,  15, 22, 26, 28, 35, 32, 20, 5],
-            '일': [3,  10, 18, 24, 28, 30, 38, 35, 22, 6]
+            'Mon': [8,  18, 12, 22, 28, 35, 45, 48, 30, 10],
+            'Tue': [10, 22, 15, 25, 30, 38, 46, 49, 32, 12],
+            'Wed': [9,  20, 14, 24, 29, 36, 44, 47, 31, 11],
+            'Thu': [8,  18, 12, 22, 28, 35, 45, 46, 30, 10],
+            'Fri': [5,  12, 10, 18, 25, 30, 40, 42, 25, 8],
+            'Sat': [2,  8,  15, 22, 26, 28, 35, 32, 20, 5],
+            'Sun': [3,  10, 18, 24, 28, 30, 38, 35, 22, 6]
         }
     };
 
@@ -777,9 +843,7 @@
         'guest': { merit: 0, demerit: 0 }
     };
 
-    // ==========================================
-    // 2. 공통 상수 및 딕셔너리, 상태 변수 정의
-    // ==========================================
+    // 다국어 딕셔너리
     const dict = {
         ko: {
             appTitle: "창의인재관 라이프", cheatBtn: "시연 100x",
@@ -832,7 +896,11 @@
             myMeritDemerit: "상벌점 현황",
             cardPayment: "신용·체크카드 결제", cardSecurePay: "신용카드로 안전결제",
             dryerM1: "1번 건조기", dryerM2: "2번 건조기", dryerM3: "3번 건조기", dryerM4: "4번 건조기", dryerM5: "5번 건조기", dryerM6: "6번 건조기",
-            dryerCourse1: "표준 건조 (45분)", dryerCourse2: "강력 건조 (60분)"
+            dryerCourse1: "표준 건조 (45분)", dryerCourse2: "강력 건조 (60분)",
+
+            dayMon: "월", dayTue: "화", dayWed: "수", dayThu: "목", dayFri: "금", daySat: "토", daySun: "일",
+            payKakao: "카카오페이", payNaver: "네이버페이", payToss: "토스페이", payAlipay: "Alipay",
+            chargeTitle: "포인트 충전", chargeSub: "충전할 금액을 입력해주세요.", chargeTotal: "충전 금액", chargeUnit: "원", chargeReset: "초기화", chargeBtn: "결제하기", btnAdd1k: "+ 1천", btnAdd5k: "+ 5천", btnAdd10k: "+ 1만"
         },
         en: {
             appTitle: "Dorm Life", cheatBtn: "Speed 100x",
@@ -885,7 +953,11 @@
             myMeritDemerit: "Point Status",
             cardPayment: "Credit/Debit Card", cardSecurePay: "Secure Credit Card Payment",
             dryerM1: "Dryer 1", dryerM2: "Dryer 2", dryerM3: "Dryer 3", dryerM4: "Dryer 4", dryerM5: "Dryer 5", dryerM6: "Dryer 6",
-            dryerCourse1: "Standard Dry (45m)", dryerCourse2: "Strong Temp Dry (60m)"
+            dryerCourse1: "Standard Dry (45m)", dryerCourse2: "Strong Temp Dry (60m)",
+
+            dayMon: "Mon", dayTue: "Tue", dayWed: "Wed", dayThu: "Thu", dayFri: "Fri", daySat: "Sat", daySun: "Sun",
+            payKakao: "KakaoPay", payNaver: "NaverPay", payToss: "TossPay", payAlipay: "Alipay",
+            chargeTitle: "Recharge Points", chargeSub: "Enter the amount to recharge.", chargeTotal: "Amount", chargeUnit: "KRW", chargeReset: "Reset", chargeBtn: "Pay", btnAdd1k: "+ 1K", btnAdd5k: "+ 5K", btnAdd10k: "+ 10K"
         },
         zh: {
             appTitle: "创意人才馆生活", cheatBtn: "演示 100x",
@@ -938,47 +1010,16 @@
             myMeritDemerit: "奖惩分状况",
             cardPayment: "信用卡·借记卡支付", cardSecurePay: "信用卡安全支付",
             dryerM1: "1号烘干机", dryerM2: "2号烘干机", dryerM3: "3号烘干机", dryerM4: "4号烘干机", dryerM5: "5号烘干机", dryerM6: "6号烘干机",
-            dryerCourse1: "标准烘干 (45分钟)", dryerCourse2: "强力烘干 (60分钟)"
+            dryerCourse1: "标准烘干 (45分钟)", dryerCourse2: "强力烘干 (60分钟)",
+
+            dayMon: "周一", dayTue: "周二", dayWed: "周三", dayThu: "周四", dayFri: "周五", daySat: "周六", daySun: "周日",
+            payKakao: "KakaoPay", payNaver: "NaverPay", payToss: "TossPay", payAlipay: "Alipay",
+            chargeTitle: "充值积分", chargeSub: "请输入充值金额。", chargeTotal: "充值金额", chargeUnit: "韩元", chargeReset: "重置", chargeBtn: "支付", btnAdd1k: "+ 1千", btnAdd5k: "+ 5千", btnAdd10k: "+ 1万"
         }
     };
 
-    let currentLang = 'ko';
-    let isLoggedIn = false;
-    let userRole = 'guest'; 
-    let userName = '게스트';
-    let userLoginId = 'guest'; 
-    
-    let notiSettings = { main: true, laundry: true, delivery: true, notice: true, inquiry: true };
-    let notifications = [];
-    let isNotiPanelOpen = false;
-
-    const mealTimes = { '조식': '07:40~09:00', '중식': '11:30~13:20', '석식': '17:10~18:40' };
-    const mealTypeEnMap = { '조식': 'Breakfast', '중식': 'Lunch', '석식': 'Dinner' };
-    let forcedSoldOutItems = new Set();
-    let mealData = null;
-    let currentMealTab = 'today';
-    let isMenuFetched = false;
-    let isMealError = false;
-
-    let congestionMode = 'live'; 
-    const weekDaysMap = ['일', '월', '화', '수', '목', '금', '토'];
-    let selectedCongestionDay = weekDaysMap[new Date().getDay()]; 
-    let selectedCongestionFacility = 'cafeteria'; 
-
-    let balance = 1500;
-    let filterStatus = 'all'; 
-    let attachedPhotos = [];
-    let selectedMachineId = null; 
-    let currentQrMachineId = null; 
-    let selectedCourseTime = 40;
-    let selectedCoursePrice = 1000;
-
-    let currentLaundryType = 'washer';
-    let activePGMethod = 'card';
-    let pendingRechargeAmount = 5000;
-
     // ==========================================
-    // 3. 헬퍼 및 유틸리티 함수
+    // 헬퍼 및 유틸리티 함수
     // ==========================================
     function formatTime(seconds) {
         if(seconds <= 0) return "00:00";
@@ -990,8 +1031,7 @@
         const year = dateObj.getFullYear(); 
         const month = String(dateObj.getMonth() + 1).padStart(2, '0'); 
         const day = String(dateObj.getDate()).padStart(2, '0');
-        const weekDays = ['일', '월', '화', '수', '목', '금', '토']; 
-        const dayName = weekDays[dateObj.getDay()];
+        const dayName = apiWeekDaysMap[dateObj.getDay()];
         return `${year}-${month}-${day}(${dayName})`;
     }
 
@@ -1001,6 +1041,7 @@
     }
 
     function localizeDateKey(dateKeyStr) {
+        if (currentLang === 'ko') return dateKeyStr;
         if (currentLang === 'en') return dateKeyStr.replace(/\(일\)/, '(Sun)').replace(/\(월\)/, '(Mon)').replace(/\(화\)/, '(Tue)').replace(/\(수\)/, '(Wed)').replace(/\(목\)/, '(Thu)').replace(/\(금\)/, '(Fri)').replace(/\(토\)/, '(Sat)');
         if (currentLang === 'zh') return dateKeyStr.replace(/\(일\)/, '(周日)').replace(/\(월\)/, '(周一)').replace(/\(화\)/, '(周二)').replace(/\(수\)/, '(周三)').replace(/\(목\)/, '(周四)').replace(/\(금\)/, '(周五)').replace(/\(토\)/, '(周六)');
         return dateKeyStr;
@@ -1013,7 +1054,7 @@
     }
 
     // ==========================================
-    // 4. 로그인 및 사용자 제어
+    // 로그인 및 사용자 제어
     // ==========================================
     function handleLogin() {
         const idInput = document.getElementById('loginId').value.trim();
@@ -1097,7 +1138,7 @@
     }
 
     // ==========================================
-    // 5. 알림 시스템 제어
+    // 알림 시스템 제어
     // ==========================================
     function toggleSubNotiMenu() {
         const menu = document.getElementById('subNotiMenu'); const icon = document.getElementById('notiExpandIcon');
@@ -1211,14 +1252,8 @@
         });
     }
 
-    document.addEventListener('click', function(event) {
-        const panel = document.getElementById('notiPanel'); const bell = document.getElementById('bellIconContainer');
-        if (isNotiPanelOpen && panel && bell) { if (!panel.contains(event.target) && !bell.contains(event.target)) toggleNotiPanel(); }
-    });
-
-
     // ==========================================
-    // 6. 혼잡도 위젯 제어 코어 (선 그래프 깜빡임 완벽 소멸)
+    // 혼잡도 위젯 제어
     // ==========================================
     function switchCongestionMode(mode) {
         congestionMode = mode;
@@ -1247,8 +1282,8 @@
         renderCongestion(true);
     }
 
-    function setCongestionDay(day) {
-        selectedCongestionDay = day;
+    function setCongestionDay(dayKey) {
+        selectedCongestionDay = dayKey;
         updateDaySelectorUI();
         renderCongestion(true);
     }
@@ -1261,7 +1296,7 @@
 
     function updateDaySelectorUI() {
         document.querySelectorAll('.congestion-day-btn').forEach(btn => {
-            if(btn.innerText === selectedCongestionDay) {
+            if(btn.id === `dayBtn-${selectedCongestionDay}`) {
                 btn.className = "congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all bg-erica text-white shadow-md scale-105";
             } else {
                 btn.className = "congestion-day-btn w-8 h-8 rounded-full text-xs font-bold transition-all text-gray-500 hover:bg-gray-200 bg-transparent";
@@ -1374,7 +1409,6 @@
         return svgHtml;
     }
 
-    // 초정밀 실시간 업데이트 대시보드 코어
     function renderCongestion(forceReset = false) {
         const container = document.getElementById('congestionContainer'); if(!container) return;
         
@@ -1464,9 +1498,8 @@
         }
     }
 
-
     // ==========================================
-    // 7. 세탁기 및 건조기 개별 토글 시스템
+    // 세탁기 및 건조기 개별 토글 시스템
     // ==========================================
     function switchLaundryType(type) {
         currentLaundryType = type;
@@ -1588,8 +1621,6 @@
         Swal.fire({ toast: true, position: 'top', icon: 'success', title: dict[currentLang]['alertReserve'], text: dict[currentLang]['alertReserveSub'], showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } });
     }
 
-    let qrStream = null; let scanAnimationReq = null;
-
     function scanQRLoop() {
         if (!qrStream || document.getElementById('qrScanner').classList.contains('hidden')) return;
         const video = document.getElementById('qrVideo');
@@ -1629,7 +1660,7 @@
     }
 
     // ==========================================
-    // 8. 공지사항 및 운영 관리
+    // 공지사항 및 운영 관리
     // ==========================================
     function renderNotices() {
         let html = '';
@@ -1798,9 +1829,8 @@
         renderAdminMealControl(); renderHomeMeals(); renderCongestion(true);
     }
 
-
     // ==========================================
-    // 9. 식단 데이터 페칭 및 수직 중앙 정렬 렌더링
+    // 식단 데이터
     // ==========================================
     async function fetchCafeteriaData(force = false) {
         if (isMenuFetched && !force && !isMealError) return;
@@ -1956,9 +1986,8 @@
         } catch(e) { container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">메뉴 데이터를 해석할 수 없습니다.</p>`; }
     }
 
-
     // ==========================================
-    // 10. 컴포넌트 딥 링크 및 고해상도 탭 라우팅
+    // 컴포넌트 라우팅 및 뷰
     // ==========================================
     function switchTab(tabName, targetId = null) {
         if (isNotiPanelOpen) toggleNotiPanel(); 
@@ -2060,14 +2089,60 @@
         });
     }
 
-    // 🌟 1. 결제 모듈 화이트아웃 방지용 명시적 ID 타겟 제어 탑재
+    // ==========================================
+    // 🌟 금액 충전 모달 로직 (V3.6 스마트 충전 UI 적용)
+    // ==========================================
+    function openChargeModal() {
+        currentChargeAmount = 0;
+        updateChargeUI();
+        document.getElementById('chargeAmountOverlay').classList.remove('hidden');
+    }
+
+    function closeChargeModal() {
+        document.getElementById('chargeAmountOverlay').classList.add('hidden');
+    }
+
+    function addChargeAmount(amount) {
+        currentChargeAmount += amount;
+        updateChargeUI();
+    }
+
+    function resetChargeAmount() {
+        currentChargeAmount = 0;
+        updateChargeUI();
+    }
+
+    function updateChargeUI() {
+        document.getElementById('displayChargeAmount').innerText = currentChargeAmount.toLocaleString();
+        const btn = document.getElementById('btnProceedCharge');
+        if (currentChargeAmount > 0) {
+            btn.className = "w-full bg-erica text-white font-black rounded-2xl py-4 shadow-lg active:scale-95 transition cursor-pointer";
+            btn.style.pointerEvents = "auto";
+        } else {
+            btn.className = "w-full bg-gray-300 text-gray-500 font-black rounded-2xl py-4 transition pointer-events-none";
+            btn.style.pointerEvents = "none";
+        }
+    }
+
+    function proceedToPayment() {
+        if (currentChargeAmount <= 0) return;
+        closeChargeModal();
+        openPaymentGate(currentChargeAmount);
+    }
+
+    // ==========================================
+    // 결제 게이트웨이 로직
+    // ==========================================
     function openPaymentGate(amount) {
         pendingRechargeAmount = amount;
-        document.getElementById('pgItemName').innerText = `기숙사 포인트 ${amount.toLocaleString()} P 충전`;
-        document.getElementById('pgPriceLabel').innerText = `${amount.toLocaleString()} 원`;
+        
+        const prefix = currentLang === 'ko' ? '기숙사 포인트 ' : (currentLang === 'zh' ? '宿舍积分 ' : 'Dorm Point ');
+        const suffix = currentLang === 'ko' ? ' 충전' : (currentLang === 'zh' ? ' 充值' : ' Recharge');
+        
+        document.getElementById('pgItemName').innerText = `${prefix}${amount.toLocaleString()} P${suffix}`;
+        document.getElementById('pgPriceLabel').innerText = `${amount.toLocaleString()} ${dict[currentLang]['chargeUnit']}`;
         
         selectPGMethod('card'); 
-        
         const gate = document.getElementById('paymentGateOverlay');
         gate.classList.remove('hidden');
     }
@@ -2079,11 +2154,11 @@
     function selectPGMethod(methodId) {
         activePGMethod = methodId;
         
-        // 🌟 타겟 버튼들만 명확히 지정하여 초기화 (간편충전 버튼이 휘말리지 않음)
-        ['kakao', 'naver', 'toss', 'alipay', 'wechat'].forEach(id => {
+        // 간편결제 버튼들 초기화 (WeChat 없음)
+        ['kakao', 'naver', 'toss', 'alipay'].forEach(id => {
             const btn = document.getElementById('pg-btn-' + id);
             if(btn) {
-                btn.className = "pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95" + (id === 'wechat' ? " col-span-2 justify-center" : "");
+                btn.className = "pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
             }
         });
         
@@ -2100,19 +2175,16 @@
             document.getElementById('pgSubmitText').innerText = dict[currentLang]['cardSecurePay'] || "신용카드로 안전결제";
         } else if(methodId === 'kakao') {
             targetBtn.className = "pg-simple-btn border-2 border-yellow-400 bg-yellow-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
-            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "카카오페이로 안전결제" : "Pay with KakaoPay";
+            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "카카오페이로 안전결제" : (currentLang === 'zh' ? "使用 KakaoPay 支付" : "Pay with KakaoPay");
         } else if(methodId === 'naver') {
             targetBtn.className = "pg-simple-btn border-2 border-green-500 bg-green-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
-            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "네이버페이로 안전결제" : "Pay with NaverPay";
+            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "네이버페이로 안전결제" : (currentLang === 'zh' ? "使用 NaverPay 支付" : "Pay with NaverPay");
         } else if(methodId === 'toss') {
             targetBtn.className = "pg-simple-btn border-2 border-blue-500 bg-blue-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
-            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "토스페이로 안전결제" : "Pay with TossPay";
+            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "토스페이로 안전결제" : (currentLang === 'zh' ? "使用 TossPay 支付" : "Pay with TossPay");
         } else if(methodId === 'alipay') {
             targetBtn.className = "pg-simple-btn border-2 border-sky-400 bg-sky-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
-            document.getElementById('pgSubmitText').innerText = "Alipay로 안전결제";
-        } else if(methodId === 'wechat') {
-            targetBtn.className = "pg-simple-btn border-2 border-emerald-500 bg-emerald-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95 col-span-2 justify-center";
-            document.getElementById('pgSubmitText').innerText = "WeChat Pay로 안전결제";
+            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "Alipay로 안전결제" : (currentLang === 'zh' ? "使用 Alipay 支付" : "Pay with Alipay");
         }
     }
 
@@ -2140,7 +2212,6 @@
         }, 1200);
     }
 
-    // 관리자 상벌점 부여 프로세서
     function submitMeritDemerit() {
         const studentId = document.getElementById('adminDemeritStudentId').value.trim();
         const type = document.getElementById('adminDemeritType').value;
@@ -2178,7 +2249,7 @@
         }
     }
 
-    // 다국어 드롭다운
+    // 다국어 제어
     function toggleLanguageDropdown(event) {
         event.stopPropagation();
         const menu = document.getElementById('langDropdownMenu');
@@ -2206,8 +2277,35 @@
         }
     });
 
-    // 백그라운드 1초 타이머 스케줄러 (학식/세탁기 자동갱신)
-    setInterval(() => {
+    function setLang(lang) {
+        currentLang = lang;
+        
+        let labelText = '한국어';
+        if (lang === 'en') labelText = 'English';
+        if (lang === 'zh') labelText = '简体中文';
+        const labelEl = document.getElementById('currentLangLabel');
+        if (labelEl) labelEl.innerText = labelText;
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if(dict[currentLang][key]) {
+                if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = dict[currentLang][key]; 
+                else el.innerHTML = dict[currentLang][key]; 
+            }
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if(dict[currentLang][key]) el.placeholder = dict[currentLang][key];
+        });
+        
+        renderMachines();
+        renderNotis(); 
+        renderCongestion(true);
+        if(mealData) { renderMeals(); renderHomeMeals(); if(userRole === 'admin') renderAdminMealControl(); }
+    }
+
+    // 메인 루프 (1초 타이머)
+    function globalIntervalTick() {
         let needsRender = false;
         
         machines.forEach(m => {
@@ -2248,14 +2346,9 @@
             }
         });
 
-        if (needsRender) { 
-            renderMachines(); 
-        }
-
-        if(mealData) {
-            renderHomeMeals();
-        }
-    }, 1000);
+        if (needsRender) { renderMachines(); }
+        if(mealData) { renderHomeMeals(); }
+    }
 
     document.getElementById('cheatBtn').addEventListener('click', () => {
         let activeCount = 0;
@@ -2264,37 +2357,18 @@
         if (activeCount > 0) { Swal.fire({ toast: true, position: 'top', icon: 'success', title: currentLang === 'ko' ? '5초 남았습니다!' : '5 seconds left!', showConfirmButton: false, timer: 1500 }); }
     });
 
-    function setLang(lang) {
-        currentLang = lang;
+    // ==========================================
+    // 앱 초기 가동 부팅 프로세스
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        updateBalanceUI();
+        setLang('ko'); 
+        fetchCafeteriaData(); 
         
-        let labelText = '한국어';
-        if (lang === 'en') labelText = 'English';
-        if (lang === 'zh') labelText = '简体中文';
-        const labelEl = document.getElementById('currentLangLabel');
-        if (labelEl) labelEl.innerText = labelText;
+        // 백그라운드 타이머를 DOM이 모두 로드된 후 가장 마지막에 실행시킵니다.
+        setInterval(globalIntervalTick, 1000);
+    });
 
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if(dict[currentLang][key]) {
-                if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = dict[currentLang][key]; 
-                else el.innerHTML = dict[currentLang][key]; 
-            }
-        });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-            const key = el.getAttribute('data-i18n-placeholder');
-            if(dict[currentLang][key]) el.placeholder = dict[currentLang][key];
-        });
-        
-        renderMachines();
-        renderNotis(); 
-        renderCongestion(true);
-        if(mealData) { renderMeals(); renderHomeMeals(); if(userRole === 'admin') renderAdminMealControl(); }
-    }
-
-    // 앱 초기 가동
-    updateBalanceUI();
-    setLang('ko'); 
-    fetchCafeteriaData(); 
 </script>
 </body>
 </html>
