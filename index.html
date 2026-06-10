@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>창의인재관 라이프 V3.3</title>
+    <title>창의인재관 라이프 V3.5</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -54,7 +54,6 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* 바텀 시트 완전 은폐 구조 */
         .bottom-sheet {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
             transform: translateY(calc(100% + 120px));
@@ -82,7 +81,7 @@
 
 <div class="app-container">
     
-    <!-- 🌟 로그인 화면 -->
+    <!-- 로그인 화면 -->
     <div id="loginView" class="absolute inset-0 z-[200] bg-erica flex flex-col items-center justify-center px-8 transition-transform duration-500">
         <div class="bg-white p-4 rounded-3xl mb-6 shadow-lg shadow-black/20">
             <i class="ph-fill ph-buildings text-5xl text-erica"></i>
@@ -99,7 +98,7 @@
         <button onclick="handleGuestLogin()" class="w-full border border-white/30 text-white font-medium rounded-xl py-4 hover:bg-white/10 transition active:scale-95" data-i18n="loginGuestBtn">둘러보기 (로그인 없이 시작)</button>
     </div>
 
-    <!-- 🌟 메인 앱 -->
+    <!-- 메인 앱 -->
     <div id="mainAppView" class="hidden flex-col h-full">
         
         <header class="bg-erica text-white p-4 flex justify-between items-center shadow-md z-10 relative">
@@ -201,7 +200,7 @@
                         <div id="adminNoticeContent" class="space-y-2"></div>
                     </div>
 
-                    <!-- 🌟 V3.3: 상벌점 원격 조율 관리 부스 -->
+                    <!-- 학생 상벌점 원격 조율 관리 부스 -->
                     <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
                         <h3 class="font-bold text-gray-800 text-sm mb-3 flex items-center gap-1.5">
                             <i class="ph-fill ph-shield-check text-erica text-lg"></i>
@@ -245,10 +244,15 @@
                         <h2 class="text-2xl font-bold text-gray-800" data-i18n="laundryTitle">세탁실</h2>
                         <span id="adminLaundrySubtitle" class="hidden text-xs text-erica font-bold bg-blue-50 px-2 py-1 rounded-md">관리자 제어 모드</span>
                     </div>
-                    <!-- 시연 버튼 -->
                     <button id="cheatBtn" class="text-[10px] bg-gray-200 text-gray-700 px-2 py-1 rounded-full font-bold active:bg-gray-300 transition flex items-center gap-1">
                         <i class="ph-fill ph-fast-forward"></i> <span data-i18n="cheatBtn">시연 100x</span>
                     </button>
+                </div>
+
+                <!-- 세탁기 / 건조기 선택형 세그먼트 스위치 -->
+                <div id="laundryTypeSelector" class="flex bg-gray-200 p-1 rounded-xl mb-4 border border-gray-200/50 shadow-inner">
+                    <button id="btnSelectWasher" onclick="switchLaundryType('washer')" class="flex-1 bg-white shadow-sm text-gray-800 font-bold text-xs py-2 rounded-lg transition" data-i18n="facilityLaundry">공용 세탁기</button>
+                    <button id="btnSelectDryer" onclick="switchLaundryType('dryer')" class="flex-1 text-gray-500 hover:text-gray-700 font-bold text-xs py-2 rounded-lg transition" data-i18n="facilityDryer">공용 건조기</button>
                 </div>
                 
                 <div class="flex justify-between items-end">
@@ -277,7 +281,7 @@
                 
                 <div class="space-y-4">
                     
-                    <!-- 실시간 혼잡도 위젯 (V3 통합 스위칭 대시보드) -->
+                    <!-- 실시간 혼잡도 위젯 -->
                     <div id="section-congestion" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 scroll-mt-4">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5"><i class="ph-fill ph-users text-blue-500 text-lg"></i> <span data-i18n="convCongestion">실시간 시설 혼잡도</span></h3>
@@ -302,9 +306,10 @@
 
                         <!-- 시설 개별 필터 서브 세그먼트 (요일별 추이 선택 시 노출) -->
                         <div id="congestionFacilitySelector" class="hidden flex bg-gray-100 p-1 rounded-xl mb-3 border border-gray-200/50 shadow-inner animate-[fadeIn_0.2s_ease-in-out]">
-                            <button onclick="setCongestionFacility('cafeteria')" id="btnFacCafeteria" class="flex-1 bg-white shadow-sm text-gray-800 font-bold text-xs py-1.5 rounded-lg transition-all" data-i18n="facilityCafeteria">기숙사 식당</button>
-                            <button onclick="setCongestionFacility('laundry')" id="btnFacLaundry" class="flex-1 text-gray-400 font-bold text-xs py-1.5 rounded-lg transition-all bg-transparent" data-i18n="facilityLaundry">세탁실 (1층)</button>
-                            <button onclick="setCongestionFacility('gym')" id="btnFacGym" class="flex-1 text-gray-400 font-bold text-xs py-1.5 rounded-lg transition-all bg-transparent" data-i18n="facilityGym">헬스장</button>
+                            <button onclick="setCongestionFacility('cafeteria')" id="btnFacCafeteria" class="flex-1 bg-white shadow-sm text-gray-800 font-bold text-[10px] py-1.5 rounded-lg transition-all" data-i18n="facilityCafeteria">기숙사 식당</button>
+                            <button onclick="setCongestionFacility('laundry')" id="btnFacLaundry" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent" data-i18n="facilityLaundry">공용 세탁기</button>
+                            <button onclick="setCongestionFacility('dryer')" id="btnFacDryer" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent" data-i18n="facilityDryer">공용 건조기</button>
+                            <button onclick="setCongestionFacility('gym')" id="btnFacGym" class="flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent" data-i18n="facilityGym">헬스장</button>
                         </div>
 
                         <div id="congestionContainer" class="space-y-4">
@@ -445,24 +450,14 @@
 
                 <h2 class="text-2xl font-bold text-gray-800 pl-2" data-i18n="myTitle">내 정보</h2>
 
-                <!-- 🌟 V3.3: 상벌점 카드 데크 (상점 / 벌점 조회) -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm text-center">
-                        <p class="text-xs text-green-600 font-bold" data-i18n="myMeritLabel">누적 상점</p>
-                        <p class="text-3xl font-black text-green-500 mt-2"><span id="myinfoMeritDisplay">0</span><span class="text-xs font-bold ml-0.5" data-i18n="meritUnit">점</span></p>
-                    </div>
-                    <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm text-center">
-                        <p class="text-xs text-red-600 font-bold" data-i18n="myDemeritLabel">누적 벌점</p>
-                        <p class="text-3xl font-black text-red-500 mt-2"><span id="myinfoDemeritDisplay">0</span><span class="text-xs font-bold ml-0.5" data-i18n="demeritUnit">점</span></p>
-                    </div>
-                </div>
-
                 <div class="bg-gradient-to-br from-erica to-erica-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
                     <i class="ph ph-wallet absolute -right-4 -bottom-4 text-8xl text-white/10"></i>
                     <div class="flex justify-between items-center mb-1">
                         <p class="text-white/80 text-sm font-medium" data-i18n="myBalance">내 잔여 포인트</p>
-                        <!-- 🌟 V3.3: 간편결제 모의 PG 게이트 호출 -->
-                        <button class="relative bg-white/20 text-white text-[10px] px-2.5 py-1 rounded-full font-bold after:absolute after:-inset-4 after:content-['']" onclick="openPaymentGate(5000)" data-i18n="myChargeBtn">+ 간편충전</button>
+                        <!-- 🌟 V3.5: 버튼 태그 전체가 아닌, 내부 텍스트만 번역 필터링하여 CSS 보존 -->
+                        <button class="relative bg-white/20 text-white text-[10px] px-2.5 py-1 rounded-full font-bold after:absolute after:-inset-4 after:content-['']" onclick="openPaymentGate(5000)">
+                            <span data-i18n="myChargeBtn">+ 간편충전</span>
+                        </button>
                     </div>
                     <div class="flex items-baseline gap-1">
                         <h3 class="text-3xl font-bold" id="myinfoBalanceDisplay">1,500</h3>
@@ -471,6 +466,24 @@
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-visible">
+                    
+                    <!-- 🌟 V3.5: 상벌점 UI를 깔끔한 슬림 리스트 항목으로 통합 배치 -->
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/40 rounded-t-2xl">
+                        <div class="flex items-center gap-2">
+                            <i class="ph-fill ph-shield-check text-xl text-erica"></i>
+                            <span class="font-bold text-gray-800 text-sm" data-i18n="myMeritDemerit">상벌점 현황</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <div class="bg-white border border-gray-200 px-2.5 py-1 rounded flex items-center gap-1.5 shadow-sm">
+                                <span class="text-[10px] font-bold text-gray-500" data-i18n="myMeritLabel">상점</span>
+                                <span class="text-xs font-black text-green-600" id="myinfoMeritDisplay">0</span>
+                            </div>
+                            <div class="bg-white border border-gray-200 px-2.5 py-1 rounded flex items-center gap-1.5 shadow-sm">
+                                <span class="text-[10px] font-bold text-gray-500" data-i18n="myDemeritLabel">벌점</span>
+                                <span class="text-xs font-black text-red-500" id="myinfoDemeritDisplay">0</span>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!-- 다국어 드롭다운/아코디언 메뉴 도입부 -->
                     <div class="p-4 border-b border-gray-100 flex justify-between items-center overflow-visible">
@@ -579,10 +592,9 @@
         </div>
         <div class="space-y-4 mb-6">
             <div>
-                <label class="text-sm font-bold text-gray-600 mb-2 block" data-i18n="modalSelect">세탁 코스 선택</label>
-                <div class="grid grid-cols-2 gap-2">
-                    <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1000, 40)" data-i18n="modalCourse1">표준 세탁 (40분)</button>
-                    <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1500, 60)" data-i18n="modalCourse2">이불/대형 (60분)</button>
+                <label id="modalCourseLabel" class="text-sm font-bold text-gray-600 mb-2 block" data-i18n="modalSelect">세탁 코스 선택</label>
+                <div class="grid grid-cols-2 gap-2" id="modalCourseGrid">
+                    <!-- JS 동적 주입 -->
                 </div>
             </div>
             <div class="bg-gray-50 rounded-xl p-4 flex justify-between items-center">
@@ -600,15 +612,15 @@
         </div>
     </div>
 
-    <!-- 🌟 V3.3: 모의 간편 결제창 PG 오버레이 -->
+    <!-- PG 오버레이 -->
     <div id="paymentGateOverlay" class="hidden absolute inset-0 bg-black/60 z-[300] flex flex-col justify-end">
         <div class="bg-white rounded-t-3xl shadow-[0_-10px_30px_rgba(0,0,0,0.15)] w-full max-h-[90%] pb-10 flex flex-col animate-[fadeIn_0.25s_ease-out]">
             <div class="w-12 h-1 bg-gray-200 rounded-full mx-auto my-3"></div>
             
             <div class="px-5 border-b border-gray-100 pb-3 flex justify-between items-center">
                 <div>
-                    <h2 class="text-base font-black text-gray-800">간편결제 서비스</h2>
-                    <p class="text-[10px] text-gray-400 mt-0.5">안전하고 빠르게 포인트를 승인합니다.</p>
+                    <h2 class="text-base font-black text-gray-800">통합 결제 서비스</h2>
+                    <p class="text-[10px] text-gray-400 mt-0.5">원하시는 결제 수단으로 포인트를 승인합니다.</p>
                 </div>
                 <button onclick="closePaymentGate()" class="text-gray-400 hover:text-gray-700"><i class="ph ph-x text-xl"></i></button>
             </div>
@@ -624,34 +636,43 @@
                 </div>
             </div>
 
-            <!-- 결제 수단 그리드 -->
+            <!-- 신용카드 결제 버튼 (고유 ID 사용으로 화이트아웃 방지) -->
+            <div class="px-5 mb-3">
+                <button onclick="selectPGMethod('card')" id="pg-btn-card" class="pg-card-btn w-full border-2 border-erica bg-erica-50 rounded-2xl p-3.5 flex items-center justify-between transition active:scale-95">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-erica text-white flex items-center justify-center font-bold text-sm">💳</span>
+                        <div class="text-left">
+                            <span class="text-xs font-black text-gray-800" data-i18n="cardPayment">신용·체크카드 결제</span>
+                            <p class="text-[9px] text-gray-400 mt-0.5">모든 일반 신용카드사 / 앱카드 결제 승인</p>
+                        </div>
+                    </div>
+                    <i class="ph ph-caret-right text-gray-400"></i>
+                </button>
+            </div>
+
+            <!-- 간편 결제 수단 그리드 -->
             <div class="px-5">
-                <p class="text-xs font-bold text-gray-500 mb-2.5">결제수단 선택</p>
-                <div class="grid grid-cols-2 gap-2.5" id="paymentMethodList">
-                    <!-- 카카오페이 -->
-                    <button onclick="selectPGMethod('kakao')" class="pg-method-btn border-2 border-yellow-400 bg-yellow-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95">
-                        <span class="w-8 h-8 rounded-full bg-[#fee500] text-gray-900 flex items-center justify-center font-black text-xs">K</span>
-                        <span class="text-[11px] font-black text-gray-800">카카오페이</span>
+                <p class="text-[11px] font-bold text-gray-500 mb-2">간편 결제</p>
+                <div class="grid grid-cols-2 gap-2" id="paymentMethodList">
+                    <button onclick="selectPGMethod('kakao')" id="pg-btn-kakao" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95">
+                        <span class="w-6 h-6 rounded-full bg-[#fee500] text-gray-900 flex items-center justify-center font-black text-[10px]">K</span>
+                        <span class="text-[11px] font-bold text-gray-800">카카오페이</span>
                     </button>
-                    <!-- 네이버페이 -->
-                    <button onclick="selectPGMethod('naver')" class="pg-method-btn border border-gray-100 bg-gray-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95">
-                        <span class="w-8 h-8 rounded-full bg-[#03c75a] text-white flex items-center justify-center font-black text-xs">N</span>
-                        <span class="text-[11px] font-black text-gray-800">네이버페이</span>
+                    <button onclick="selectPGMethod('naver')" id="pg-btn-naver" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95">
+                        <span class="w-6 h-6 rounded-full bg-[#03c75a] text-white flex items-center justify-center font-black text-[10px]">N</span>
+                        <span class="text-[11px] font-bold text-gray-800">네이버페이</span>
                     </button>
-                    <!-- 토스페이 -->
-                    <button onclick="selectPGMethod('toss')" class="pg-method-btn border border-gray-100 bg-gray-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95">
-                        <span class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-black text-xs">T</span>
-                        <span class="text-[11px] font-black text-gray-800">토스페이</span>
+                    <button onclick="selectPGMethod('toss')" id="pg-btn-toss" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95">
+                        <span class="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center font-black text-[10px]">T</span>
+                        <span class="text-[11px] font-bold text-gray-800">토스페이</span>
                     </button>
-                    <!-- 알리페이 (외국인 지원) -->
-                    <button onclick="selectPGMethod('alipay')" class="pg-method-btn border border-gray-100 bg-gray-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95">
-                        <span class="w-8 h-8 rounded-full bg-[#1677ff] text-white flex items-center justify-center font-black text-xs">支</span>
-                        <span class="text-[11px] font-black text-gray-800">Alipay (支付宝)</span>
+                    <button onclick="selectPGMethod('alipay')" id="pg-btn-alipay" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95">
+                        <span class="w-6 h-6 rounded-full bg-[#1677ff] text-white flex items-center justify-center font-black text-[10px]">支</span>
+                        <span class="text-[11px] font-bold text-gray-800">Alipay (支付宝)</span>
                     </button>
-                    <!-- 위챗페이 (외국인 지원) -->
-                    <button onclick="selectPGMethod('wechat')" class="pg-method-btn border border-gray-100 bg-gray-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95 col-span-2">
-                        <span class="w-8 h-8 rounded-full bg-[#09bb07] text-white flex items-center justify-center font-black text-xs">微</span>
-                        <span class="text-[11px] font-black text-gray-800">WeChat Pay (微信支付)</span>
+                    <button onclick="selectPGMethod('wechat')" id="pg-btn-wechat" class="pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95 col-span-2 justify-center">
+                        <span class="w-6 h-6 rounded-full bg-[#09bb07] text-white flex items-center justify-center font-black text-[10px]">微</span>
+                        <span class="text-[11px] font-bold text-gray-800">WeChat Pay (微信支付)</span>
                     </button>
                 </div>
             </div>
@@ -659,7 +680,7 @@
             <!-- 결제 승인 액션 섹션 -->
             <div class="px-5 mt-5">
                 <button onclick="approvePGPayment()" id="pgSubmitBtn" class="w-full bg-gray-800 text-white font-black rounded-2xl py-4 shadow-lg active:scale-95 transition flex justify-center items-center gap-2">
-                    <span id="pgSubmitText">카카오페이로 안전결제</span>
+                    <span id="pgSubmitText" data-i18n="cardSecurePay">신용카드로 안전결제</span>
                     <i class="ph ph-shield-check text-lg"></i>
                 </button>
             </div>
@@ -680,8 +701,84 @@
 </div>
 
 <script>
+    // 🌟 1. 글로벌 핵심 데이터 완전 보호 구역 (호이스팅 에러 방지)
     // ==========================================
-    // 1. 공통 상수 및 딕셔너리, 상태 변수 정의
+    let systemNotices = [
+        { id: 1, title: "[필독] 1층 무인택배함 점검 안내", date: "2026.04.08", content: "무인택배함 시스템 업데이트로 인해 금일 14:00~16:00 사용이 제한됩니다.", isPinned: true },
+        { id: 2, title: "기숙사 야간 소음 주의", date: "2026.04.07", content: "최근 야간 소음 민원이 급증하고 있습니다. 22시 이후에는 정숙해주시기 바랍니다.", isPinned: false }
+    ];
+
+    let inquiryData = [
+        { id: 1, isMine: true, status: '처리 중', date: '2026.04.05', category: '세탁기 오류', title: '1층 세탁기 결제 오류', content: '1번 세탁기에서 결제했는데 기기가 안돌아갑니다. 환불 요청합니다.', reply: null, hasPhoto: false },
+        { id: 2, isMine: true, status: '완료', date: '2026.03.20', category: '시설 고장/수리', title: '18층 화장실 수압 문제', content: '샤워기 수압이 너무 약해서 씻기가 힘듭니다. 확인 부탁드려요.', reply: '시설팀에서 밸브 조절 완료했습니다. 확인 부탁드립니다.', hasPhoto: false },
+        { id: 3, isMine: false, status: '접수', date: '2026.04.08', category: '기타 건의사항', title: '휴게실 에어컨 청소 요청', content: '에어컨에서 냄새가 납니다. 필터 청소 부탁드립니다.', reply: null, hasPhoto: false }
+    ];
+
+    const machines = [
+        { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0, isMine: false },
+        { id: 2, nameKey: "machineM2", status: "in-use", timeRemaining: 1250, isMine: false },
+        { id: 3, nameKey: "machineM3", status: "reserved", timeRemaining: 550, isMine: false },
+        { id: 4, nameKey: "machineM4", status: "in-use", timeRemaining: 300, isMine: false },
+        { id: 5, nameKey: "machineM5", status: "broken", timeRemaining: 0, isMine: false },
+        { id: 6, nameKey: "machineM6", status: "available", timeRemaining: 0, isMine: false },
+    ];
+
+    const dryers = [
+        { id: 1, nameKey: "dryerM1", status: "available", timeRemaining: 0, isMine: false },
+        { id: 2, nameKey: "dryerM2", status: "in-use", timeRemaining: 1800, isMine: false },
+        { id: 3, nameKey: "dryerM3", status: "available", timeRemaining: 0, isMine: false },
+        { id: 4, nameKey: "dryerM4", status: "in-use", timeRemaining: 900, isMine: false },
+        { id: 5, nameKey: "dryerM5", status: "available", timeRemaining: 0, isMine: false },
+        { id: 6, nameKey: "dryerM6", status: "broken", timeRemaining: 0, isMine: false },
+    ];
+
+    const facilitiesTrendData = {
+        cafeteria: {
+            '월': [12, 45, 15, 110, 25, 15, 95, 30, 10, 0],
+            '화': [15, 50, 20, 105, 30, 20, 90, 35, 15, 0],
+            '수': [10, 40, 15, 115, 20, 15, 100, 25, 10, 0],
+            '목': [12, 48, 18, 108, 28, 18, 92, 32, 12, 0],
+            '금': [5,  30, 10, 80, 15, 10, 75, 95, 50, 5],
+            '토': [0,  15, 30, 70, 45, 35, 80, 60, 25, 0],
+            '일': [0,  10, 25, 75, 55, 45, 85, 68, 35, 0]
+        },
+        laundry: {
+            '월': [2, 3, 4, 5, 5, 5, 6, 5, 4, 1],
+            '화': [3, 3, 4, 5, 5, 5, 6, 5, 4, 1],
+            '수': [2, 3, 4, 5, 5, 5, 6, 5, 4, 1],
+            '목': [2, 3, 4, 5, 5, 5, 6, 5, 5, 2],
+            '금': [2, 3, 3, 4, 4, 5, 5, 5, 4, 1],
+            '토': [3, 4, 5, 5, 6, 6, 6, 6, 5, 3],
+            '일': [3, 4, 5, 5, 6, 6, 6, 6, 5, 3]
+        },
+        dryer: {
+            '월': [1, 2, 3, 4, 5, 5, 5, 6, 5, 2],
+            '화': [2, 2, 3, 4, 5, 5, 5, 6, 5, 2],
+            '수': [1, 2, 3, 4, 5, 5, 5, 6, 5, 2],
+            '목': [1, 2, 3, 4, 5, 5, 5, 6, 5, 3],
+            '금': [1, 2, 2, 3, 4, 5, 5, 5, 5, 2],
+            '토': [2, 3, 4, 5, 5, 6, 6, 6, 6, 4],
+            '일': [2, 3, 4, 5, 5, 6, 6, 6, 6, 4]
+        },
+        gym: {
+            '월': [8,  18, 12, 22, 28, 35, 45, 48, 30, 10],
+            '화': [10, 22, 15, 25, 30, 38, 46, 49, 32, 12],
+            '수': [9,  20, 14, 24, 29, 36, 44, 47, 31, 11],
+            '목': [8,  18, 12, 22, 28, 35, 45, 46, 30, 10],
+            '금': [5,  12, 10, 18, 25, 30, 40, 42, 25, 8],
+            '토': [2,  8,  15, 22, 26, 28, 35, 32, 20, 5],
+            '일': [3,  10, 18, 24, 28, 30, 38, 35, 22, 6]
+        }
+    };
+
+    let studentsDb = {
+        'student': { merit: 3, demerit: 1 },
+        'admin': { merit: 0, demerit: 0 },
+        'guest': { merit: 0, demerit: 0 }
+    };
+
+    // ==========================================
+    // 2. 공통 상수 및 딕셔너리, 상태 변수 정의
     // ==========================================
     const dict = {
         ko: {
@@ -718,21 +815,24 @@
             myNoti: "푸시 알림 허용", notiSubLaundry: "세탁기 완료/만료 알림", notiSubDelivery: "택배 도착 알림", notiSubNotice: "기숙사 공지 알림", notiSubInquiry: "문의 답변 알림",
             notiTitle: "알림", notiClear: "모두 지우기", notiEmpty: "새로운 알림이 없습니다.",
             
-            modalTitle: "사용하기", modalSelect: "세탁 코스 선택", modalCourse1: "표준 세탁 (40분)", modalCourse2: "이불/대형 (60분)", modalPriceLabel: "결제 금액", 
+            modalTitle: "사용하기", modalSelect: "코스 선택", modalCourse1: "표준 세탁 (40분)", modalCourse2: "이불/대형 (60분)", modalPriceLabel: "결제 금액", 
             modalQRBtn: "QR 스캔 결제 및 시작", modalReserveBtn: "10분 대기 예약 (찜하기)", qrScanning: "기기의 QR코드를 스캔해주세요...", qrCancel: "취소",
             machineM1: "1번 세탁기", machineM2: "2번 세탁기", machineM3: "3번 세탁기", machineM4: "4번 세탁기", machineM5: "5번 세탁기", machineM6: "6번 세탁기",
             macAvail: "사용 가능", macRsv: "예약됨 (결제대기)", macInUse: "동작 중", macBroken: "점검 중",
             alertNoPoint: "잔액 부족", alertNoPointSub: "잔액이 부족합니다. 내 정보에서 충전해주세요.",
             alertReserve: "예약 완료!", alertReserveSub: "10분 내에 도착하여 QR결제를 완료해주세요.",
-            alertStart: "작동 시작!", alertDoneTitle: "🔔 세탁 완료!", alertDoneSub: "세탁이 완료되었습니다. 빨래를 수거해주세요.", alertConfirm: "확인",
+            alertStart: "작동 시작!", alertDoneTitle: "🔔 완료 알림!", alertDoneSub: "기기 구동이 완료되었습니다. 세탁물을 수거해주세요.", alertConfirm: "확인",
             adminMealControl: "식단 개별 매진 제어",
             
-            // 🌟 V3.3 추가 다국어 뱃지 및 인디케이터
             btnCongestionLive: "실시간", btnCongestionTrend: "요일별 추이",
-            facilityCafeteria: "기숙사 식당", facilityLaundry: "세탁실 (1층)", facilityGym: "헬스장",
-            myMeritLabel: "누적 상점", myDemeritLabel: "누적 벌점",
+            facilityCafeteria: "기숙사 식당", facilityLaundry: "공용 세탁기", facilityDryer: "공용 건조기", facilityGym: "기숙사 헬스장",
+            myMeritLabel: "상점", myDemeritLabel: "벌점",
             meritUnit: "점", demeritUnit: "점",
-            unitPeople: "명", unitMachines: "대"
+            unitPeople: "명", unitMachines: "대",
+            myMeritDemerit: "상벌점 현황",
+            cardPayment: "신용·체크카드 결제", cardSecurePay: "신용카드로 안전결제",
+            dryerM1: "1번 건조기", dryerM2: "2번 건조기", dryerM3: "3번 건조기", dryerM4: "4번 건조기", dryerM5: "5번 건조기", dryerM6: "6번 건조기",
+            dryerCourse1: "표준 건조 (45분)", dryerCourse2: "강력 건조 (60분)"
         },
         en: {
             appTitle: "Dorm Life", cheatBtn: "Speed 100x",
@@ -768,21 +868,24 @@
             myNoti: "Enable Push Alerts", notiSubLaundry: "Laundry Done/Expired", notiSubDelivery: "Package Arrival", notiSubNotice: "Dormitory Notices", notiSubInquiry: "Inquiry Replies",
             notiTitle: "Notifications", notiClear: "Clear All", notiEmpty: "No new notifications.",
             
-            modalTitle: "Use Machine", modalSelect: "Select Course", modalCourse1: "Standard (40m)", modalCourse2: "Blanket (60m)", modalPriceLabel: "Price", 
+            modalTitle: "Use", modalSelect: "Select Course", modalCourse1: "Standard Wash (40m)", modalCourse2: "Blanket / Heavy (60m)", modalPriceLabel: "Amount", 
             modalQRBtn: "Scan QR & Start", modalReserveBtn: "Reserve for 10 mins", qrScanning: "Please scan the machine's QR code...", qrCancel: "Cancel",
-            machineM1: "Machine 1", machineM2: "Machine 2", machineM3: "Machine 3", machineM4: "Machine 4", machineM5: "Machine 5", machineM6: "Machine 6",
+            machineM1: "Washer 1", machineM2: "Washer 2", machineM3: "Washer 3", machineM4: "Washer 4", machineM5: "Washer 5", machineM6: "Washer 6",
             macAvail: "Available", macRsv: "Reserved", macInUse: "Running", macBroken: "Maintenance",
             alertNoPoint: "Not enough points", alertNoPointSub: "Please recharge in My Info tab.",
             alertReserve: "Reserved!", alertReserveSub: "Arrive in 10 mins & scan QR to start.",
-            alertStart: "Started!", alertDoneTitle: "🔔 Laundry Done!", alertDoneSub: "Your laundry is finished. Please collect it.", alertConfirm: "OK",
+            alertStart: "Started!", alertDoneTitle: "🔔 Cycle Done!", alertDoneSub: "Machine cycle is complete. Please collect your clothes.", alertConfirm: "OK",
             adminMealControl: "Menu Sold Out Control",
             
-            // 🌟 V3.3 additions
-            btnCongestionLive: "Live", btnCongestionTrend: "Weekly Trend",
-            facilityCafeteria: "Cafeteria", facilityLaundry: "Laundry (1F)", facilityGym: "Dorm Gym",
+            btnCongestionLive: "Live", btnCongestionTrend: "Trend Curve",
+            facilityCafeteria: "Cafeteria", facilityLaundry: "Communal Washers", facilityDryer: "Communal Dryers", facilityGym: "Dorm Gym",
             myMeritLabel: "Merits", myDemeritLabel: "Demerits",
             meritUnit: "pts", demeritUnit: "pts",
-            unitPeople: "p", unitMachines: "ea"
+            unitPeople: "p", unitMachines: "ea",
+            myMeritDemerit: "Point Status",
+            cardPayment: "Credit/Debit Card", cardSecurePay: "Secure Credit Card Payment",
+            dryerM1: "Dryer 1", dryerM2: "Dryer 2", dryerM3: "Dryer 3", dryerM4: "Dryer 4", dryerM5: "Dryer 5", dryerM6: "Dryer 6",
+            dryerCourse1: "Standard Dry (45m)", dryerCourse2: "Strong Temp Dry (60m)"
         },
         zh: {
             appTitle: "创意人才馆生活", cheatBtn: "演示 100x",
@@ -818,7 +921,7 @@
             myNoti: "允许推送通知", notiSubLaundry: "洗衣完成/过期通知", notiSubDelivery: "快递到达通知", notiSubNotice: "宿舍公告通知", notiSubInquiry: "咨询答复通知",
             notiTitle: "通知", notiClear: "清空全部", notiEmpty: "暂无新通知。",
             
-            modalTitle: "开始使用", modalSelect: "选择洗衣模式", modalCourse1: "标准洗衣 (40分钟)", modalCourse2: "被子/大件 (60分钟)", modalPriceLabel: "支付金额", 
+            modalTitle: "开始使用", modalSelect: "选择模式", modalCourse1: "标准洗 (40分钟)", modalCourse2: "被子/大件 (60分钟)", modalPriceLabel: "支付金额", 
             modalQRBtn: "扫码支付并启动", modalReserveBtn: "10分钟等待预约 (占位)", qrScanning: "请扫描机器上的二维码...", qrCancel: "取消",
             machineM1: "1号洗衣机", machineM2: "2号洗衣机", machineM3: "3号洗衣机", machineM4: "4号洗衣机", machineM5: "5号洗衣机", machineM6: "6号洗衣机",
             macAvail: "空闲可用", macRsv: "已预约", macInUse: "运行中", macBroken: "维护中",
@@ -827,12 +930,15 @@
             alertStart: "开始运行！", alertDoneTitle: "🔔 洗衣完成！", alertDoneSub: "洗衣已完成，请及时取出衣物。", alertConfirm: "确认",
             adminMealControl: "单个食谱售罄控制",
             
-            // 🌟 V3.3 additions
             btnCongestionLive: "实时", btnCongestionTrend: "按周趋势",
-            facilityCafeteria: "宿舍食堂", facilityLaundry: "1层洗衣房", facilityGym: "健身房",
+            facilityCafeteria: "宿舍食堂", facilityLaundry: "公用洗衣机", facilityDryer: "公用烘干机", facilityGym: "健身房",
             myMeritLabel: "累计奖分", myDemeritLabel: "累计罚分",
             meritUnit: "分", demeritUnit: "分",
-            unitPeople: "人", unitMachines: "台"
+            unitPeople: "人", unitMachines: "台",
+            myMeritDemerit: "奖惩分状况",
+            cardPayment: "信用卡·借记卡支付", cardSecurePay: "信用卡安全支付",
+            dryerM1: "1号烘干机", dryerM2: "2号烘干机", dryerM3: "3号烘干机", dryerM4: "4号烘干机", dryerM5: "5号烘干机", dryerM6: "6号烘干机",
+            dryerCourse1: "标准烘干 (45分钟)", dryerCourse2: "强力烘干 (60分钟)"
         }
     };
 
@@ -840,7 +946,7 @@
     let isLoggedIn = false;
     let userRole = 'guest'; 
     let userName = '게스트';
-    let userLoginId = 'guest'; // 현재 로그인 한 유저의 아이디 바인딩
+    let userLoginId = 'guest'; 
     
     let notiSettings = { main: true, laundry: true, delivery: true, notice: true, inquiry: true };
     let notifications = [];
@@ -854,11 +960,10 @@
     let isMenuFetched = false;
     let isMealError = false;
 
-    // V3.1: 혼잡도 제어 핵심 상태 관리
-    let congestionMode = 'live'; // 'live' 또는 'trend'
+    let congestionMode = 'live'; 
     const weekDaysMap = ['일', '월', '화', '수', '목', '금', '토'];
-    let selectedCongestionDay = weekDaysMap[new Date().getDay()]; // 요일 이니셜라이징 (시스템 현재 요일 자동 감지)
-    let selectedCongestionFacility = 'cafeteria'; // 'cafeteria' | 'laundry' | 'gym'
+    let selectedCongestionDay = weekDaysMap[new Date().getDay()]; 
+    let selectedCongestionFacility = 'cafeteria'; 
 
     let balance = 1500;
     let filterStatus = 'all'; 
@@ -868,70 +973,12 @@
     let selectedCourseTime = 40;
     let selectedCoursePrice = 1000;
 
-    // 🌟 V3.3: 전역 실시간 상벌점 로컬 DB (관리자 수정을 위해 구성)
-    let studentsDb = {
-        'student': { merit: 3, demerit: 1 },
-        'admin': { merit: 0, demerit: 0 },
-        'guest': { merit: 0, demerit: 0 }
-    };
-
-    // 🌟 모의 PG 결제수단 바인딩 세션
-    let activePGMethod = 'kakao';
+    let currentLaundryType = 'washer';
+    let activePGMethod = 'card';
     let pendingRechargeAmount = 5000;
 
-    // V3.1: 시설별 정밀 타임라인 모크 데이터
-    const facilitiesTrendData = {
-        cafeteria: {
-            '월': [12, 45, 15, 110, 25, 15, 95, 30, 10, 0],
-            '화': [15, 50, 20, 105, 30, 20, 90, 35, 15, 0],
-            '수': [10, 40, 15, 115, 20, 15, 100, 25, 10, 0],
-            '목': [12, 48, 18, 108, 28, 18, 92, 32, 12, 0],
-            '금': [5,  30, 10, 80, 15, 10, 75, 95, 50, 5],
-            '토': [0,  15, 30, 70, 45, 35, 80, 60, 25, 0],
-            '일': [0,  10, 25, 75, 55, 45, 85, 68, 35, 0]
-        },
-        laundry: {
-            '월': [2, 3, 4, 5, 5, 5, 6, 5, 4, 1],
-            '화': [3, 3, 4, 5, 5, 5, 6, 5, 4, 1],
-            '수': [2, 3, 4, 5, 5, 5, 6, 5, 4, 1],
-            '목': [2, 3, 4, 5, 5, 5, 6, 5, 5, 2],
-            '금': [2, 3, 3, 4, 4, 5, 5, 5, 4, 1],
-            '토': [3, 4, 5, 5, 6, 6, 6, 6, 5, 3],
-            '일': [3, 4, 5, 5, 6, 6, 6, 6, 5, 3]
-        },
-        gym: {
-            '월': [8,  18, 12, 22, 28, 35, 45, 48, 30, 10],
-            '화': [10, 22, 15, 25, 30, 38, 46, 49, 32, 12],
-            '수': [9,  20, 14, 24, 29, 36, 44, 47, 31, 11],
-            '목': [8,  18, 12, 22, 28, 35, 45, 46, 30, 10],
-            '금': [5,  12, 10, 18, 25, 30, 40, 42, 25, 8],
-            '토': [2,  8,  15, 22, 26, 28, 35, 32, 20, 5],
-            '일': [3,  10, 18, 24, 28, 30, 38, 35, 22, 6]
-        }
-    };
-
-    let systemNotices = [
-        { id: 1, title: "[필독] 1층 무인택배함 점검 안내", date: "2026.04.08", content: "무인택배함 시스템 업데이트로 인해 금일 14:00~16:00 사용이 제한됩니다.", isPinned: true },
-        { id: 2, title: "기숙사 야간 소음 주의", date: "2026.04.07", content: "최근 야간 소음 민원이 급증하고 있습니다. 22시 이후에는 정숙해주시기 바랍니다.", isPinned: false }
-    ];
-
-    let inquiryData = [
-        { id: 1, isMine: true, status: '처리 중', date: '2026.04.05', category: '세탁기 오류', title: '1층 세탁기 결제 오류', content: '1번 세탁기에서 결제했는데 기기가 안돌아갑니다. 환불 요청합니다.', reply: null, hasPhoto: false },
-        { id: 2, isMine: true, status: '완료', date: '2026.03.20', category: '시설 고장/수리', title: '18층 화장실 수압 문제', content: '샤워기 수압이 너무 약해서 씻기가 힘듭니다. 확인 부탁드려요.', reply: '시설팀에서 밸브 조절 완료했습니다. 확인 부탁드립니다.', hasPhoto: false },
-        { id: 3, isMine: false, status: '접수', date: '2026.04.08', category: '기타 건의사항', title: '휴게실 에어컨 청소 요청', content: '에어컨에서 냄새가 납니다. 필터 청소 부탁드립니다.', reply: null, hasPhoto: false }
-    ];
-
-    const machines = [
-        { id: 1, nameKey: "machineM1", status: "available", timeRemaining: 0, isMine: false },
-        { id: 2, nameKey: "machineM2", status: "in-use", timeRemaining: 1250, isMine: false },
-        { id: 3, nameKey: "machineM3", status: "reserved", timeRemaining: 550, isMine: false },
-        { id: 4, nameKey: "machineM4", status: "in-use", timeRemaining: 300, isMine: false },
-        { id: 5, nameKey: "machineM5", status: "broken", timeRemaining: 0, isMine: false },
-        { id: 6, nameKey: "machineM6", status: "available", timeRemaining: 0, isMine: false },
-    ];
-
     // ==========================================
-    // 2. 헬퍼 및 유틸리티 함수
+    // 3. 헬퍼 및 유틸리티 함수
     // ==========================================
     function formatTime(seconds) {
         if(seconds <= 0) return "00:00";
@@ -966,7 +1013,7 @@
     }
 
     // ==========================================
-    // 3. 로그인 및 사용자 제어
+    // 4. 로그인 및 사용자 제어
     // ==========================================
     function handleLogin() {
         const idInput = document.getElementById('loginId').value.trim();
@@ -977,7 +1024,6 @@
         if (idInput === 'admin') { userRole = 'admin'; userName = '관리자'; } 
         else { userRole = 'student'; userName = '김ERICA'; }
         
-        // 데이터 베이스 유저 신규 생성 가드
         if(!studentsDb[userLoginId]) {
             studentsDb[userLoginId] = { merit: 0, demerit: 0 };
         }
@@ -1020,11 +1066,12 @@
             if(overlay) { if(!isLoggedIn) overlay.classList.remove('hidden'); else overlay.classList.add('hidden'); }
         });
 
-        // 상벌점 데이터 UI 매핑
         const myMerit = studentsDb[userLoginId]?.merit || 0;
         const myDemerit = studentsDb[userLoginId]?.demerit || 0;
-        document.getElementById('myinfoMeritDisplay').innerText = myMerit;
-        document.getElementById('myinfoDemeritDisplay').innerText = myDemerit;
+        const meritDisplay = document.getElementById('myinfoMeritDisplay');
+        const demeritDisplay = document.getElementById('myinfoDemeritDisplay');
+        if (meritDisplay) meritDisplay.innerText = myMerit;
+        if (demeritDisplay) demeritDisplay.innerText = myDemerit;
 
         if (userRole === 'admin') {
             document.getElementById('studentHomeContent').classList.add('hidden');
@@ -1050,7 +1097,7 @@
     }
 
     // ==========================================
-    // 4. 알림 시스템 제어
+    // 5. 알림 시스템 제어
     // ==========================================
     function toggleSubNotiMenu() {
         const menu = document.getElementById('subNotiMenu'); const icon = document.getElementById('notiExpandIcon');
@@ -1171,7 +1218,7 @@
 
 
     // ==========================================
-    // 5. 🌟 V3.3: 혼잡도 위젯 제어 코어 (선 그래프 깜빡임 완벽 소멸)
+    // 6. 혼잡도 위젯 제어 코어 (선 그래프 깜빡임 완벽 소멸)
     // ==========================================
     function switchCongestionMode(mode) {
         congestionMode = mode;
@@ -1225,23 +1272,25 @@
     function updateFacilitySelectorUI() {
         const btnCaf = document.getElementById('btnFacCafeteria');
         const btnLau = document.getElementById('btnFacLaundry');
+        const btnDry = document.getElementById('btnFacDryer');
         const btnGym = document.getElementById('btnFacGym');
-        if (!btnCaf || !btnLau || !btnGym) return;
+        if (!btnCaf || !btnLau || !btnDry || !btnGym) return;
 
-        [btnCaf, btnLau, btnGym].forEach(btn => {
-            btn.className = "flex-1 text-gray-400 font-bold text-xs py-1.5 rounded-lg transition-all bg-transparent text-gray-400";
+        [btnCaf, btnLau, btnDry, btnGym].forEach(btn => {
+            btn.className = "flex-1 text-gray-400 font-bold text-[10px] py-1.5 rounded-lg transition-all bg-transparent text-gray-400";
         });
 
         if (selectedCongestionFacility === 'cafeteria') {
-            btnCaf.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-xs py-1.5 rounded-lg transition-all";
+            btnCaf.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-[10px] py-1.5 rounded-lg transition-all";
         } else if (selectedCongestionFacility === 'laundry') {
-            btnLau.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-xs py-1.5 rounded-lg transition-all";
+            btnLau.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-[10px] py-1.5 rounded-lg transition-all";
+        } else if (selectedCongestionFacility === 'dryer') {
+            btnDry.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-[10px] py-1.5 rounded-lg transition-all";
         } else if (selectedCongestionFacility === 'gym') {
-            btnGym.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-xs py-1.5 rounded-lg transition-all";
+            btnGym.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-[10px] py-1.5 rounded-lg transition-all";
         }
     }
 
-    // 🌟 V3.3: 복합 SVG 네이티브 최고점 정보 알약 capsule 드로잉 (글자 수직 정렬 정밀 교정 완료)
     function generateSvgLineChart(facilityId, dataPoints) {
         const width = 380; const height = 115; 
         const paddingLeft = 24; const paddingRight = 24;
@@ -1254,7 +1303,7 @@
         const peakIndex = dataPoints.lastIndexOf(maxVal);
 
         let points = [];
-        const scaleMax = facilityId === 'gym' ? 50 : (facilityId === 'laundry' ? 6 : 120);
+        const scaleMax = (facilityId === 'gym') ? 50 : ((facilityId === 'laundry' || facilityId === 'dryer') ? 6 : 120);
         for(let i = 0; i < dataPoints.length; i++) {
             const x = paddingLeft + (i / (dataPoints.length - 1)) * chartWidth;
             const y = height - paddingBottom - (dataPoints[i] / scaleMax) * chartHeight;
@@ -1274,9 +1323,8 @@
         });
         labelsHtml += `</div>`;
 
-        // 다국어 단위 변환
         let maxText = '';
-        if (facilityId === 'laundry') {
+        if (facilityId === 'laundry' || facilityId === 'dryer') {
             const unit = dict[currentLang]['unitMachines'];
             const avgWord = currentLang === 'ko' ? '평균 ' : (currentLang === 'zh' ? '平均 ' : 'Avg ');
             maxText = `${avgWord}${maxVal}${unit}`;
@@ -1313,11 +1361,10 @@
                     return `<circle cx="${p.x}" cy="${p.y}" r="${isPeak ? '4.5' : '2.5'}" fill="${isPeak ? '#ffffff' : '#1a75d2'}" stroke="#1a75d2" stroke-width="${isPeak ? '2' : '0'}" />`;
                 }).join('')}
 
-                <!-- 🌟 뱃지 내부 텍스트 픽셀 오정렬 교정 정중앙 안착 (height: 14, text Y: peakPoint.y - 13) -->
                 ${maxVal > 0 ? `
                     <g filter="url(#svgShadow)">
                         <rect x="${peakPoint.x - 28}" y="${peakPoint.y - 21}" width="56" height="14" rx="7" ry="7" fill="#e6f0fa" stroke="#1a75d2" stroke-width="0.8" />
-                        <text x="${peakPoint.x}" y="${peakPoint.y - 13}" fill="#1a75d2" font-size="8" font-weight="900" text-anchor="middle" dominant-baseline="middle">${maxText}</text>
+                        <text x="${peakPoint.x}" y="${peakPoint.y - 13.5}" fill="#1a75d2" font-size="8" font-weight="900" text-anchor="middle" dominant-baseline="middle">${maxText}</text>
                     </g>
                 ` : ''}
             </svg>
@@ -1327,41 +1374,37 @@
         return svgHtml;
     }
 
-    // 🌟 V3.3: 초정밀 실시간 업데이트 대시보드 코어 (분모 점검중 세탁기 제외 및 학식 매진 예외버그 전면 픽스)
+    // 초정밀 실시간 업데이트 대시보드 코어
     function renderCongestion(forceReset = false) {
         const container = document.getElementById('congestionContainer'); if(!container) return;
         
-        // 1. [실시간] 대시보드 처리 구문
         if(congestionMode === 'live') {
-            // 고장/점검 등록 기기(broken)를 제외한 실제가동 기기(activeMachines)를 연산 기준으로 삼음
-            const activeMachines = machines.filter(m => m.status !== 'broken');
-            const inUseCount = activeMachines.filter(m => m.status === 'in-use' || m.status === 'reserved').length;
-            const totalLaundry = activeMachines.length; 
-            const laundryRatio = totalLaundry > 0 ? (inUseCount / totalLaundry) : 0;
+            const activeWashers = machines.filter(m => m.status !== 'broken');
+            const washerInUse = activeWashers.filter(m => m.status === 'in-use' || m.status === 'reserved').length;
+            const totalWasher = activeWashers.length;
+            const washerRatio = totalWasher > 0 ? (washerInUse / totalWasher) : 0;
 
-            let lColorClass = 'bg-green-500'; let lText = currentLang === 'ko' ? '여유' : (currentLang === 'zh' ? '空闲' : 'Relaxed'); let lTextColor = 'text-green-500';
-            if (laundryRatio >= 0.8) { lColorClass = 'bg-red-500'; lText = currentLang === 'ko' ? '혼잡' : (currentLang === 'zh' ? '拥挤' : 'Busy'); lTextColor = 'text-red-500'; }
-            else if (laundryRatio >= 0.5) { lColorClass = 'bg-yellow-500'; lText = currentLang === 'ko' ? '보통' : (currentLang === 'zh' ? '一般' : 'Normal'); lTextColor = 'text-yellow-600'; }
+            let wColorClass = 'bg-green-500'; let wText = currentLang === 'ko' ? '여유' : (currentLang === 'zh' ? '空闲' : 'Relaxed'); let wTextColor = 'text-green-500';
+            if (washerRatio >= 0.8) { wColorClass = 'bg-red-500'; wText = currentLang === 'ko' ? '혼잡' : (currentLang === 'zh' ? '拥挤' : 'Busy'); wTextColor = 'text-red-500'; }
+            else if (washerRatio >= 0.5) { wColorClass = 'bg-yellow-500'; wText = currentLang === 'ko' ? '보통' : (currentLang === 'zh' ? '一般' : 'Normal'); wTextColor = 'text-yellow-600'; }
+
+            const activeDryers = dryers.filter(d => d.status !== 'broken');
+            const dryerInUse = activeDryers.filter(d => d.status === 'in-use' || d.status === 'reserved').length;
+            const totalDryer = activeDryers.length;
+            const dryerRatio = totalDryer > 0 ? (dryerInUse / totalDryer) : 0;
+
+            let dColorClass = 'bg-green-500'; let dText = currentLang === 'ko' ? '여유' : (currentLang === 'zh' ? '空闲' : 'Relaxed'); let dTextColor = 'text-green-500';
+            if (dryerRatio >= 0.8) { dColorClass = 'bg-red-500'; dText = currentLang === 'ko' ? '혼잡' : (currentLang === 'zh' ? '拥挤' : 'Busy'); dTextColor = 'text-red-500'; }
+            else if (dryerRatio >= 0.5) { dColorClass = 'bg-yellow-500'; dText = currentLang === 'ko' ? '보통' : (currentLang === 'zh' ? '一般' : 'Normal'); dTextColor = 'text-yellow-600'; }
 
             let cCount = 15; const cTotal = 120;
             const now = new Date(); const currentMins = now.getHours() * 60 + now.getMinutes();
             let isMealTime = (currentMins >= 460 && currentMins <= 540) || (currentMins >= 690 && currentMins <= 800) || (currentMins >= 1030 && currentMins <= 1120);
-            
-            // 🌟 V3.3: 학식 종료 판정 버그 수정 (.some -> .every)
-            // 즉, 메뉴가 모두 매진되었을 때만 문을 닫은 상태(Closed)로 평가합니다.
-            let isAllSoldOut = false;
-            if(isMealTime && mealData) {
-                const todayStr = getFormattedDate(now);
-                const todayMeals = mealData[todayStr] || [];
-                let targetType = currentMins < 540 ? '조식' : (currentMins < 800 ? '중식' : '석식');
-                const currentMeals = todayMeals.filter(m => m.type === targetType);
-                isAllSoldOut = currentMeals.length > 0 && currentMeals.every(m => forcedSoldOutItems.has(m.kor));
-            }
-            if (isMealTime) cCount = isAllSoldOut ? 0 : 95; 
+            if (isMealTime) cCount = 95; 
             
             let cColorClass = 'bg-green-500'; let cText = currentLang === 'ko' ? '여유' : (currentLang === 'zh' ? '空闲' : 'Relaxed'); let cTextColor = 'text-green-500';
-            if (isAllSoldOut) { cColorClass = 'bg-gray-400'; cText = currentLang === 'ko' ? '운영종료' : (currentLang === 'zh' ? '结束运营' : 'Closed'); cTextColor = 'text-gray-500'; cCount = 0; }
-            else if (cCount > 80) { cColorClass = 'bg-red-500'; cText = currentLang === 'ko' ? '혼잡' : (currentLang === 'zh' ? '拥挤' : 'Busy'); cTextColor = 'text-red-500'; }
+            if (cCount > 80) { cColorClass = 'bg-red-500'; cText = currentLang === 'ko' ? '혼잡' : (currentLang === 'zh' ? '拥挤' : 'Busy'); cTextColor = 'text-red-500'; }
+            else if (cCount > 40) { cColorClass = 'bg-yellow-500'; cText = currentLang === 'ko' ? '보통' : (currentLang === 'zh' ? '一般' : 'Normal'); cTextColor = 'text-yellow-600'; }
             const cRatio = cCount / cTotal;
 
             const gCount = 22; const gTotal = 50; const gRatio = gCount / gTotal;
@@ -1370,51 +1413,40 @@
             const unitPeople = dict[currentLang]['unitPeople'];
             const unitMachines = dict[currentLang]['unitMachines'];
 
-            // 깜빡임 방지: DOM 구조 파괴를 우회하고 오직 타겟 수치만 무소음 갱신
             const shellExists = document.getElementById('live-shell-cafeteria');
             if (shellExists && !forceReset) {
                 const barCaf = document.getElementById('live-bar-cafeteria');
                 const textCaf = document.getElementById('live-text-cafeteria');
-                if(barCaf) {
-                    barCaf.style.width = `${cRatio * 100}%`;
-                    barCaf.className = `h-2.5 rounded-full transition-all duration-500 ${cColorClass}`;
-                }
-                if(textCaf) {
-                    textCaf.className = `text-[10px] font-bold ${cTextColor}`;
-                    textCaf.innerHTML = `${cText} <span class="text-gray-400 font-medium">(${cCount}/${cTotal}${unitPeople})</span>`;
-                }
+                if(barCaf) { barCaf.style.width = `${cRatio * 100}%`; barCaf.className = `h-2.5 rounded-full transition-all duration-500 ${cColorClass}`; }
+                if(textCaf) { textCaf.className = `text-[10px] font-bold ${cTextColor}`; textCaf.innerHTML = `${cText} <span class="text-gray-400 font-medium">(${cCount}/${cTotal}${unitPeople})</span>`; }
 
                 const barLau = document.getElementById('live-bar-laundry');
                 const textLau = document.getElementById('live-text-laundry');
-                if(barLau) {
-                    barLau.style.width = `${laundryRatio * 100}%`;
-                    barLau.className = `h-2.5 rounded-full transition-all duration-500 ${lColorClass}`;
-                }
-                if(textLau) {
-                    textLau.className = `text-[10px] font-bold ${lTextColor}`;
-                    textLau.innerHTML = `${lText} <span class="text-gray-400 font-medium">(${inUseCount}/${totalLaundry}${unitMachines})</span>`;
-                }
+                if(barLau) { barLau.style.width = `${washerRatio * 100}%`; barLau.className = `h-2.5 rounded-full transition-all duration-500 ${wColorClass}`; }
+                if(textLau) { textLau.className = `text-[10px] font-bold ${wTextColor}`; textLau.innerHTML = `${wText} <span class="text-gray-400 font-medium">(${washerInUse}/${totalWasher}${unitMachines})</span>`; }
+
+                const barDry = document.getElementById('live-bar-dryer');
+                const textDry = document.getElementById('live-text-dryer');
+                if(barDry) { barDry.style.width = `${dryerRatio * 100}%`; barDry.className = `h-2.5 rounded-full transition-all duration-500 ${dColorClass}`; }
+                if(textDry) { textDry.className = `text-[10px] font-bold ${dTextColor}`; textDry.innerHTML = `${dText} <span class="text-gray-400 font-medium">(${dryerInUse}/${totalDryer}${unitMachines})</span>`; }
 
                 const barGym = document.getElementById('live-bar-gym');
                 const textGym = document.getElementById('live-text-gym');
-                if(barGym) {
-                    barGym.style.width = `${gRatio * 100}%`;
-                    barGym.className = `h-2.5 rounded-full transition-all duration-500 ${gColorClass}`;
-                }
-                if(textGym) {
-                    textGym.className = `text-[10px] font-bold ${gTextColor}`;
-                    textGym.innerHTML = `${gText} <span class="text-gray-400 font-medium">(${gCount}/${gTotal}${unitPeople})</span>`;
-                }
+                if(barGym) { barGym.style.width = `${gRatio * 100}%`; barGym.className = `h-2.5 rounded-full transition-all duration-500 ${gColorClass}`; }
+                if(textGym) { textGym.className = `text-[10px] font-bold ${gTextColor}`; textGym.innerHTML = `${gText} <span class="text-gray-400 font-medium">(${gCount}/${gTotal}${unitPeople})</span>`; }
             } else {
-                // 초기 1회 프레임워크 뼈대 렌더링
                 container.innerHTML = `
                     <div id="live-shell-cafeteria" class="animate-[fadeIn_0.2s_ease-in-out]">
                         <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700" data-i18n="facilityCafeteria">${dict[currentLang]['facilityCafeteria']}</span><span id="live-text-cafeteria" class="text-[10px] font-bold ${cTextColor}">${cText} <span class="text-gray-400 font-medium">(${cCount}/${cTotal}${unitPeople})</span></span></div>
                         <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden border border-gray-200/50 shadow-inner"><div id="live-bar-cafeteria" class="${cColorClass} h-2.5 rounded-full transition-all duration-500" style="width: ${cRatio * 100}%"></div></div>
                     </div>
                     <div id="live-shell-laundry" class="animate-[fadeIn_0.2s_ease-in-out] mt-4">
-                        <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700" data-i18n="facilityLaundry">${dict[currentLang]['facilityLaundry']}</span><span id="live-text-laundry" class="text-[10px] font-bold ${lTextColor}">${lText} <span class="text-gray-400 font-medium">(${inUseCount}/${totalLaundry}${unitMachines})</span></span></div>
-                        <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden border border-gray-200/50 shadow-inner"><div id="live-bar-laundry" class="${lColorClass} h-2.5 rounded-full transition-all duration-500" style="width: ${laundryRatio * 100}%"></div></div>
+                        <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700" data-i18n="facilityLaundry">${dict[currentLang]['facilityLaundry']}</span><span id="live-text-laundry" class="text-[10px] font-bold ${wTextColor}">${wText} <span class="text-gray-400 font-medium">(${washerInUse}/${totalWasher}${unitMachines})</span></span></div>
+                        <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden border border-gray-200/50 shadow-inner"><div id="live-bar-laundry" class="${wColorClass} h-2.5 rounded-full transition-all duration-500" style="width: ${washerRatio * 100}%"></div></div>
+                    </div>
+                    <div id="live-shell-dryer" class="animate-[fadeIn_0.2s_ease-in-out] mt-4">
+                        <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700" data-i18n="facilityDryer">${dict[currentLang]['facilityDryer']}</span><span id="live-text-dryer" class="text-[10px] font-bold ${dTextColor}">${dText} <span class="text-gray-400 font-medium">(${dryerInUse}/${totalDryer}${unitMachines})</span></span></div>
+                        <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden border border-gray-200/50 shadow-inner"><div id="live-bar-dryer" class="${dColorClass} h-2.5 rounded-full transition-all duration-500" style="width: ${dryerRatio * 100}%"></div></div>
                     </div>
                     <div id="live-shell-gym" class="animate-[fadeIn_0.2s_ease-in-out] mt-4">
                         <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700" data-i18n="facilityGym">${dict[currentLang]['facilityGym']}</span><span id="live-text-gym" class="text-[10px] font-bold ${gTextColor}">${gText} <span class="text-gray-400 font-medium">(${gCount}/${gTotal}${unitPeople})</span></span></div>
@@ -1422,9 +1454,7 @@
                     </div>`;
             }
         } 
-        // 2. [요일별 추이] 대시보드 처리 구문
         else {
-            // 🌟 타이머 가동 주기(`renderMachines` 등) 시에 불필요한 SVG 재획득 연산을 원천 차단하여 깜빡임 제거
             if (!forceReset) return; 
             const dataPoints = facilitiesTrendData[selectedCongestionFacility][selectedCongestionDay];
             container.innerHTML = `
@@ -1436,21 +1466,42 @@
 
 
     // ==========================================
-    // 6. 세탁기 제어 로직
+    // 7. 세탁기 및 건조기 개별 토글 시스템
     // ==========================================
+    function switchLaundryType(type) {
+        currentLaundryType = type;
+        const btnWasher = document.getElementById('btnSelectWasher');
+        const btnDryer = document.getElementById('btnSelectDryer');
+        
+        if (type === 'washer') {
+            btnWasher.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-xs py-2 rounded-lg transition";
+            btnDryer.className = "flex-1 text-gray-500 hover:text-gray-700 font-bold text-xs py-2 rounded-lg transition bg-transparent text-gray-400";
+        } else {
+            btnDryer.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-xs py-2 rounded-lg transition";
+            btnWasher.className = "flex-1 text-gray-500 hover:text-gray-700 font-bold text-xs py-2 rounded-lg transition bg-transparent text-gray-400";
+        }
+        renderMachines();
+    }
+
     function renderMachines() {
         const grid = document.getElementById('machineGrid'); if(!grid) return;
         grid.innerHTML = '';
-        const filteredMachines = filterStatus === 'all' ? machines : machines.filter(m => m.status === 'available');
-        const availableCount = machines.filter(m => m.status === 'available').length;
+        
+        const activeList = currentLaundryType === 'washer' ? machines : dryers;
+        const filteredMachines = filterStatus === 'all' ? activeList : activeList.filter(m => m.status === 'available');
+        
+        const availableCount = activeList.filter(m => m.status === 'available').length;
         if(document.getElementById('homeAvailableCount')) document.getElementById('homeAvailableCount').innerText = availableCount;
 
-        if (filteredMachines.length === 0) { grid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400 text-sm font-bold">표시할 세탁기가 없습니다.</div>`; return; }
+        if (filteredMachines.length === 0) { 
+            grid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400 text-sm font-bold">사용 가능한 기기가 없습니다.</div>`; 
+            return; 
+        }
 
         filteredMachines.forEach(m => {
             let statusBadge = ''; let cardClasses = 'relative rounded-2xl p-4 border transition-all duration-200 '; let onClickAttr = '';
 
-            if (userRole === 'admin') { onClickAttr = `onclick="adminMachineAction(${m.id})"`; } 
+            if (userRole === 'admin') { onClickAttr = `onclick="adminMachineAction(${m.id})"` ; } 
             else { if (m.status === 'available' || m.status === 'reserved') onClickAttr = `onclick="openModal(${m.id})"`; }
 
             if (m.status === 'available') { cardClasses += 'bg-white border-green-200 shadow-sm hover:border-green-500 hover:shadow cursor-pointer'; statusBadge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>`; } 
@@ -1458,14 +1509,16 @@
             else if (m.status === 'in-use') { cardClasses += m.isMine ? 'bg-red-50 border-red-300 shadow-sm opacity-100' : 'bg-red-50 border-red-100 opacity-90'; if(userRole === 'admin') cardClasses += ' cursor-pointer hover:border-red-400'; statusBadge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full animate-pulse">${formatTime(m.timeRemaining)}</div>`; } 
             else if (m.status === 'broken') { cardClasses += 'bg-gray-100 border-gray-200 opacity-60'; if(userRole === 'admin') cardClasses += ' cursor-pointer hover:border-gray-400'; statusBadge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-gray-400"></div>`; }
 
+            const iconClass = currentLaundryType === 'washer' ? 'ph ph-washing-machine' : 'ph ph-wind';
             const iconColor = m.status === 'available' ? 'text-green-600' : (m.status === 'reserved' ? 'text-orange-400' : (m.status === 'in-use' ? 'text-red-400' : 'text-gray-400'));
             const statusTextKey = m.status === 'available' ? 'macAvail' : (m.status === 'reserved' ? 'macRsv' : (m.status === 'in-use' ? 'macInUse' : 'macBroken'));
             const statusTextColor = m.status === 'available' ? 'text-green-600' : (m.status === 'reserved' ? 'text-orange-500' : (m.status === 'in-use' ? 'text-red-500' : 'text-gray-500'));
 
-            grid.innerHTML += `<div class="${cardClasses}" ${onClickAttr}>${statusBadge}<i class="ph ph-washing-machine text-4xl ${iconColor} mb-2"></i><h4 class="font-bold text-gray-800 text-sm">${dict[currentLang][m.nameKey]}</h4><p class="text-[10px] font-medium ${statusTextColor} mt-1">${dict[currentLang][statusTextKey]}</p></div>`;
+            const machineName = currentLang === 'ko' ? `${m.id}번 ${currentLaundryType==='washer'?'세탁기':'건조기'}` : dict[currentLang][m.nameKey];
+
+            grid.innerHTML += `<div class="${cardClasses}" ${onClickAttr}>${statusBadge}<i class="${iconClass} text-4xl ${iconColor} mb-2"></i><h4 class="font-bold text-gray-800 text-sm">${machineName}</h4><p class="text-[10px] font-medium ${statusTextColor} mt-1">${dict[currentLang][statusTextKey]}</p></div>`;
         });
         
-        // 실시간 가로바 대시보드 갱신
         renderCongestion();
     }
 
@@ -1476,12 +1529,31 @@
         renderMachines();
     }
 
-    // 바텀 시트 유출 방지형 오픈 락 모듈
     function openModal(machineId) {
-        selectedMachineId = machineId; const machine = machines.find(m => m.id === machineId);
-        document.getElementById('modalMachineName').innerText = dict[currentLang][machine.nameKey];
-        document.querySelectorAll('.course-btn').forEach((btn, index) => { if(index === 0) selectCourse(btn, 1000, 40); });
+        selectedMachineId = machineId; 
+        const activeList = currentLaundryType === 'washer' ? machines : dryers;
+        const machine = activeList.find(m => m.id === machineId);
         
+        const machineTitle = currentLang === 'ko' ? `${machine.id}번 ${currentLaundryType==='washer'?'세탁기':'건조기'}` : dict[currentLang][machine.nameKey];
+        document.getElementById('modalMachineName').innerText = machineTitle;
+        
+        const courseGrid = document.getElementById('modalCourseGrid');
+        if (currentLaundryType === 'washer') {
+            document.getElementById('modalCourseLabel').innerText = dict[currentLang]['modalSelect'];
+            courseGrid.innerHTML = `
+                <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1000, 40)">${dict[currentLang]['modalCourse1']}</button>
+                <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1500, 60)">${dict[currentLang]['modalCourse2']}</button>
+            `;
+            selectCourse(courseGrid.children[0], 1000, 40);
+        } else {
+            document.getElementById('modalCourseLabel').innerText = currentLang === 'ko' ? '건조 코스 선택' : (currentLang === 'zh' ? '选择烘干模式' : 'Select Dry Course');
+            courseGrid.innerHTML = `
+                <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1200, 45)">${dict[currentLang]['dryerCourse1']}</button>
+                <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1600, 60)">${dict[currentLang]['dryerCourse2']}</button>
+            `;
+            selectCourse(courseGrid.children[0], 1200, 45);
+        }
+
         const sheet = document.getElementById('bottomSheet');
         sheet.classList.remove('hidden');
         setTimeout(() => {
@@ -1490,7 +1562,6 @@
         }, 15);
     }
 
-    // 완벽 차단 0.3초 물리 딜레이 릴리즈 오프 모듈
     function closeModal() { 
         document.getElementById('overlay').classList.remove('open'); 
         const sheet = document.getElementById('bottomSheet');
@@ -1509,7 +1580,8 @@
     }
 
     function reserveMachine() {
-        const machine = machines.find(m => m.id === selectedMachineId);
+        const activeList = currentLaundryType === 'washer' ? machines : dryers;
+        const machine = activeList.find(m => m.id === selectedMachineId);
         if(machine.status === 'reserved') { Swal.fire({toast: true, position: 'top', icon: 'info', title: '이미 예약됨', showConfirmButton: false, timer: 2000}); return; }
         machine.status = 'reserved'; machine.timeRemaining = 10 * 60; machine.isMine = true; 
         closeModal(); renderMachines();
@@ -1546,14 +1618,18 @@
         document.getElementById('qrScanner').classList.add('hidden');
         if (qrStream) { qrStream.getTracks().forEach(track => track.stop()); qrStream = null; }
         if (scanAnimationReq) cancelAnimationFrame(scanAnimationReq);
-        const machine = machines.find(m => m.id === machineId); if (!machine) return; 
+        
+        const activeList = currentLaundryType === 'washer' ? machines : dryers;
+        const machine = activeList.find(m => m.id === machineId); if (!machine) return; 
         balance -= selectedCoursePrice; updateBalanceUI(); machine.status = 'in-use'; machine.timeRemaining = selectedCourseTime * 60; machine.isMine = true;
         renderMachines();
-        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${dict[currentLang][machine.nameKey]} ${dict[currentLang]['alertStart']}`, showConfirmButton: false, timer: 2000 });
+        
+        const typeLabel = currentLang === 'ko' ? (currentLaundryType === 'washer' ? '세탁기' : '건조기') : (currentLaundryType === 'washer' ? 'Washer' : 'Dryer');
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${machine.id}번 ${typeLabel} ${dict[currentLang]['alertStart']}`, showConfirmButton: false, timer: 2000 });
     }
 
     // ==========================================
-    // 7. 공지사항 및 운영 관리
+    // 8. 공지사항 및 운영 관리
     // ==========================================
     function renderNotices() {
         let html = '';
@@ -1585,10 +1661,10 @@
         Swal.fire({
             title: notice.title,
             html: `<div class="text-left text-sm mt-3 text-gray-700 whitespace-pre-wrap leading-relaxed">${notice.content}</div>`,
-            showCancelButton: true, confirmButtonText: `<i class="ph ph-browser align-middle mr-1"></i> 웹에서 보기`,
-            cancelButtonText: '닫기', confirmButtonColor: '#003E7A', cancelButtonColor: '#9CA3AF',
+            showCancelButton: true, confirmButtonText: `<i class="ph ph-browser align-middle mr-1"></i> ${currentLang==='ko'?'웹에서 보기':'View on Web'}`,
+            cancelButtonText: currentLang==='ko'?'닫기':'Close', confirmButtonColor: '#003E7A', cancelButtonColor: '#9CA3AF',
             customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' }
-        });
+        }).then(result => { if(result.isConfirmed) { Swal.fire({toast:true, position:'top', icon:'info', title:currentLang==='ko'?'웹 브라우저로 이동합니다.':'Opening in browser.', showConfirmButton:false, timer:1500}); } });
     }
 
     function adminAddNotice() {
@@ -1643,7 +1719,11 @@
     }
 
     function adminMachineAction(id) {
-        const machine = machines.find(m => m.id === id); const mName = dict[currentLang][machine.nameKey];
+        const activeList = currentLaundryType === 'washer' ? machines : dryers;
+        const machine = activeList.find(m => m.id === id); 
+        const typeLabel = currentLaundryType === 'washer' ? '세탁기' : '건조기';
+        const mName = `${machine.id}번 ${typeLabel}`;
+        
         let html = `<div class="space-y-2 mt-4 text-left">`;
         if (machine.status === 'available') {
             html += `<button onclick="Swal.close(); adminToggleBroken(${id})" class="w-full bg-red-50 text-red-500 font-bold p-3 rounded-xl border border-red-100 active:scale-95 transition">고장 등록 (사용 불가 처리)</button>`;
@@ -1656,21 +1736,25 @@
         html += `</div>`;
 
         Swal.fire({
-            title: `${mName} 관리`, html: html, showConfirmButton: false, showCancelButton: true, cancelButtonText: '닫기',
+            title: `${mName} 관리`, html: html, showConfirmButton: false, showCancelButton: true, cancelButtonText: currentLang==='ko'?'닫기':'Close',
             customClass: { popup: 'rounded-3xl shadow-xl p-4', title: 'text-base font-bold' }
         });
     }
 
     function adminToggleBroken(id) {
-        const machine = machines.find(m => m.id === id);
+        const activeList = currentLaundryType === 'washer' ? machines : dryers;
+        const machine = activeList.find(m => m.id === id);
         if (machine.status === 'available' || machine.status === 'in-use' || machine.status === 'reserved') {
             machine.status = 'broken'; machine.timeRemaining = 0; machine.isMine = false;
-        } else if (machine.status === 'broken') { machine.status = 'available'; }
+        } else if (machine.status === 'broken') {
+            machine.status = 'available';
+        }
         renderMachines();
     }
 
     function adminForceCancel(id) {
-        const machine = machines.find(m => m.id === id);
+        const activeList = currentLaundryType === 'washer' ? machines : dryers;
+        const machine = activeList.find(m => m.id === id);
         Swal.fire({
             title: '결제/예약 강제 취소', text: '사용 중이거나 예약된 기기를 강제로 초기화 하시겠습니까?', icon: 'warning',
             showCancelButton: true, confirmButtonText: '초기화 진행', cancelButtonText: '닫기', confirmButtonColor: '#ef4444',
@@ -1687,8 +1771,11 @@
     function renderAdminMealControl() {
         const container = document.getElementById('adminMealControlList'); if (!container) return;
         const now = new Date(); let targetDate = now; const timeMinutes = now.getHours() * 60 + now.getMinutes();
-        let targetType = timeMinutes < 9 * 60 ? '조식' : (timeMinutes < 13 * 60 + 20 ? '중식' : '석식');
-        if (timeMinutes >= 18 * 60 + 40) { targetType = '조식'; targetDate.setDate(now.getDate() + 1); }
+        let targetType = '';
+        if (timeMinutes < 9 * 60) targetType = '조식';
+        else if (timeMinutes < 13 * 60 + 20) targetType = '중식';
+        else if (timeMinutes < 18 * 60 + 40) targetType = '석식';
+        else { targetType = '조식'; targetDate.setDate(now.getDate() + 1); }
 
         const targetDateStr = getFormattedDate(targetDate);
         const dailyMeals = mealData ? (mealData[targetDateStr] || []) : [];
@@ -1713,7 +1800,7 @@
 
 
     // ==========================================
-    // 8. 식단 데이터 페칭 및 수직 중앙 정렬 렌더링
+    // 9. 식단 데이터 페칭 및 수직 중앙 정렬 렌더링
     // ==========================================
     async function fetchCafeteriaData(force = false) {
         if (isMenuFetched && !force && !isMealError) return;
@@ -1723,6 +1810,7 @@
             const response = await fetch('https://joonxkim.github.io/hanyang-menu-api/weekly_menu.json?t=' + new Date().getTime());
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
+            if (!data || Object.keys(data).length === 0) throw new Error('Empty menu data');
             mealData = data; isMenuFetched = true; isMealError = false;
             renderMeals(); renderHomeMeals(); if(userRole === 'admin') renderAdminMealControl();
             document.getElementById('mealLoading').classList.add('hidden'); document.getElementById('mealContent').classList.remove('hidden');
@@ -1737,10 +1825,10 @@
         const btnToday = document.getElementById('btnMealToday'); const btnWeek = document.getElementById('btnMealWeek');
         if (tab === 'today') {
             btnToday.className = "bg-white text-gray-800 shadow-sm text-[10px] font-bold px-2 py-1 rounded-md";
-            btnWeek.className = "text-gray-400 hover:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition bg-transparent text-gray-400";
+            btnWeek.className = "text-gray-400 hover:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition text-gray-400";
         } else {
             btnWeek.className = "bg-white text-gray-800 shadow-sm text-[10px] font-bold px-2 py-1 rounded-md";
-            btnToday.className = "text-gray-400 hover:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition bg-transparent text-gray-400";
+            btnToday.className = "text-gray-400 hover:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition text-gray-400";
         }
         renderMeals();
     }
@@ -1774,8 +1862,10 @@
                 else container.innerHTML = generateMealHTML(todayMeals);
             } else {
                 container.classList.add('max-h-[350px]', 'overflow-y-auto', 'hide-scrollbar');
-                let html = ''; const currentDay = now.getDay(); const endDate = new Date(now);
-                if (currentDay === 0) endDate.setDate(now.getDate() + 6); else endDate.setDate(now.getDate() + (7 - currentDay)); 
+                let html = '';
+                const currentDay = now.getDay(); const endDate = new Date(now);
+                if (currentDay === 0) endDate.setDate(now.getDate() + 6); 
+                else endDate.setDate(now.getDate() + (7 - currentDay)); 
                 
                 const todayTime = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
                 const endTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()).getTime();
@@ -1790,9 +1880,11 @@
                         html += `</div></div>`;
                     }
                 }
+                if(html === '') html = `<div class="py-8 text-center text-gray-400 text-xs font-bold bg-gray-50 rounded-xl">${dict[currentLang]['mealNoDataWeek']}</div>`;
                 container.innerHTML = html;
             }
-        } catch(e) { container.innerHTML = `<div class="py-8 text-center text-gray-400 text-xs font-bold bg-gray-50 rounded-xl">식단을 렌더링할 수 없습니다.</div>`; }
+            container.innerHTML += `<p class="text-[10px] text-gray-400 text-right mt-2 border-t border-gray-100 pt-3">Updated: ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}</p>`;
+        } catch(e) { container.innerHTML = `<div class="py-8 text-center text-gray-400 text-xs font-bold bg-gray-50 rounded-xl">메뉴 데이터를 해석할 수 없습니다.</div>`; }
     }
 
     function renderHomeMeals() {
@@ -1801,27 +1893,29 @@
 
         try {
             const now = new Date(); let targetDate = new Date(now); const timeMinutes = now.getHours() * 60 + now.getMinutes();
-            let targetType = timeMinutes < 9 * 60 ? '조식' : (timeMinutes < 13 * 60 + 20 ? '중식' : '석식');
+            let targetType = ''; 
             
             let titlePrefix = '';
             if (currentLang === 'ko') titlePrefix = '오늘의 ';
             else if (currentLang === 'zh') titlePrefix = '今日';
             else titlePrefix = "Today's ";
 
-            let titleSuffix = '';
-            if (currentLang === 'ko') titleSuffix = targetType;
-            else if (currentLang === 'zh') titleSuffix = (targetType === '조식' ? '早餐' : (targetType === '중식' ? '午餐' : '晚餐'));
-            else titleSuffix = mealTypeEnMap[targetType];
-
-            if (timeMinutes >= 18 * 60 + 40) { 
+            if (timeMinutes < 9 * 60) targetType = '조식';
+            else if (timeMinutes < 13 * 60 + 20) targetType = '중식';
+            else if (timeMinutes < 18 * 60 + 40) targetType = '석식';
+            else { 
                 targetType = '조식'; 
                 if (currentLang === 'ko') titlePrefix = '내일의 ';
                 else if (currentLang === 'zh') titlePrefix = '明日';
                 else titlePrefix = "Tomorrow's ";
-                
-                if (currentLang === 'zh') titleSuffix = '早餐';
-                else titleSuffix = currentLang === 'ko' ? '조식' : 'Breakfast';
                 targetDate.setDate(now.getDate() + 1); 
+            }
+
+            let titleSuffix = '';
+            if (currentLang === 'zh') {
+                titleSuffix = (targetType === '조식' ? '早餐' : (targetType === '중식' ? '午餐' : '晚餐'));
+            } else {
+                titleSuffix = currentLang === 'ko' ? targetType : mealTypeEnMap[targetType];
             }
 
             const timeStr = mealTimes[targetType] || '';
@@ -1832,19 +1926,13 @@
             if (targetType === '중식' && timeMinutes >= 690 && timeMinutes <= 800) isOperating = true;
             if (targetType === '석식' && timeMinutes >= 1030 && timeMinutes <= 1120) isOperating = true;
 
-            let statusClass = isOperating ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500';
-            let statusText = isOperating ? (currentLang === 'ko' ? '영업 중' : (currentLang === 'zh' ? '营业中' : 'Open')) : (currentLang === 'ko' ? '준비 중' : (currentLang === 'zh' ? '准备中' : 'Preparing'));
+            let statusClass = ''; let statusText = '';
+            if (isOperating) { statusText = currentLang === 'ko' ? '영업 중' : (currentLang==='zh'?'营业中':'Open'); statusClass = 'bg-green-100 text-green-600'; } 
+            else { statusText = currentLang === 'ko' ? '준비 중' : (currentLang==='zh'?'准备中':'Preparing'); statusClass = 'bg-gray-100 text-gray-500'; }
 
-            if (titleContainer) {
-                titleContainer.innerHTML = `
-                    <div class="flex items-center h-6">
-                        <h3 class="font-bold text-gray-800 text-sm leading-none" id="homeMealTitle">${titlePrefix}${titleSuffix}</h3>
-                        <span class="ml-2 text-[9px] ${statusClass} px-1.5 py-0.5 rounded font-bold leading-none flex items-center justify-center">${statusText}</span>
-                        <span class="ml-1.5 text-[10px] text-gray-400 font-medium leading-none mt-[1px]">(${timeStr})</span>
-                    </div>`;
-            }
+            if (titleContainer) titleContainer.innerHTML = `<h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5" id="homeMealTitle">${titlePrefix}${titleSuffix}</h3><span class="ml-2 text-[9px] ${statusClass} px-1.5 py-0.5 rounded font-bold">${statusText}</span><span class="ml-1.5 text-[10px] text-gray-500 font-medium">${timeStr}</span>`;
 
-            if (filteredMeals.length === 0) { container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">등록된 식단이 없습니다.</p>`; return; }
+            if (filteredMeals.length === 0) { container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">오늘은 등록된 식단이 없습니다.</p>`; return; }
 
             const typeCounts = {}; filteredMeals.forEach(item => { typeCounts[item.type] = (typeCounts[item.type] || 0) + 1; });
             const currentCounts = {}; let html = '';
@@ -1853,17 +1941,24 @@
                 const textContent = currentLang === 'ko' ? item.kor : (currentLang === 'zh' ? (item.zh || item.kor) : item.eng); 
                 let displayTypeBadge = '';
                 if (typeCounts[item.type] > 1) { currentCounts[item.type] = (currentCounts[item.type] || 0) + 1; displayTypeBadge = `<span class="text-[10px] bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded mr-1.5 font-bold">${currentCounts[item.type]}</span>`; }
+                
                 const isSoldOut = forcedSoldOutItems.has(item.kor);
                 const soldOutLabel = currentLang === 'ko' ? '매진' : (currentLang === 'zh' ? '已售罄' : 'Sold Out');
-                html += `<div class="${index > 0 ? 'mt-2 pt-2 border-t border-gray-200' : ''} flex items-start ${isSoldOut ? 'opacity-40 line-through' : ''}">${displayTypeBadge}<p class="font-bold text-[13px] text-gray-800 line-clamp-1 flex-1 leading-snug">${textContent}</p>${isSoldOut ? `<span class="ml-1 text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold whitespace-nowrap">${soldOutLabel}</span>` : ''}</div>`;
+                const soldOutBadge = isSoldOut ? `<span class="ml-1 text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold whitespace-nowrap">${soldOutLabel}</span>` : '';
+
+                html += `<div class="${index > 0 ? 'mt-2 pt-2 border-t border-gray-200' : ''} flex items-start">
+                            ${displayTypeBadge}
+                            <p class="font-bold text-[13px] text-gray-800 line-clamp-1 flex-1 leading-snug ${isSoldOut ? 'opacity-40 line-through' : ''}">${textContent}</p>
+                            ${soldOutBadge}
+                        </div>`;
             });
             container.innerHTML = html;
-        } catch(e) { container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">식단을 불러올 수 없습니다.</p>`; }
+        } catch(e) { container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">메뉴 데이터를 해석할 수 없습니다.</p>`; }
     }
 
 
     // ==========================================
-    // 9. V3.3: 컴포넌트 딥 링크 및 고해상도 탭 라우팅
+    // 10. 컴포넌트 딥 링크 및 고해상도 탭 라우팅
     // ==========================================
     function switchTab(tabName, targetId = null) {
         if (isNotiPanelOpen) toggleNotiPanel(); 
@@ -1874,7 +1969,6 @@
         const activeNav = document.getElementById(`nav-${tabName}`);
         if(activeNav) { activeNav.classList.remove('text-gray-400'); activeNav.classList.add('text-erica'); activeNav.querySelector('i').classList.replace('ph', 'ph-fill'); }
         
-        // 바텀 시트 미세 유출 가드 (탭 전환 시 마다 시트 완전 격리 명령 추가 실행)
         const sheet = document.getElementById('bottomSheet');
         if (sheet && !sheet.classList.contains('open')) {
             sheet.classList.add('hidden');
@@ -1908,7 +2002,7 @@
     function handlePhotoUpload(event) {
         const files = event.target.files; if (!files) return;
         for(let i=0; i<files.length; i++) {
-            if (attachedPhotos.length >= 3) { Swal.fire({toast: true, position: 'top', icon: 'warning', title: '최대 3장까지 첨부 가능합니다.', showConfirmButton: false, timer: 2000}); break; }
+            if (attachedPhotos.length >= 3) { Swal.fire({toast: true, position: 'top', icon: 'warning', title: currentLang==='ko'?'최대 3장까지 첨부 가능합니다.':'Max 3 photos allowed.', showConfirmButton: false, timer: 2000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }}); break; }
             const reader = new FileReader(); reader.onload = function(e) { attachedPhotos.push(e.target.result); renderPhotoThumbnails(); }; reader.readAsDataURL(files[i]);
         }
         event.target.value = ''; 
@@ -1918,7 +2012,7 @@
 
     function renderPhotoThumbnails() {
         const container = document.getElementById('photoThumbnails'); container.innerHTML = '';
-        attachedPhotos.forEach((src, index) => { container.innerHTML += `<div class="relative w-14 h-14 rounded-lg border border-gray-200 overflow-hidden flex-shrink-0 shadow-sm"><img src="${src}" class="w-full h-full object-cover"><button type="button" onclick="removePhoto(${index})" class="absolute top-1 right-1 bg-black/60 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] hover:bg-red-500 transition"><i class="ph ph-x"></i></button></div>`; });
+        attachedPhotos.forEach((src, index) => { container.innerHTML += `<div class="relative w-14 h-14 rounded-lg border border-gray-200 overflow-hidden flex-shrink-0 shadow-sm animate-[fadeIn_0.2s_ease-in-out]"><img src="${src}" class="w-full h-full object-cover"><button type="button" onclick="removePhoto(${index})" class="absolute top-1 right-1 bg-black/60 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] hover:bg-red-500 transition"><i class="ph ph-x"></i></button></div>`; });
     }
 
     function renderInquiryHistory() {
@@ -1966,13 +2060,13 @@
         });
     }
 
-    // 🌟 V3.3: 모의 간편 결제창 PG 통제 시스템
+    // 🌟 1. 결제 모듈 화이트아웃 방지용 명시적 ID 타겟 제어 탑재
     function openPaymentGate(amount) {
         pendingRechargeAmount = amount;
         document.getElementById('pgItemName').innerText = `기숙사 포인트 ${amount.toLocaleString()} P 충전`;
         document.getElementById('pgPriceLabel').innerText = `${amount.toLocaleString()} 원`;
         
-        selectPGMethod('kakao'); // 기본 결제 수단 초기화
+        selectPGMethod('card'); 
         
         const gate = document.getElementById('paymentGateOverlay');
         gate.classList.remove('hidden');
@@ -1985,26 +2079,39 @@
     function selectPGMethod(methodId) {
         activePGMethod = methodId;
         
-        // 보더 테두리 동적 교체
-        document.querySelectorAll('.pg-method-btn').forEach(btn => {
-            btn.className = "pg-method-btn border border-gray-100 bg-gray-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95";
+        // 🌟 타겟 버튼들만 명확히 지정하여 초기화 (간편충전 버튼이 휘말리지 않음)
+        ['kakao', 'naver', 'toss', 'alipay', 'wechat'].forEach(id => {
+            const btn = document.getElementById('pg-btn-' + id);
+            if(btn) {
+                btn.className = "pg-simple-btn border border-gray-100 bg-gray-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95" + (id === 'wechat' ? " col-span-2 justify-center" : "");
+            }
         });
         
-        const targetBtn = event.currentTarget;
-        if(methodId === 'kakao') {
-            targetBtn.className = "pg-method-btn border-2 border-yellow-400 bg-yellow-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95";
-            document.getElementById('pgSubmitText').innerText = "카카오페이로 안전결제";
+        const cardBtn = document.getElementById('pg-btn-card');
+        if (cardBtn) {
+            cardBtn.className = "pg-card-btn w-full border border-gray-100 bg-gray-50 rounded-2xl p-3.5 flex items-center justify-between transition active:scale-95";
+        }
+        
+        const targetBtn = document.getElementById('pg-btn-' + methodId);
+        if(!targetBtn) return;
+
+        if(methodId === 'card') {
+            targetBtn.className = "pg-card-btn w-full border-2 border-erica bg-erica-50 rounded-2xl p-3.5 flex items-center justify-between transition active:scale-95";
+            document.getElementById('pgSubmitText').innerText = dict[currentLang]['cardSecurePay'] || "신용카드로 안전결제";
+        } else if(methodId === 'kakao') {
+            targetBtn.className = "pg-simple-btn border-2 border-yellow-400 bg-yellow-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
+            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "카카오페이로 안전결제" : "Pay with KakaoPay";
         } else if(methodId === 'naver') {
-            targetBtn.className = "pg-method-btn border-2 border-green-500 bg-green-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95";
-            document.getElementById('pgSubmitText').innerText = "네이버페이로 안전결제";
+            targetBtn.className = "pg-simple-btn border-2 border-green-500 bg-green-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
+            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "네이버페이로 안전결제" : "Pay with NaverPay";
         } else if(methodId === 'toss') {
-            targetBtn.className = "pg-method-btn border-2 border-blue-500 bg-blue-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95";
-            document.getElementById('pgSubmitText').innerText = "토스페이로 안전결제";
+            targetBtn.className = "pg-simple-btn border-2 border-blue-500 bg-blue-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
+            document.getElementById('pgSubmitText').innerText = currentLang === 'ko' ? "토스페이로 안전결제" : "Pay with TossPay";
         } else if(methodId === 'alipay') {
-            targetBtn.className = "pg-method-btn border-2 border-sky-400 bg-sky-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95";
+            targetBtn.className = "pg-simple-btn border-2 border-sky-400 bg-sky-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95";
             document.getElementById('pgSubmitText').innerText = "Alipay로 안전결제";
         } else if(methodId === 'wechat') {
-            targetBtn.className = "pg-method-btn border-2 border-emerald-500 bg-emerald-50 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 transition active:scale-95 col-span-2";
+            targetBtn.className = "pg-simple-btn border-2 border-emerald-500 bg-emerald-50 rounded-2xl p-2.5 flex items-center gap-2 transition active:scale-95 col-span-2 justify-center";
             document.getElementById('pgSubmitText').innerText = "WeChat Pay로 안전결제";
         }
     }
@@ -2033,7 +2140,7 @@
         }, 1200);
     }
 
-    // 🌟 V3.3: 관리자 상벌점 부여 프로세서
+    // 관리자 상벌점 부여 프로세서
     function submitMeritDemerit() {
         const studentId = document.getElementById('adminDemeritStudentId').value.trim();
         const type = document.getElementById('adminDemeritType').value;
@@ -2054,7 +2161,6 @@
             studentsDb[studentId].demerit += value;
         }
 
-        // 입력 폼 청소
         document.getElementById('adminDemeritStudentId').value = '';
         document.getElementById('adminDemeritValue').value = '';
         document.getElementById('adminDemeritReason').value = '';
@@ -2066,14 +2172,13 @@
             confirmButtonColor: '#003E7A'
         });
 
-        // 🌟 현재 로그인 중인 유저의 정보와 일치할 경우 마이페이지 즉시 동기화
         if(userLoginId === studentId) {
             document.getElementById('myinfoMeritDisplay').innerText = studentsDb[userLoginId].merit;
             document.getElementById('myinfoDemeritDisplay').innerText = studentsDb[userLoginId].demerit;
         }
     }
 
-    // 다국어 드롭다운 토글 및 제어 매커니즘
+    // 다국어 드롭다운
     function toggleLanguageDropdown(event) {
         event.stopPropagation();
         const menu = document.getElementById('langDropdownMenu');
@@ -2094,7 +2199,6 @@
         setLang(lang);
     }
 
-    // 화면 아무데나 클릭 시 언어 드롭다운 닫힘 처리
     document.addEventListener('click', function() {
         const menu = document.getElementById('langDropdownMenu');
         if (menu && !menu.classList.contains('hidden')) {
@@ -2102,9 +2206,10 @@
         }
     });
 
-    // 세탁기 타이머 시뮬레이션 코어 루틴
+    // 백그라운드 1초 타이머 스케줄러 (학식/세탁기 자동갱신)
     setInterval(() => {
         let needsRender = false;
+        
         machines.forEach(m => {
             if ((m.status === 'in-use' || m.status === 'reserved') && m.timeRemaining > 0) {
                 m.timeRemaining -= 1; needsRender = true;
@@ -2114,26 +2219,54 @@
                         if (m.isMine) { sendPushNotification(dict[currentLang]['alertDoneTitle'], dict[currentLang]['alertDoneSub'], 'laundry'); m.isMine = false; }
                     } else if (m.status === 'reserved') {
                         m.status = 'available'; m.timeRemaining = 0;
-                        if (m.isMine) { sendPushNotification('예약 만료', '10분 내 결제가 없어 자동 취소되었습니다.', 'laundry'); m.isMine = false; }
+                        if (m.isMine) {
+                            let title = currentLang==='ko'?'예약 만료':'Reservation Expired';
+                            let body = currentLang==='ko'?'10분 내 결제가 없어 취소되었습니다.':'Cancelled due to no payment in 10 mins.';
+                            sendPushNotification(title, body, 'laundry'); m.isMine = false;
+                        }
                     }
                 }
             }
         });
+
+        dryers.forEach(d => {
+            if ((d.status === 'in-use' || d.status === 'reserved') && d.timeRemaining > 0) {
+                d.timeRemaining -= 1; needsRender = true;
+                if (d.timeRemaining <= 0) {
+                    if(d.status === 'in-use') {
+                        d.status = 'available'; d.timeRemaining = 0;
+                        if (d.isMine) { sendPushNotification(currentLang === 'ko' ? '🔔 건조 완료!' : '🔔 Dryer Cycle Done!', currentLang === 'ko' ? '건조 완료되었습니다. 건조기 옷을 수거해주세요.' : 'Dryer cycle is complete. Please collect your clothes.', 'laundry'); d.isMine = false; }
+                    } else if (d.status === 'reserved') {
+                        d.status = 'available'; d.timeRemaining = 0;
+                        if (d.isMine) {
+                            let title = currentLang==='ko'?'건조 예약 만료':'Dryer Reservation Expired';
+                            let body = currentLang==='ko'?'10분 내 결제가 없어 취소되었습니다.':'Cancelled due to no payment in 10 mins.';
+                            sendPushNotification(title, body, 'laundry'); d.isMine = false;
+                        }
+                    }
+                }
+            }
+        });
+
         if (needsRender) { 
             renderMachines(); 
+        }
+
+        if(mealData) {
+            renderHomeMeals();
         }
     }, 1000);
 
     document.getElementById('cheatBtn').addEventListener('click', () => {
         let activeCount = 0;
-        machines.forEach(m => { if ((m.status === 'in-use' || m.status === 'reserved') && m.timeRemaining > 5) { m.timeRemaining = 3; activeCount++; } });
-        if (activeCount > 0) { Swal.fire({ toast: true, position: 'top', icon: 'success', title: '시연 속도 업! 잠시 후 완료 알림이 울립니다.', showConfirmButton: false, timer: 1500 }); }
+        machines.forEach(m => { if ((m.status === 'in-use' || m.status === 'reserved') && m.timeRemaining > 10) { m.timeRemaining = 5; activeCount++; } });
+        dryers.forEach(d => { if ((d.status === 'in-use' || d.status === 'reserved') && d.timeRemaining > 10) { d.timeRemaining = 5; activeCount++; } });
+        if (activeCount > 0) { Swal.fire({ toast: true, position: 'top', icon: 'success', title: currentLang === 'ko' ? '5초 남았습니다!' : '5 seconds left!', showConfirmButton: false, timer: 1500 }); }
     });
 
     function setLang(lang) {
         currentLang = lang;
         
-        // 드롭다운 헤더 라벨 갱신
         let labelText = '한국어';
         if (lang === 'en') labelText = 'English';
         if (lang === 'zh') labelText = '简体中文';
@@ -2147,10 +2280,18 @@
                 else el.innerHTML = dict[currentLang][key]; 
             }
         });
-        renderMachines(); renderNotis(); if(mealData) { renderMeals(); renderHomeMeals(); }
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if(dict[currentLang][key]) el.placeholder = dict[currentLang][key];
+        });
+        
+        renderMachines();
+        renderNotis(); 
+        renderCongestion(true);
+        if(mealData) { renderMeals(); renderHomeMeals(); if(userRole === 'admin') renderAdminMealControl(); }
     }
 
-    // 앱 초기 실행
+    // 앱 초기 가동
     updateBalanceUI();
     setLang('ko'); 
     fetchCafeteriaData(); 
