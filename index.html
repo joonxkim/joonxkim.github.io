@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="창의인재관">
-    <meta name="theme-color" content="#003E7A">
+    <meta id="themeColorMeta" name="theme-color" content="#ffffff">
     
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" href="icon.png">
@@ -235,7 +235,7 @@
 
             <!-- 2. 세탁 탭 -->
             <div id="tab-laundry" class="tab-content relative p-4 space-y-5">
-                <div id="lockOverlay-laundry" class="hidden absolute inset-0 z-[60] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center pt-20 pb-40">
+                <div id="lockOverlay-laundry" class="hidden absolute inset-0 z-[200] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center pt-20 pb-40">
                     <i class="ph-fill ph-lock-key text-6xl text-gray-300 mb-4"></i>
                     <h2 class="text-lg font-bold text-gray-800 mb-2" data-i18n="lockTitle">로그인이 필요한 서비스입니다</h2>
                     <p class="text-sm text-gray-500 mb-6 text-center px-8" data-i18n="lockDesc">세탁기 예약 및 결제를 위해서는<br>한양인 포털 로그인이 필요합니다.</p>
@@ -372,7 +372,7 @@
 
             <!-- 4. 문의 탭 -->
             <div id="tab-inquiry" class="tab-content relative p-4 space-y-5">
-                <div id="lockOverlay-inquiry" class="hidden absolute inset-0 z-[60] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center pt-20 pb-40">
+                <div id="lockOverlay-inquiry" class="hidden absolute inset-0 z-[200] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center pt-20 pb-40">
                     <i class="ph-fill ph-lock-key text-6xl text-gray-300 mb-4"></i>
                     <h2 class="text-lg font-bold text-gray-800 mb-2" data-i18n="lockTitle">로그인이 필요한 서비스입니다</h2>
                     <p class="text-sm text-gray-500 mb-6 text-center px-8" data-i18n="lockDesc">기숙사 문의 접수 및 조회를 위해서는<br>한양인 포털 로그인이 필요합니다.</p>
@@ -444,7 +444,7 @@
 
             <!-- 5. 내 정보 탭 -->
             <div id="tab-myinfo" class="tab-content relative p-4 space-y-6">
-                <div id="lockOverlay-myinfo" class="hidden absolute inset-0 z-[60] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center pt-20 pb-40">
+                <div id="lockOverlay-myinfo" class="hidden absolute inset-0 z-[200] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center pt-20 pb-40">
                     <i class="ph-fill ph-lock-key text-6xl text-gray-300 mb-4"></i>
                     <h2 class="text-lg font-bold text-gray-800 mb-2" data-i18n="lockTitle">로그인이 필요한 서비스입니다</h2>
                     <p class="text-sm text-gray-500 mb-6 text-center px-8" data-i18n="lockDesc">내 정보 확인 및 수정을 위해서는<br>한양인 포털 로그인이 필요합니다.</p>
@@ -1087,6 +1087,11 @@
     function handleLogout() {
         isLoggedIn = false; userRole = 'guest'; userLoginId = 'guest';
         document.getElementById('loginId').value = ''; document.getElementById('loginPw').value = '';
+        
+        // 상단바 하얀색으로 원복
+        const metaTheme = document.getElementById('themeColorMeta');
+        if(metaTheme) metaTheme.setAttribute('content', '#ffffff');
+
         document.getElementById('mainAppView').classList.add('hidden');
         const loginView = document.getElementById('loginView');
         loginView.classList.remove('-translate-y-full', 'opacity-0');
@@ -1096,6 +1101,11 @@
     function enterApp() {
         const loginView = document.getElementById('loginView');
         loginView.classList.add('-translate-y-full', 'opacity-0');
+        
+        // 앱 진입 시 상단바 파란색으로 변경
+        const metaTheme = document.getElementById('themeColorMeta');
+        if(metaTheme) metaTheme.setAttribute('content', '#003E7A');
+
         setTimeout(() => {
             loginView.classList.add('hidden');
             document.getElementById('mainAppView').classList.remove('hidden');
