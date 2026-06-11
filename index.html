@@ -43,7 +43,8 @@
         body {
             -webkit-tap-highlight-color: transparent;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #003E7A; 
+            background-color: #ffffff; 
+            transition: background-color 0.5s ease;
             margin: 0; padding: 0; overflow: hidden;
         }
         .app-container {
@@ -1091,6 +1092,7 @@
         // 상단바 하얀색으로 원복
         const metaTheme = document.getElementById('themeColorMeta');
         if(metaTheme) metaTheme.setAttribute('content', '#ffffff');
+        document.body.style.backgroundColor = '#ffffff';
 
         document.getElementById('mainAppView').classList.add('hidden');
         const loginView = document.getElementById('loginView');
@@ -1105,6 +1107,7 @@
         // 앱 진입 시 상단바 파란색으로 변경
         const metaTheme = document.getElementById('themeColorMeta');
         if(metaTheme) metaTheme.setAttribute('content', '#003E7A');
+        document.body.style.backgroundColor = '#003E7A';
 
         setTimeout(() => {
             loginView.classList.add('hidden');
