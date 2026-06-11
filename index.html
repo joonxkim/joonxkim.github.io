@@ -13,6 +13,9 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" href="icon.png">
 
+    <!-- 🌟 필기체 폰트 (Life 텍스트용) 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -81,21 +84,20 @@
 
 <div class="app-container">
     
-    <!-- 로그인 화면 -->
-    <div id="loginView" class="absolute inset-0 z-[200] bg-erica flex flex-col items-center justify-center px-8 transition-transform duration-500">
-        <div class="bg-white p-4 rounded-3xl mb-6 shadow-lg shadow-black/20">
-            <i class="ph-fill ph-buildings text-5xl text-erica"></i>
+    <!-- 🌟 세련되게 개편된 로그인 화면 -->
+    <div id="loginView" class="absolute inset-0 z-[200] bg-white flex flex-col items-center justify-center px-8 transition-transform duration-500">
+        <div class="mb-1 flex items-center justify-center">
+            <h1 class="text-3xl font-black text-gray-800 tracking-tight" data-i18n="loginMainTitle">창의인재관 <span class="font-['Caveat'] text-[40px] text-[#0056b3] ml-1 leading-none">Life</span></h1>
         </div>
-        <h1 class="text-3xl font-bold text-white mb-2" data-i18n="loginMainTitle">창의인재관 라이프</h1>
-        <p class="text-sm text-white/70 mb-10 font-medium" data-i18n="loginSubTitle">한양대 ERICA 기숙사생 통합 플랫폼</p>
+        <p class="text-[11px] text-gray-400 mb-10 font-bold" data-i18n="loginSubTitle">한양대 ERICA 기숙사생 통합 플랫폼</p>
         
         <div class="w-full space-y-3 mb-8">
-            <input type="text" id="loginId" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="포털 아이디 (관리자는 'admin')" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white placeholder-white/50 outline-none focus:bg-white/20 transition">
-            <input type="password" id="loginPw" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="비밀번호" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white placeholder-white/50 outline-none focus:bg-white/20 transition">
+            <input type="text" id="loginId" onkeydown="if(event.key==='Enter') handleLogin()" data-i18n-placeholder="loginIdHolder" placeholder="한양인 포털 아이디" class="w-full bg-[#f3f4f6] border-none rounded-2xl p-4 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#0056b3]/50 transition text-sm font-bold">
+            <input type="password" id="loginPw" onkeydown="if(event.key==='Enter') handleLogin()" data-i18n-placeholder="loginPwHolder" placeholder="비밀번호" class="w-full bg-[#f3f4f6] border-none rounded-2xl p-4 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#0056b3]/50 transition text-sm font-bold">
         </div>
         
-        <button onclick="handleLogin()" class="w-full bg-white text-erica font-bold rounded-xl py-4 shadow-lg mb-4 hover:bg-gray-100 transition active:scale-95" data-i18n="loginBtn">로그인</button>
-        <button onclick="handleGuestLogin()" class="w-full border border-white/30 text-white font-medium rounded-xl py-4 hover:bg-white/10 transition active:scale-95" data-i18n="loginGuestBtn">둘러보기 (로그인 없이 시작)</button>
+        <button onclick="handleLogin()" class="w-full bg-[#0056b3] text-white font-bold rounded-2xl py-4 shadow-lg shadow-[#0056b3]/20 mb-4 hover:bg-blue-800 transition active:scale-95" data-i18n="loginBtn">로그인</button>
+        <button onclick="handleGuestLogin()" class="w-full text-gray-400 font-bold text-[11px] py-2 hover:text-gray-600 transition active:scale-95" data-i18n="loginGuestBtn">둘러보기 (로그인 없이 시작)</button>
     </div>
 
     <!-- 메인 앱 -->
@@ -104,7 +106,8 @@
         <header class="bg-erica text-white p-4 flex justify-between items-center shadow-md z-10 relative">
             <div class="flex items-center gap-2">
                 <i class="ph ph-buildings text-2xl"></i>
-                <h1 class="font-bold text-lg tracking-wide" data-i18n="appTitle">창의인재관 라이프</h1>
+                <!-- 🌟 상단 헤더 타이틀 폰트 반영 -->
+                <h1 class="font-bold text-lg tracking-wide" data-i18n="appTitle">창의인재관 <span class="font-['Caveat'] text-2xl ml-0.5 leading-none">Life</span></h1>
             </div>
             <div class="flex items-center gap-3">
                 <div id="bellIconContainer" class="relative cursor-pointer" onclick="toggleNotiPanel()">
@@ -846,10 +849,11 @@
     // 다국어 딕셔너리
     const dict = {
         ko: {
-            appTitle: "창의인재관 라이프", cheatBtn: "시연 100x",
+            appTitle: "창의인재관 <span class=\"font-['Caveat'] text-2xl ml-0.5 leading-none\">Life</span>", cheatBtn: "시연 100x",
             navHome: "홈", navLaundry: "세탁", navConv: "편의", navInq: "문의", navMy: "내 정보",
             welcomeSub: "안녕하세요,", welcomeTitle: "님!",
-            loginMainTitle: "창의인재관 라이프", loginSubTitle: "한양대 ERICA 기숙사생 통합 플랫폼", loginBtn: "로그인", loginGuestBtn: "둘러보기 (로그인 없이 시작)",
+            loginMainTitle: "창의인재관 <span class=\"font-['Caveat'] text-[40px] text-[#0056b3] ml-1 leading-none\">Life</span>", loginSubTitle: "한양대 ERICA 기숙사생 통합 플랫폼", loginBtn: "로그인", loginGuestBtn: "둘러보기 (로그인 없이 시작)",
+            loginIdHolder: "한양인 포털 아이디", loginPwHolder: "비밀번호",
             lockTitle: "로그인이 필요한 서비스입니다", lockDesc: "이 기능을 사용하시려면<br>한양인 포털 로그인이 필요합니다.", lockBtn: "로그인 하러 가기",
             noticeTitle: "기숙사 공지사항",
             homeLaundryTitle: "세탁실 현황", homeLaundrySub: "현재 1층 공용 세탁실", homeLaundryStatus: "대 사용 가능", homeLaundryBtn: "예약/결제",
@@ -903,10 +907,11 @@
             chargeTitle: "포인트 충전", chargeSub: "충전할 금액을 입력해주세요.", chargeTotal: "충전 금액", chargeUnit: "원", chargeReset: "초기화", chargeBtn: "결제하기", btnAdd1k: "+ 1천", btnAdd5k: "+ 5천", btnAdd10k: "+ 1만"
         },
         en: {
-            appTitle: "Dorm Life", cheatBtn: "Speed 100x",
+            appTitle: "Dorm <span class=\"font-['Caveat'] text-2xl ml-0.5 leading-none\">Life</span>", cheatBtn: "Speed 100x",
             navHome: "Home", navLaundry: "Laundry", navConv: "Living", navInq: "Inquiry", navMy: "My Info",
             welcomeSub: "Hello,", welcomeTitle: "!",
-            loginMainTitle: "Dorm Life", loginSubTitle: "Hanyang ERICA Dormitory Platform", loginBtn: "Login", loginGuestBtn: "Look Around (Guest)",
+            loginMainTitle: "Dorm <span class=\"font-['Caveat'] text-[40px] text-[#0056b3] ml-1 leading-none\">Life</span>", loginSubTitle: "Hanyang ERICA Dormitory Platform", loginBtn: "Login", loginGuestBtn: "Look Around (Guest)",
+            loginIdHolder: "Hanyang Portal ID", loginPwHolder: "Password",
             lockTitle: "Login Required", lockDesc: "Please login with your Hanyang Portal ID<br>to use this feature.", lockBtn: "Go to Login",
             noticeTitle: "Dormitory Notices",
             homeLaundryTitle: "Laundry Status", homeLaundrySub: "1st Floor Public", homeLaundryStatus: " Available", homeLaundryBtn: "Reserve/Pay",
@@ -960,10 +965,11 @@
             chargeTitle: "Recharge Points", chargeSub: "Enter the amount to recharge.", chargeTotal: "Amount", chargeUnit: "KRW", chargeReset: "Reset", chargeBtn: "Pay", btnAdd1k: "+ 1K", btnAdd5k: "+ 5K", btnAdd10k: "+ 10K"
         },
         zh: {
-            appTitle: "创意人才馆生活", cheatBtn: "演示 100x",
+            appTitle: "创意人才馆 <span class=\"font-['Caveat'] text-2xl ml-0.5 leading-none\">Life</span>", cheatBtn: "演示 100x",
             navHome: "首页", navLaundry: "洗衣", navConv: "便利", navInq: "咨询", navMy: "我的",
             welcomeSub: "您好，", welcomeTitle: "！",
-            loginMainTitle: "创意人才馆生活", loginSubTitle: "汉阳大学 ERICA 宿舍生一体化平台", loginBtn: "登录", loginGuestBtn: "游客登录 (免登录开始)",
+            loginMainTitle: "创意人才馆 <span class=\"font-['Caveat'] text-[40px] text-[#0056b3] ml-1 leading-none\">Life</span>", loginSubTitle: "汉阳大学 ERICA 宿舍生一体化平台", loginBtn: "登录", loginGuestBtn: "游客登录 (免登录开始)",
+            loginIdHolder: "汉阳大学门户账号", loginPwHolder: "密码",
             lockTitle: "需要登录", lockDesc: "使用该功能需要登录汉阳大学门户网站账号。", lockBtn: "前往登录",
             noticeTitle: "宿舍公告",
             homeLaundryTitle: "洗衣房现状", homeLaundrySub: "目前1层公共洗衣房", homeLaundryStatus: "台可用", homeLaundryBtn: "预约/支付",
