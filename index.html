@@ -782,7 +782,7 @@
             facilityLaundry: "Washer", facilityDryer: "Dryer",
             filterAll: "All", filterAvailable: "Available Only",
             statusAvail: "Avail", statusRsv: "Reserved", statusInUse: "Running", statusWait: "Waiting", 
-            penaltyTitle: "Laundry Rules & Penalty", penaltyDesc: "1. Cancelled if not paid in 10 mins.<br>2. 200 KRW/min extra charge if not collected 5 mins after done.",
+            penaltyTitle: "Laundry Rules & Penalty", penaltyDesc: "1. Cancelled if not paid in 10 mins.<br>2. 200 ₩/min extra charge if not collected 5 mins after done.",
             
             convTitle: "Convenience", convCongestion: "Congestion Status",
             delTitle: "Package Box", delStatus: "Stored", delNoticeTitle: "1 package is stored for you.", delNoticeDesc: "Please authenticate with your phone number at the 1st floor box.",
@@ -816,7 +816,7 @@
             pgApproving: "Approving Payment...", pgSuccessMsg: "{0} KRW has been successfully recharged.", pgBadge: "Dorm Point",
             cardPayment: "Credit/Debit Card", cardSecurePay: "Secure Credit Card Payment", payKakao: "KakaoPay", payNaver: "NaverPay", payToss: "TossPay", payAlipay: "Alipay",
             
-            chargeTitle: "Recharge", chargeSub: "Enter amount.", chargeTotal: "Amount", chargeUnit: "KRW", chargeReset: "Reset", chargeBtn: "Pay", btnAdd1k: "+ 1K", btnAdd5k: "+ 5K", btnAdd10k: "+ 10K",
+            chargeTitle: "Recharge", chargeSub: "Enter amount.", chargeTotal: "Amount", chargeUnit: "₩", chargeReset: "Reset", chargeBtn: "Pay", btnAdd1k: "+ 1K", btnAdd5k: "+ 5K", btnAdd10k: "+ 10K",
             dayMon: "Mon", dayTue: "Tue", dayWed: "Wed", dayThu: "Thu", dayFri: "Fri", daySat: "Sat", daySun: "Sun"
         },
         zh: {
@@ -836,7 +836,7 @@
             facilityLaundry: "洗衣机", facilityDryer: "烘干机",
             filterAll: "全部", filterAvailable: "仅看可用", 
             statusAvail: "可用", statusRsv: "已预约", statusInUse: "运行中", statusWait: "等待收取", 
-            penaltyTitle: "洗衣房规则及处罚说明", penaltyDesc: "1. 预约后10分钟内未支付将自动取消。<br>2. 洗衣结束后5分钟未取走，每分钟将收取200韩元附加费。",
+            penaltyTitle: "洗衣房规则及处罚说明", penaltyDesc: "1. 预约后10分钟内未支付将自动取消。<br>2. 洗衣结束后5分钟未取走，每分钟将收取200 ₩附加费。",
             
             convTitle: "生活便利", convCongestion: "设施实时拥挤度",
             delTitle: "自助快递柜", delStatus: "已保管", delNoticeTitle: "您有1件快递待领取。", delNoticeDesc: "请在1层自助快递柜屏幕输入手机号验证后领取。",
@@ -870,7 +870,7 @@
             pgApproving: "支付审批中...", pgSuccessMsg: "成功充值 {0} 韩元。", pgBadge: "宿舍积分",
             cardPayment: "信用卡·借记卡支付", cardSecurePay: "信用卡安全支付", payKakao: "KakaoPay", payNaver: "NaverPay", payToss: "TossPay", payAlipay: "Alipay",
             
-            chargeTitle: "充值", chargeSub: "请输入充值金额。", chargeTotal: "充值金额", chargeUnit: "韩元", chargeReset: "重置", chargeBtn: "支付", btnAdd1k: "+ 1千", btnAdd5k: "+ 5千", btnAdd10k: "+ 1万",
+            chargeTitle: "充值", chargeSub: "请输入充值金额。", chargeTotal: "充值金额", chargeUnit: "₩", chargeReset: "重置", chargeBtn: "支付", btnAdd1k: "+ 1千", btnAdd5k: "+ 5千", btnAdd10k: "+ 1万",
             dayMon: "周一", dayTue: "周二", dayWed: "周三", dayThu: "周四", dayFri: "周五", daySat: "周六", daySun: "周日"
         }
     };
@@ -1079,7 +1079,7 @@
                 if(m.status === 'available') { cls += 'bg-white border-green-200 shadow-sm hover:border-green-500 hover:shadow cursor-pointer'; badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-status-green shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>`; click = `onclick="openModal(${m.id})"`; } 
                 else if(m.status === 'reserved') { cls += 'bg-orange-50 border-orange-200 opacity-90 cursor-pointer'; badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full">${formatTime(m.timeRemaining)}</div>`; if(m.isMine || userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
                 else if(m.status === 'in-use') { cls += m.isMine ? 'bg-red-50 border-red-300 shadow-sm opacity-100 cursor-pointer' : 'bg-gray-50 border-gray-200 opacity-80'; badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full animate-pulse">${formatTime(m.timeRemaining)}</div>`; if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
-                else if(m.status === 'waiting') { cls += m.isMine ? 'bg-purple-50 border-purple-400 shadow-sm cursor-pointer hover:bg-purple-100' : 'bg-purple-50/50 border-purple-200 opacity-90'; let overText = m.overtime > 300 ? `<span class="text-red-500 ml-1">+${Math.floor((m.overtime-300)/60)*200}원</span>` : ''; badge = `<div class="absolute top-3 right-3 flex flex-col items-end"><div class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">${formatTime(m.overtime)}</div>${overText}</div>`; if(m.isMine) click = `onclick="collectMachine(${m.id})"`; else if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
+                else if(m.status === 'waiting') { cls += m.isMine ? 'bg-purple-50 border-purple-400 shadow-sm cursor-pointer hover:bg-purple-100' : 'bg-purple-50/50 border-purple-200 opacity-90'; const currUnit = dict[currentLang]['chargeUnit']; let overText = m.overtime > 300 ? `<span class="text-red-500 ml-1">+${Math.floor((m.overtime-300)/60)*200}${currUnit}</span>` : ''; badge = `<div class="absolute top-3 right-3 flex flex-col items-end"><div class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">${formatTime(m.overtime)}</div>${overText}</div>`; if(m.isMine) click = `onclick="collectMachine(${m.id})"`; else if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
                 else if(m.status === 'broken') { cls += 'bg-gray-100 border-gray-200 opacity-60'; badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-gray-400"></div>`; if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; }
                 
                 const icon = currentLaundryType === 'washer' ? 'ph ph-washing-machine' : 'ph ph-wind';
@@ -1120,7 +1120,7 @@
     }
     
     function closeModal() { document.getElementById('overlay').classList.remove('open'); const sheet = document.getElementById('bottomSheet'); sheet.classList.remove('open'); setTimeout(() => { if(!sheet.classList.contains('open')) sheet.classList.add('hidden'); }, 300); }
-    function selectCourse(btn, price, time) { document.querySelectorAll('.course-btn').forEach(b => { b.className = 'course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition'; }); btn.className = 'course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition'; selectedCoursePrice = price; selectedCourseTime = time; document.getElementById('modalPrice').innerText = `${price.toLocaleString()} 원`; }
+    function selectCourse(btn, price, time) { document.querySelectorAll('.course-btn').forEach(b => { b.className = 'course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition'; }); btn.className = 'course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition'; selectedCoursePrice = price; selectedCourseTime = time; document.getElementById('modalPrice').innerText = `${price.toLocaleString()} ${dict[currentLang]['chargeUnit']}`; }
     
     function reserveMachine() {
         const list = currentLaundryType === 'washer' ? machines : dryers; const m = list.find(x => x.id === selectedMachineId);
