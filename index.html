@@ -1272,7 +1272,7 @@
 
             container.innerHTML = `
                 <div class="animate-[fadeIn_0.2s_ease-in-out]">
-                    <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700">${dict[currentLang]['facilityCafeteria']}</span><span class="text-[10px] font-bold ${cTextColor}">${cText} <span class="text-gray-400 font-medium">(${cCount}/${cTotal})</span></span></div>
+                    <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700">${dict[currentLang]['facilityCafeteria']}</span><span class="text-[10px] font-bold ${cTextColor}">${cText} <span class="text-gray-400 font-medium">(${Math.floor(cRatio * 100)}%)</span></span></div>
                     <div class="w-full bg-gray-100 rounded-full p-0.5 shadow-inner">
                         <div class="flex h-2.5 w-full rounded-full overflow-hidden">
                             <div class="${cColor} h-full transition-all duration-500" style="width: ${cRatio * 100}%"></div>
@@ -1280,7 +1280,7 @@
                     </div>
                 </div>
                 <div class="animate-[fadeIn_0.2s_ease-in-out] mt-4">
-                    <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700">${dict[currentLang]['facilityLaundryAll']}</span><span class="text-[10px] font-bold ${wTextColor}">${wText} <span class="text-gray-400 font-medium">(${Math.floor(wRatio*100)}%)</span></span></div>
+                    <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700">${dict[currentLang]['facilityLaundryAll']}</span><span class="text-[10px] font-bold ${wTextColor}">${wText} <span class="text-gray-400 font-medium">(${Math.floor(wRatio * 100)}%)</span></span></div>
                     <div class="w-full bg-gray-100 rounded-full p-0.5 shadow-inner">
                         <div class="flex h-2.5 w-full rounded-full overflow-hidden">
                             <div class="${wColor} h-full transition-all duration-500" style="width: ${wRatio * 100}%"></div>
@@ -1288,7 +1288,7 @@
                     </div>
                 </div>
                 <div class="animate-[fadeIn_0.2s_ease-in-out] mt-4">
-                    <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700">${dict[currentLang]['facilityGym1F']}</span><span class="text-[10px] font-bold ${gTextColor}">${gText} <span class="text-gray-400 font-medium">(${gCount}/${gTotal})</span></span></div>
+                    <div class="flex justify-between items-end mb-1"><span class="text-xs font-bold text-gray-700">${dict[currentLang]['facilityGym1F']}</span><span class="text-[10px] font-bold ${gTextColor}">${gText} <span class="text-gray-400 font-medium">(${Math.floor(gRatio * 100)}%)</span></span></div>
                     <div class="w-full bg-gray-100 rounded-full p-0.5 shadow-inner">
                         <div class="flex h-2.5 w-full rounded-full overflow-hidden">
                             <div class="${gColor} h-full transition-all duration-500" style="width: ${gRatio * 100}%"></div>
