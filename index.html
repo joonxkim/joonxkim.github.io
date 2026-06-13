@@ -678,7 +678,7 @@
 
     <!-- QR 스캐너 오버레이 -->
     <div id="qrScanner" class="hidden absolute inset-0 bg-black z-40 flex flex-col justify-center items-center">
-        <div class="relative w-64 h-64 border-2 border-white/50 rounded-xl overflow-hidden mb-6 cursor-pointer" onclick="finishQRPayment(currentQrMachineId)">
+        <div class="relative w-64 h-64 border-2 border-white/50 rounded-xl overflow-hidden mb-6 cursor-pointer" onclick="finishQRPayment(AppState.laundry.currentQrMachineId)">
             <video id="qrVideo" autoplay playsinline muted class="w-full h-full object-cover"></video>
             <div class="scan-line"></div>
         </div>
@@ -857,7 +857,8 @@
                 cardPayment: "신용·체크카드 결제", cardSecurePay: "신용카드로 안전결제", payKakao: "카카오페이", payNaver: "네이버페이", payToss: "토스페이", payAlipay: "Alipay",
                 
                 chargeTitle: "잔액 충전", chargeSub: "결제할 금액을 입력해주세요.", chargeTotal: "충전 금액", chargeUnit: "원", chargeReset: "초기화", chargeBtn: "결제하기", btnAdd1k: "+ 1천", btnAdd5k: "+ 5천", btnAdd10k: "+ 1만",
-                dayMon: "월", dayTue: "화", dayWed: "수", dayThu: "목", dayFri: "금", daySat: "토", daySun: "일"
+                dayMon: "월", dayTue: "화", dayWed: "수", dayThu: "목", dayFri: "금", daySat: "토", daySun: "일",
+                modalCourse1: "표준세탁 (40분)", modalCourse2: "이불/대형 (60분)", dryerCourse1: "표준건조 (45분)", dryerCourse2: "강력/대형 (60분)"
             },
             en: { /* 생략 없이 원본 유지 */
                 appTitle: "Dorm <span class=\"font-['Caveat'] text-2xl ml-0.5 leading-none\">Life</span>", cheatBtn: "Speed 100x",
@@ -915,7 +916,8 @@
                 cardPayment: "Credit/Debit Card", cardSecurePay: "Secure Credit Card Payment", payKakao: "KakaoPay", payNaver: "NaverPay", payToss: "TossPay", payAlipay: "Alipay",
                 
                 chargeTitle: "Recharge", chargeSub: "Enter amount.", chargeTotal: "Amount", chargeUnit: "₩", chargeReset: "Reset", chargeBtn: "Pay", btnAdd1k: "+ 1K", btnAdd5k: "+ 5K", btnAdd10k: "+ 10K",
-                dayMon: "Mon", dayTue: "Tue", dayWed: "Wed", dayThu: "Thu", dayFri: "Fri", daySat: "Sat", daySun: "Sun"
+                dayMon: "Mon", dayTue: "Tue", dayWed: "Wed", dayThu: "Thu", dayFri: "Fri", daySat: "Sat", daySun: "Sun",
+                modalCourse1: "Standard (40m)", modalCourse2: "Blanket/Large (60m)", dryerCourse1: "Standard (45m)", dryerCourse2: "Heavy/Large (60m)"
             },
             zh: { /* 생략 없이 원본 유지 */
                 appTitle: "创意人才馆 <span class=\"font-['Caveat'] text-2xl ml-0.5 leading-none\">Life</span>", cheatBtn: "演示 100x",
@@ -973,7 +975,8 @@
                 cardPayment: "信用卡·借记卡支付", cardSecurePay: "信用卡安全支付", payKakao: "KakaoPay", payNaver: "NaverPay", payToss: "TossPay", payAlipay: "Alipay",
                 
                 chargeTitle: "充值", chargeSub: "请输入充值金额。", chargeTotal: "充值金额", chargeUnit: "₩", chargeReset: "重置", chargeBtn: "支付", btnAdd1k: "+ 1千", btnAdd5k: "+ 5千", btnAdd10k: "+ 1万",
-                dayMon: "周一", dayTue: "周二", dayWed: "周三", dayThu: "周四", dayFri: "周五", daySat: "周六", daySun: "周日"
+                dayMon: "周一", dayTue: "周二", dayWed: "周三", dayThu: "周四", dayFri: "周五", daySat: "周六", daySun: "周日",
+                modalCourse1: "标准洗涤 (40分)", modalCourse2: "被子/大件 (60分)", dryerCourse1: "标准烘干 (45分)", dryerCourse2: "强力/大件 (60分)"
             }
         }
     };
@@ -1645,14 +1648,14 @@
         if (AppState.laundry.currentType === 'washer') {
             document.getElementById('modalCourseLabel').innerText = AppData.dict[AppState.currentLang]['modalSelect'];
             cg.innerHTML = `
-                <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1000, 40)">${AppData.dict[AppState.currentLang]['modalCourse1'] || '일반세탁 (40분)'}</button>
-                <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1500, 60)">${AppData.dict[AppState.currentLang]['modalCourse2'] || '강력세탁 (60분)'}</button>`; 
+                <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1000, 40)">${AppData.dict[AppState.currentLang]['modalCourse1']}</button>
+                <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1500, 60)">${AppData.dict[AppState.currentLang]['modalCourse2']}</button>`; 
             selectCourse(cg.children[0], 1000, 40);
         } else {
             document.getElementById('modalCourseLabel').innerText = AppData.dict[AppState.currentLang]['modalSelect'];
             cg.innerHTML = `
-                <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1200, 45)">${AppData.dict[AppState.currentLang]['dryerCourse1'] || '표준건조 (45분)'}</button>
-                <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1600, 60)">${AppData.dict[AppState.currentLang]['dryerCourse2'] || '강력건조 (60분)'}</button>`; 
+                <button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1200, 45)">${AppData.dict[AppState.currentLang]['dryerCourse1']}</button>
+                <button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1600, 60)">${AppData.dict[AppState.currentLang]['dryerCourse2']}</button>`; 
             selectCourse(cg.children[0], 1200, 45);
         }
         
