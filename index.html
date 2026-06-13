@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>창의인재관 라이프 V4.13</title>
+    <title>창의인재관 라이프 V4.16</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -55,6 +55,7 @@
 
 <div class="app-container">
     
+    <!-- 로그인 화면 -->
     <div id="loginView" class="absolute inset-0 z-[200] bg-white flex flex-col items-center justify-center px-8 transition-transform duration-500">
         <div class="mb-1 flex items-center justify-center">
             <h1 class="text-3xl font-black text-gray-800 tracking-tight" data-i18n="loginMainTitle">창의인재관 <span class="font-['Caveat'] text-[40px] text-[#0056b3] ml-1 leading-none">Life</span></h1>
@@ -70,7 +71,9 @@
         <button onclick="handleGuestLogin()" class="w-full text-gray-400 font-bold text-[11px] py-2 hover:text-gray-600 transition active:scale-95" data-i18n="loginGuestBtn">둘러보기 (로그인 없이 시작)</button>
     </div>
 
+    <!-- 메인 앱 -->
     <div id="mainAppView" class="hidden flex-col h-full">
+        
         <header class="bg-erica text-white p-4 flex justify-between items-center shadow-md z-10 relative">
             <div class="flex items-center gap-2">
                 <i class="ph ph-buildings text-2xl"></i>
@@ -84,6 +87,7 @@
             </div>
         </header>
 
+        <!-- 알림 패널 -->
         <div id="notiPanel" class="hidden absolute top-[72px] right-4 w-[280px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-[100] flex-col max-h-[400px]">
             <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
                 <span class="font-bold text-gray-800 text-sm" data-i18n="notiTitle">알림</span>
@@ -93,6 +97,7 @@
         </div>
 
         <main class="main-content hide-scrollbar relative">
+            
             <!-- 1. 홈 탭 -->
             <div id="tab-home" class="tab-content active p-4 space-y-4">
                 <div class="flex justify-between items-end mb-1 pl-2">
@@ -103,10 +108,11 @@
                     <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Guest&backgroundColor=cce1f5" id="homeUserImg" alt="profile" class="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white">
                 </div>
 
+                <!-- 학생/게스트용 홈 위젯 컨테이너 -->
                 <div id="studentHomeContent" class="space-y-4">
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5"><i class="ph-fill ph-megaphone text-erica text-lg"></i> <span data-i18n="noticeTitle">기숙사 공지사항</span></h3>
+                            <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2"><i class="ph-fill ph-megaphone text-erica text-lg"></i> <span data-i18n="noticeTitle">기숙사 주요 공지</span></h3>
                             <button onclick="window.open('https://hydorm.hanyang.ac.kr/service/board/notice/a/all//index.do', '_blank')" class="text-xs text-gray-400 font-bold hover:text-gray-600 transition flex items-center gap-0.5"><span data-i18n="moreBtn">더보기</span> <i class="ph ph-caret-right"></i></button>
                         </div>
                         <div id="homeNoticeContent" class="space-y-2"></div>
@@ -127,12 +133,12 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
-                        <div onclick="switchTab('myinfo')" class="bg-gradient-to-br from-erica to-erica-700 rounded-2xl p-4 shadow-sm text-white cursor-pointer active:scale-95 transition">
+                        <div onclick="switchTab('myinfo')" class="bg-gradient-to-br from-erica to-erica-700 rounded-2xl p-5 shadow-sm text-white cursor-pointer active:scale-95 transition">
                             <i class="ph ph-wallet text-2xl text-white/80 mb-2"></i>
                             <p class="text-xs text-white/80" data-i18n="homeBalanceTitle">내 잔여 금액</p>
                             <p class="font-bold text-lg"><span id="homeBalance">1,500</span> <span data-i18n="chargeUnit">원</span></p>
                         </div>
-                        <div onclick="switchTab('convenience', 'section-delivery')" class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm cursor-pointer active:scale-95 transition">
+                        <div onclick="switchTab('convenience', 'section-delivery')" class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm cursor-pointer active:scale-95 transition">
                             <div class="flex justify-between items-start mb-2">
                                 <i class="ph ph-package text-2xl text-yellow-500"></i>
                                 <span class="bg-yellow-100 text-yellow-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1건</span>
@@ -142,9 +148,9 @@
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
-                            <div class="flex items-center gap-1.5" id="homeMealTitleContainer"></div>
+                            <div class="flex items-center gap-2" id="homeMealTitleContainer"></div>
                             <button onclick="switchTab('convenience', 'section-meal')" class="text-xs text-gray-400 font-bold hover:text-gray-600 transition flex-shrink-0">
                                 <span data-i18n="more">자세히 보기</span> <i class="ph ph-caret-right align-middle"></i>
                             </button>
@@ -155,16 +161,17 @@
                     </div>
                 </div>
                 
+                <!-- 관리자용 홈 위젯 컨테이너 -->
                 <div id="adminHomeContent" class="hidden space-y-4">
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5"><i class="ph-fill ph-megaphone text-erica text-lg"></i> <span data-i18n="noticeTitle">기숙사 공지사항</span></h3>
+                            <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2"><i class="ph-fill ph-megaphone text-erica text-lg"></i> <span data-i18n="noticeTitle">기숙사 주요 공지</span></h3>
                             <button onclick="window.open('https://hydorm.hanyang.ac.kr/service/board/notice/a/all//index.do', '_blank')" class="text-xs text-gray-400 font-bold hover:text-gray-600 transition flex items-center gap-0.5"><span data-i18n="moreBtn">더보기</span> <i class="ph ph-caret-right"></i></button>
                         </div>
                         <div id="adminHomeNoticeContent" class="space-y-2"></div>
                     </div>
 
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <h3 class="font-bold text-gray-800 text-sm mb-3 flex items-center gap-1.5"><i class="ph-fill ph-shield-check text-erica text-lg"></i><span>학생 상벌점 관리</span></h3>
                         <div class="space-y-3">
                             <input id="adminDemeritStudentId" type="text" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs outline-none focus:border-erica" placeholder="학생 포털 아이디 (예: student)">
@@ -180,9 +187,9 @@
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5"><i class="ph-fill ph-sliders text-erica text-lg"></i> <span data-i18n="adminMealControl">오늘의 식단 제어</span></h3>
+                            <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2"><i class="ph-fill ph-sliders text-erica text-lg"></i> <span data-i18n="adminMealControl">오늘의 식단 제어</span></h3>
                         </div>
                         <div id="adminMealControlList" class="space-y-2"></div>
                     </div>
@@ -340,6 +347,16 @@
                 </div>
                 
                 <div id="inquiryWriteView" class="space-y-4">
+                    <!-- 문의 처리 플로우 바 -->
+                    <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 flex justify-between items-center px-6">
+                        <div class="text-center"><div class="w-6 h-6 bg-erica text-white rounded-full flex items-center justify-center text-xs font-bold mx-auto mb-1">1</div><span class="text-[10px] font-bold text-erica" data-i18n="inqFlow1">접수</span></div>
+                        <div class="h-px bg-blue-200 flex-1 mx-2 mt-[-15px]"></div>
+                        <div class="text-center opacity-50"><div class="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold mx-auto mb-1">2</div><span class="text-[10px] font-bold text-gray-500" data-i18n="inqFlow2">처리 중</span></div>
+                        <div class="h-px bg-gray-200 flex-1 mx-2 mt-[-15px]"></div>
+                        <div class="text-center opacity-50"><div class="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold mx-auto mb-1">3</div><span class="text-[10px] font-bold text-gray-500" data-i18n="inqFlow3">완료</span></div>
+                    </div>
+
+                    <!-- 문의 폼 뷰 -->
                     <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <form onsubmit="event.preventDefault(); submitInquiry();" class="space-y-4">
                             <div>
@@ -354,15 +371,37 @@
                                 <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="inqTitleField">제목 (선택)</label>
                                 <input id="inqTitleInput" type="text" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica" data-i18n-placeholder="inqTitleHolder" placeholder="간단한 요약을 적어주세요.">
                             </div>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="inqLocField">위치/대상 (선택)</label>
+                                    <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica" data-i18n-placeholder="inqLocPlaceholder" placeholder="예: 1층 세탁실">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="inqContactField">연락처 (선택)</label>
+                                    <input type="tel" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica" placeholder="010-0000-0000">
+                                </div>
+                            </div>
+
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="inqContent">내용 (필수)</label>
                                 <textarea id="inqTextArea" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica h-28 resize-none" data-i18n-placeholder="inqPlaceholder" placeholder="문제 상황을 상세히 적어주세요." required></textarea>
                             </div>
+                            
+                            <div>
+                                <button type="button" onclick="document.getElementById('inqFileInput').click()" class="w-full border border-dashed border-gray-300 bg-gray-50 text-gray-500 rounded-lg py-3 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition">
+                                    <i class="ph ph-camera text-lg"></i> <span data-i18n="inqPhotoBtn">사진 첨부 (최대 3장)</span>
+                                </button>
+                                <input type="file" id="inqFileInput" accept="image/*" multiple class="hidden" onchange="handlePhotoUpload(event)">
+                                <div id="photoThumbnails" class="flex gap-2 mt-2 overflow-x-auto hide-scrollbar"></div>
+                            </div>
+
                             <button type="submit" class="w-full bg-gray-800 text-white font-bold rounded-xl py-3.5 shadow-md mt-2" data-i18n="inqSubmit">접수하기</button>
                         </form>
                     </div>
                 </div>
 
+                <!-- 문의 내역 뷰 -->
                 <div id="inquiryHistoryView" class="hidden space-y-3">
                     <div id="inquiryListContainer"></div>
                 </div>
@@ -442,7 +481,6 @@
                         </div>
                     </div>
                     
-                    <!-- 푸시 알림 설정 토글 -->
                     <div class="flex flex-col border-b border-gray-100">
                         <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition" onclick="toggleSubNotiMenu()">
                             <div class="flex items-center gap-2">
@@ -500,16 +538,16 @@
             <button onclick="switchTab('home')" id="nav-home" class="nav-btn active flex flex-col items-center w-14 text-erica transition">
                 <i class="ph-fill ph-house text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navHome">홈</span>
             </button>
-            <button onclick="switchTab('laundry')" id="nav-laundry" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition">
+            <button onclick="switchTab('laundry')" id="nav-laundry" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition text-gray-400">
                 <i class="ph ph-washing-machine text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navLaundry">세탁</span>
             </button>
-            <button onclick="switchTab('convenience')" id="nav-convenience" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition">
+            <button onclick="switchTab('convenience')" id="nav-convenience" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition text-gray-400">
                 <i class="ph ph-storefront text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navConv">편의</span>
             </button>
-            <button onclick="switchTab('inquiry')" id="nav-inquiry" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition">
+            <button onclick="switchTab('inquiry')" id="nav-inquiry" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition text-gray-400">
                 <i class="ph ph-chat-circle-dots text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navInq">문의</span>
             </button>
-            <button onclick="switchTab('myinfo')" id="nav-myinfo" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition">
+            <button onclick="switchTab('myinfo')" id="nav-myinfo" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition text-gray-400">
                 <i class="ph ph-user text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navMy">내 정보</span>
             </button>
         </nav>
@@ -571,7 +609,7 @@
         </div>
     </div>
 
-    <!-- PG 결제 게이트 오버레이 -->
+    <!-- PG 오버레이 -->
     <div id="paymentGateOverlay" class="hidden absolute inset-0 bg-black/60 z-[300] flex flex-col justify-end">
         <div class="bg-white rounded-t-3xl shadow-[0_-10px_30px_rgba(0,0,0,0.15)] w-full max-h-[90%] pb-10 flex flex-col animate-[fadeIn_0.25s_ease-out]">
             <div class="w-12 h-1 bg-gray-200 rounded-full mx-auto my-3"></div>
@@ -638,7 +676,7 @@
         </div>
     </div>
 
-    <!-- QR 스캐너 -->
+    <!-- QR 스캐너 오버레이 -->
     <div id="qrScanner" class="hidden absolute inset-0 bg-black z-40 flex flex-col justify-center items-center">
         <div class="relative w-64 h-64 border-2 border-white/50 rounded-xl overflow-hidden mb-6 cursor-pointer" onclick="finishQRPayment(currentQrMachineId)">
             <video id="qrVideo" autoplay playsinline muted class="w-full h-full object-cover"></video>
@@ -649,9 +687,11 @@
         <button onclick="cancelQRPayment()" class="mt-8 text-white/70 underline" data-i18n="qrCancel">취소</button>
     </div>
 
+</div>
+
 <script>
     // ==========================================
-    // 🌟 전역 변수 및 데이터
+    // 🌟 모든 전역 변수/데이터 최상단 선언 구역
     // ==========================================
     let currentLang = 'ko';
     let isLoggedIn = false;
@@ -660,7 +700,6 @@
     let userLoginId = 'guest'; 
     let balance = 1500;
     
-    // 알림 설정 전역 변수
     let notiSettings = { main: true, laundry: true, delivery: true, notice: true, inquiry: true };
     let notifications = [];
     let isNotiPanelOpen = false;
@@ -676,6 +715,7 @@
     let selectedCongestionFacility = 'cafeteria'; 
 
     let filterStatus = 'all'; 
+    let attachedPhotos = []; // V4.16: 첨부파일 배열
     let selectedMachineId = null; 
     let currentQrMachineId = null; 
     let selectedCourseTime = 40;
@@ -685,7 +725,7 @@
     let userGender = 'W'; 
     let currentLaundryFloor = 'all';
 
-    let activeCollectId = null; // 인카드 수거 모달용 상태 변수
+    let activeCollectId = null; 
 
     let currentChargeAmount = 0;
     let pendingRechargeAmount = 0;
@@ -698,9 +738,16 @@
     const mealTypeZhMap = { '조식': '早餐', '중식': '午餐', '석식': '晚餐' };
 
     let systemNotices = [
-        { "title": "[창의/인재관] 2026년 06월 정기방역 실시 안내(호실 개별 신청)", "date": "2026.06.11", "url": "https://hydorm.hanyang.ac.kr/service/board/notice/view.do?bdSeq=3525" },
-        { "title": "[창의인재원] 2026-하계방학 국가근로 장학생 모집 안내(정정)", "date": "2026.06.08", "url": "https://hydorm.hanyang.ac.kr/service/board/notice/view.do?bdSeq=3522" },
-        { "title": "[창의인재원] 2026-하계방학 교내근로 장학생 모집 안내(행정팀/경비실)(정정)", "date": "2026.06.08", "url": "https://hydorm.hanyang.ac.kr/service/board/notice/view.do?bdSeq=3521" }
+        { "id": 1, "title": "[창의/인재관] 2026년 06월 정기방역 실시 안내(호실 개별 신청)", "date": "2026.06.11", "url": "https://hydorm.hanyang.ac.kr/service/board/notice/view.do?bdSeq=3525" },
+        { "id": 2, "title": "[창의인재원] 2026-하계방학 국가근로 장학생 모집 안내(정정)", "date": "2026.06.08", "url": "https://hydorm.hanyang.ac.kr/service/board/notice/view.do?bdSeq=3522" },
+        { "id": 3, "title": "[창의인재원] 2026-하계방학 교내근로 장학생 모집 안내(행정팀/경비실)(정정)", "date": "2026.06.08", "url": "https://hydorm.hanyang.ac.kr/service/board/notice/view.do?bdSeq=3521" }
+    ];
+
+    // V4.16: 문의 데이터베이스 원복
+    let inquiryData = [
+        { id: 1, isMine: true, status: '처리 중', date: '2026.06.11', category: '세탁기 오류', title: '1층 세탁기 결제 오류', content: '1번 세탁기에서 결제했는데 기기가 안돌아갑니다. 환불 요청합니다.', reply: null, hasPhoto: false },
+        { id: 2, isMine: true, status: '완료', date: '2026.05.20', category: '시설 고장/수리', title: '18층 화장실 수압 문제', content: '샤워기 수압이 너무 약해서 씻기가 힘듭니다. 확인 부탁드려요.', reply: '시설팀에서 밸브 조절 완료했습니다. 확인 부탁드립니다.', hasPhoto: false },
+        { id: 3, isMine: false, status: '접수', date: '2026.06.13', category: '기타 건의사항', title: '휴게실 에어컨 청소 요청', content: '에어컨에서 냄새가 납니다. 필터 청소 부탁드립니다.', reply: null, hasPhoto: false }
     ];
 
     let studentsDb = { 'student': { merit: 3, demerit: 1 }, 'admin': { merit: 0, demerit: 0 }, 'guest': { merit: 0, demerit: 0 } };
@@ -780,10 +827,13 @@
             mealNoData: "등록된 식단이 없습니다.", mealNoDataWeek: "등록된 식단 없음",
             mealDisclaimer: "※ 표기되지 않은 식재료가 포함되어 있을 수 있습니다.", soldOut: "매진",
             
-            inqTitle: "문의 및 수리", inqTabWrite: "문의 작성", inqTabHistory: "내역 확인",
+            inqTitle: "문의 및 수리", inqTabWrite: "문의 작성", inqTabHistory: "내역 확인", inqAdminTitle: "학생 문의 통합 관리",
+            inqFlow1: "접수", inqFlow2: "처리 중", inqFlow3: "완료",
             inqCategory: "분류 (필수)", inqCat1: "시설 고장/수리", inqCat2: "세탁기 오류", inqCat3: "기타 건의사항", 
             inqTitleField: "제목 (선택)", inqTitleHolder: "간단한 요약을 적어주세요.", 
-            inqContent: "내용 (필수)", inqPlaceholder: "문제 상황을 상세히 적어주세요.", inqSubmit: "접수하기",
+            inqLocField: "위치/대상 (선택)", inqLocPlaceholder: "예: 1층 세탁실", inqContactField: "연락처 (선택)", 
+            inqContent: "내용 (필수)", inqPlaceholder: "문제 상황을 상세히 적어주세요.", 
+            inqPhotoBtn: "사진 첨부 (최대 3장)", inqSubmit: "접수하기", photoAttachedBadge: "사진 첨부됨",
             
             myTitle: "내 정보", logoutBtn: "로그아웃",
             myBalance: "내 잔여 금액 (KRW)", myChargeBtn: "+ 간편충전", myLang: "언어 설정 (Language)",
@@ -835,10 +885,13 @@
             mealNoData: "No menu registered.", mealNoDataWeek: "No menu",
             mealDisclaimer: "※ Unlisted ingredients may also be included.", soldOut: "Sold Out",
             
-            inqTitle: "Inquiry & Repair", inqTabWrite: "New Inquiry", inqTabHistory: "History",
-            inqCategory: "Category", inqCat1: "Facility Repair", inqCat2: "Machine Error", inqCat3: "Suggestions", 
-            inqTitleField: "Title", inqTitleHolder: "Brief summary.", 
-            inqContent: "Details", inqPlaceholder: "Please describe the issue in detail.", inqSubmit: "Submit",
+            inqTitle: "Inquiry & Repair", inqTabWrite: "New Inquiry", inqTabHistory: "History", inqAdminTitle: "Admin: Inquiries",
+            inqFlow1: "Received", inqFlow2: "Processing", inqFlow3: "Done",
+            inqCategory: "Category (Req)", inqCat1: "Facility Repair", inqCat2: "Machine Error", inqCat3: "Suggestions", 
+            inqTitleField: "Title (Opt)", inqTitleHolder: "Brief summary of the issue.", 
+            inqLocField: "Location (Opt)", inqLocPlaceholder: "e.g., 1st Flr Laundry", inqContactField: "Contact (Opt)", 
+            inqContent: "Details (Req)", inqPlaceholder: "Please describe the issue in detail.", 
+            inqPhotoBtn: "Attach Photo (Max 3)", inqSubmit: "Submit", photoAttachedBadge: "Photo Attached",
             
             myTitle: "My Info", logoutBtn: "Logout",
             myBalance: "My Balance (KRW)", myChargeBtn: "+ Charge", myLang: "Language",
@@ -890,10 +943,13 @@
             mealNoData: "无登记食谱。", mealNoDataWeek: "无登记食谱",
             mealDisclaimer: "※ 可能含有未标明的成分。", soldOut: "已售罄",
             
-            inqTitle: "咨询与报修", inqTabWrite: "写咨询", inqTabHistory: "查看记录",
-            inqCategory: "分类", inqCat1: "设施故障", inqCat2: "洗衣机故障", inqCat3: "其他建议", 
-            inqTitleField: "标题", inqTitleHolder: "请输入简要概述。", 
-            inqContent: "内容", inqPlaceholder: "请详细描述您遇到的问题。", inqSubmit: "提交申请",
+            inqTitle: "咨询与报修", inqTabWrite: "写咨询", inqTabHistory: "查看记录", inqAdminTitle: "管理员：学生咨询管理",
+            inqFlow1: "受理", inqFlow2: "处理中", inqFlow3: "完成",
+            inqCategory: "分类 (必填)", inqCat1: "设施故障/报修", inqCat2: "洗衣机故障", inqCat3: "其他建议", 
+            inqTitleField: "标题 (选填)", inqTitleHolder: "请输入简要概述。", 
+            inqLocField: "位置/对象 (选填)", inqLocPlaceholder: "例如：1层洗衣房", inqContactField: "联系方式 (选填)", 
+            inqContent: "内容 (必填)", inqPlaceholder: "请详细描述您遇到的问题。", 
+            inqPhotoBtn: "上传照片 (最多3张)", inqSubmit: "提交申请", photoAttachedBadge: "已附加照片",
             
             myTitle: "我的信息", logoutBtn: "退出登录",
             myBalance: "余额 (KRW)", myChargeBtn: "+ 充值", myLang: "语言设置 (Language)",
@@ -989,15 +1045,39 @@
         document.body.style.backgroundColor = '#003E7A';
         setTimeout(() => { loginView.classList.add('hidden'); document.getElementById('mainAppView').classList.remove('hidden'); document.getElementById('mainAppView').classList.add('flex'); initUserUI(); switchTab('home'); }, 500); 
     }
+    
     function initUserUI() {
         document.getElementById('homeUserName').innerText = userName;
         document.getElementById('homeUserImg').src = userRole === 'admin' ? "https://api.dicebear.com/7.x/notionists/svg?seed=Admin&backgroundColor=fca5a5" : "https://api.dicebear.com/7.x/notionists/svg?seed=Erica&backgroundColor=cce1f5";
         const lockTabs = ['laundry', 'myinfo', 'inquiry']; lockTabs.forEach(t => { const overlay = document.getElementById(`lockOverlay-${t}`); if(overlay) { if(!isLoggedIn) overlay.classList.remove('hidden'); else overlay.classList.add('hidden'); } });
         if (document.getElementById('myinfoMeritDisplay')) document.getElementById('myinfoMeritDisplay').innerText = studentsDb[userLoginId]?.merit || 0;
         if (document.getElementById('myinfoDemeritDisplay')) document.getElementById('myinfoDemeritDisplay').innerText = studentsDb[userLoginId]?.demerit || 0;
-        if (userRole === 'admin') { document.getElementById('studentHomeContent').classList.add('hidden'); document.getElementById('adminHomeContent').classList.remove('hidden'); document.getElementById('adminLaundrySubtitle').classList.remove('hidden'); renderAdminMealControl(); } 
-        else { document.getElementById('studentHomeContent').classList.remove('hidden'); document.getElementById('adminHomeContent').classList.add('hidden'); document.getElementById('adminLaundrySubtitle').classList.add('hidden'); }
-        renderExternalNotices(); setGender(userGender); setLang(currentLang);
+        
+        if (userRole === 'admin') { 
+            document.getElementById('studentHomeContent').classList.add('hidden'); 
+            document.getElementById('adminHomeContent').classList.remove('hidden'); 
+            document.getElementById('adminLaundrySubtitle').classList.remove('hidden'); 
+            
+            document.getElementById('inquiryTabControl').classList.remove('hidden');
+            document.getElementById('inquiryMainTitle').setAttribute('data-i18n', 'inqAdminTitle');
+            switchInquiryTab('write'); 
+
+            renderAdminMealControl(); 
+        } 
+        else { 
+            document.getElementById('studentHomeContent').classList.remove('hidden'); 
+            document.getElementById('adminHomeContent').classList.add('hidden'); 
+            document.getElementById('adminLaundrySubtitle').classList.add('hidden'); 
+
+            document.getElementById('inquiryTabControl').classList.remove('hidden');
+            document.getElementById('inquiryMainTitle').setAttribute('data-i18n', 'inqTitle');
+            switchInquiryTab('write');
+        }
+        
+        renderExternalNotices(); 
+        renderInquiryHistory(); 
+        setGender(userGender); 
+        setLang(currentLang);
     }
 
     function setGender(g) {
@@ -1043,6 +1123,7 @@
             </div>`;
         });
         if(document.getElementById('homeNoticeContent')) document.getElementById('homeNoticeContent').innerHTML = html;
+        if(document.getElementById('convNoticeContent')) document.getElementById('convNoticeContent').innerHTML = html;
         if(document.getElementById('adminHomeNoticeContent')) document.getElementById('adminHomeNoticeContent').innerHTML = html;
     }
 
@@ -1119,19 +1200,14 @@
             let gridHtml = '<div class="grid grid-cols-2 gap-3">';
             if(floorMs.length === 0) gridHtml += `<div class="col-span-2 text-center py-10 text-gray-400 text-xs font-bold">기기가 없습니다.</div>`;
             floorMs.forEach(m => {
-                let badge = ''; 
-                // 🌟 수정 1: 1초마다 깜빡임을 방지하기 위해 transition-all duration-200 제거
-                let cls = 'relative rounded-2xl p-4 border overflow-hidden '; 
-                let click = '';
+                let badge = ''; let cls = 'relative rounded-2xl p-4 border overflow-hidden '; let click = '';
                 const title = currentLang === 'ko' ? `${m.id % 6 === 0 ? 6 : m.id % 6}번 ${currentLaundryType==='washer'?'세탁기':'건조기'}` : dict[currentLang][m.nameKey];
                 
                 let myBadge = ''; let bgColor = ''; let borderColor = '';
                 let iconColor = ''; let stColor = ''; let stTextKey = '';
 
                 if(m.status === 'available') { 
-                    bgColor = 'bg-white'; 
-                    // 🌟 수정 2: 터치 후 남는 hover 효과를 제거하고 누를 때만 반응하는 active 속성으로 변경
-                    borderColor = 'border-green-200 shadow-sm active:border-green-500 active:shadow cursor-pointer'; 
+                    bgColor = 'bg-white'; borderColor = 'border-green-200 shadow-sm active:border-green-500 active:shadow cursor-pointer'; 
                     badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-status-green shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>`; 
                     click = `onclick="openModal(${m.id})"`; 
                     iconColor = 'text-status-green'; stColor = 'text-status-green'; stTextKey = 'statusAvail';
@@ -1145,15 +1221,13 @@
                 } 
                 else if(m.status === 'in-use') { 
                     bgColor = 'bg-red-50'; borderColor = m.isMine ? 'border-red-400 border-2 shadow-md' : 'border-red-200 shadow-sm opacity-90'; 
-                    badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full animate-pulse z-10">${formatTime(m.timeRemaining)}</div>`; 
+                    badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full z-10">${formatTime(m.timeRemaining)}</div>`; 
                     click = userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''; 
                     iconColor = m.isMine ? 'text-red-500' : 'text-red-300'; stColor = m.isMine ? 'text-red-600 font-bold' : 'text-red-400'; stTextKey = 'statusInUse';
                     if (m.isMine) myBadge = `<div class="absolute bottom-3 right-3 bg-red-500 text-white text-[9px] font-bold px-2 py-1 rounded-lg shadow-sm z-10">${dict[currentLang]['myMachineBadge']}</div>`;
                 } 
                 else if(m.status === 'waiting') { 
-                    bgColor = 'bg-purple-50'; 
-                    // 🌟 수정 3: 수거 대기 상태에서도 hover 효과를 active로 변경
-                    borderColor = m.isMine ? 'border-purple-400 border-2 shadow-md cursor-pointer active:bg-purple-100' : 'border-purple-200 shadow-sm opacity-90'; 
+                    bgColor = 'bg-purple-50'; borderColor = m.isMine ? 'border-purple-400 border-2 shadow-md cursor-pointer active:bg-purple-100' : 'border-purple-200 shadow-sm opacity-90'; 
                     const currUnit = dict[currentLang]['chargeUnit']; let overText = m.overtime > 300 ? `<span class="text-red-500 ml-1">+${Math.floor((m.overtime-300)/60)*200}${currUnit}</span>` : ''; 
                     badge = `<div class="absolute top-3 right-3 flex flex-col items-end z-10"><div class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">${formatTime(m.overtime)}</div>${overText}</div>`; 
                     click = m.isMine ? `onclick="toggleCollectOverlay(${m.id})"` : (userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''); 
@@ -1172,7 +1246,6 @@
                 cls += `${bgColor} ${borderColor}`;
                 let stText = dict[currentLang][stTextKey] || '상태';
 
-                // 🌟 V4.13: 깜빡임 방지를 위해 애니메이션 클래스를 완전히 제거하여 렌더링 시 흔들림 없는 모달 구축
                 let overlayHtml = '';
                 if (m.isMine && m.status === 'waiting' && activeCollectId === m.id) {
                     overlayHtml = `
@@ -1192,11 +1265,8 @@
     }
 
     function toggleCollectOverlay(id) {
-        if (activeCollectId === id) {
-            activeCollectId = null;
-        } else {
-            activeCollectId = id;
-        }
+        if (activeCollectId === id) { activeCollectId = null; } 
+        else { activeCollectId = id; }
         renderLaundryUI();
     }
 
@@ -1211,10 +1281,10 @@
         const cg = document.getElementById('modalCourseGrid');
         if (currentLaundryType === 'washer') {
             document.getElementById('modalCourseLabel').innerText = dict[currentLang]['modalSelect'];
-            cg.innerHTML = `<button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1000, 40)">표준 세탁 (40분)</button><button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1500, 60)">이불/대형 (60분)</button>`; selectCourse(cg.children[0], 1000, 40);
+            cg.innerHTML = `<button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1000, 40)">${dict[currentLang]['modalCourse1']}</button><button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1500, 60)">${dict[currentLang]['modalCourse2']}</button>`; selectCourse(cg.children[0], 1000, 40);
         } else {
             document.getElementById('modalCourseLabel').innerText = dict[currentLang]['modalSelect'];
-            cg.innerHTML = `<button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1200, 45)">표준 건조 (45분)</button><button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1600, 60)">강력 건조 (60분)</button>`; selectCourse(cg.children[0], 1200, 45);
+            cg.innerHTML = `<button class="course-btn active border-2 border-erica bg-erica-50 text-erica rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1200, 45)">${dict[currentLang]['dryerCourse1']}</button><button class="course-btn border border-gray-200 bg-white text-gray-600 rounded-xl p-3 font-bold text-sm transition" onclick="selectCourse(this, 1600, 60)">${dict[currentLang]['dryerCourse2']}</button>`; selectCourse(cg.children[0], 1200, 45);
         }
         const sheet = document.getElementById('bottomSheet'); sheet.classList.remove('hidden'); setTimeout(() => { document.getElementById('overlay').classList.add('open'); sheet.classList.add('open'); }, 15);
     }
@@ -1226,7 +1296,7 @@
         const list = currentLaundryType === 'washer' ? machines : dryers; const m = list.find(x => x.id === selectedMachineId);
         if(balance < 0) { Swal.fire({ toast: true, position: 'top', icon: 'error', title: dict[currentLang]['alertNoPoint'], text: dict[currentLang]['alertNoPointSub'], showConfirmButton: false, timer: 3000 }); return; }
         if(m.status === 'reserved') { return; }
-        m.status = 'reserved'; m.timeRemaining = 10 * 60; m.isMine = true; closeModal(); renderLaundryUI(); Swal.fire({ toast: true, position: 'top', icon: 'success', title: '예약 완료', showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } });
+        m.status = 'reserved'; m.timeRemaining = 10 * 60; m.isMine = true; closeModal(); renderLaundryUI(); Swal.fire({ toast: true, position: 'top', icon: 'success', title: dict[currentLang]['alertReserve'], showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } });
     }
     
     function scanQRLoop() {
@@ -1267,15 +1337,15 @@
         
         const list = currentLaundryType === 'washer' ? machines : dryers; const m = list.find(x => x.id === id); if (!m) return; 
         balance -= selectedCoursePrice; updateBalanceUI(); m.status = 'in-use'; m.timeRemaining = selectedCourseTime * 60; m.isMine = true; renderLaundryUI();
-        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `결제 완료 및 가동 시작`, showConfirmButton: false, timer: 2000 });
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: dict[currentLang]['alertStart'], showConfirmButton: false, timer: 2000 });
     }
 
     function collectMachine(id) {
         activeCollectId = null; 
         const list = currentLaundryType === 'washer' ? machines : dryers; const m = list.find(x => x.id === id); if (!m) return; 
         let penalty = 0; if(m.overtime > 300) { penalty = Math.floor((m.overtime - 300) / 60) * 200; }
-        if (penalty > 0) { balance -= penalty; updateBalanceUI(); Swal.fire({ icon: 'warning', title: '수거 지연 패널티 부과', text: `5분 초과 미수거로 인해 ${penalty.toLocaleString()}원의 추가 요금이 차감되었습니다.`, confirmButtonColor: '#003E7A' }); } 
-        else { Swal.fire({ toast: true, position: 'top', icon: 'success', title: '수거 완료 감사합니다.', showConfirmButton: false, timer: 2000 }); }
+        if (penalty > 0) { balance -= penalty; updateBalanceUI(); Swal.fire({ icon: 'warning', title: currentLang === 'ko' ? '수거 지연 패널티 부과' : 'Penalty Applied', text: currentLang === 'ko' ? `5분 초과 미수거로 인해 ${penalty.toLocaleString()}${dict[currentLang]['chargeUnit']}의 추가 요금이 차감되었습니다.` : `Deducted ${penalty}${dict[currentLang]['chargeUnit']} due to delay.`, confirmButtonColor: '#003E7A' }); } 
+        else { Swal.fire({ toast: true, position: 'top', icon: 'success', title: currentLang === 'ko' ? '수거 완료 감사합니다.' : 'Collection complete.', showConfirmButton: false, timer: 2000 }); }
         m.status = 'available'; m.isMine = false; m.overtime = 0; renderLaundryUI();
     }
 
@@ -1672,6 +1742,113 @@
     }
 
     // ==========================================
+    // 🌟 V4.15 문의 작성 및 내역 복원 파트
+    // ==========================================
+    function handlePhotoUpload(event) {
+        const files = event.target.files; if (!files) return;
+        for(let i=0; i<files.length; i++) {
+            if (attachedPhotos.length >= 3) { Swal.fire({toast: true, position: 'top', icon: 'warning', title: currentLang==='ko'?'최대 3장까지 첨부 가능합니다.':'Max 3 photos allowed.', showConfirmButton: false, timer: 2000, customClass: { popup: 'rounded-2xl shadow-lg mt-2 text-sm' }}); break; }
+            const reader = new FileReader(); reader.onload = function(e) { attachedPhotos.push(e.target.result); renderPhotoThumbnails(); }; reader.readAsDataURL(files[i]);
+        }
+        event.target.value = ''; 
+    }
+
+    function removePhoto(index) { attachedPhotos.splice(index, 1); renderPhotoThumbnails(); }
+
+    function renderPhotoThumbnails() {
+        const container = document.getElementById('photoThumbnails'); container.innerHTML = '';
+        attachedPhotos.forEach((src, index) => { container.innerHTML += `<div class="relative w-14 h-14 rounded-lg border border-gray-200 overflow-hidden flex-shrink-0 shadow-sm animate-[fadeIn_0.2s_ease-in-out]"><img src="${src}" class="w-full h-full object-cover"><button type="button" onclick="removePhoto(${index})" class="absolute top-1 right-1 bg-black/60 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] hover:bg-red-500 transition"><i class="ph ph-x"></i></button></div>`; });
+    }
+
+    function renderInquiryHistory() {
+        const container = document.getElementById('inquiryListContainer'); if(!container) return; container.innerHTML = '';
+        const filteredData = userRole === 'admin' ? inquiryData : inquiryData.filter(i => i.isMine);
+        if(filteredData.length === 0) { container.innerHTML = `<div class="py-10 text-center text-gray-400 text-xs font-bold">등록된 문의가 없습니다.</div>`; return; }
+        
+        let html = '';
+        filteredData.forEach(item => {
+            let statusBadgeClass = item.status === '완료' ? 'bg-gray-200 text-gray-600' : (item.status === '접수' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-700');
+            
+            let stText = item.status;
+            if(currentLang === 'en') {
+                if(item.status === '접수') stText = 'Received';
+                if(item.status === '처리 중') stText = 'Processing';
+                if(item.status === '완료') stText = 'Done';
+            } else if(currentLang === 'zh') {
+                if(item.status === '접수') stText = '受理';
+                if(item.status === '처리 중') stText = '处理中';
+                if(item.status === '완료') stText = '完成';
+            }
+
+            const replyHtml = item.reply ? `<div class="mt-3 bg-gray-50 p-2 rounded-lg border border-gray-100"><p class="text-[10px] font-bold text-erica mb-0.5">사감실 답변</p><p class="text-xs text-gray-600">${item.reply}</p></div>` : '';
+            const onclickAttr = userRole === 'admin' && item.status !== '완료' ? `onclick="adminReplyPrompt(${item.id})"` : '';
+            html += `<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3 ${userRole==='admin'&&item.status!=='완료'?'cursor-pointer hover:border-erica':''} transition" ${onclickAttr}><div class="flex justify-between items-start mb-2"><span class="text-[10px] ${statusBadgeClass} font-bold px-2 py-0.5 rounded-full">${stText}</span><span class="text-[10px] text-gray-400">${item.date}</span></div><h4 class="font-bold text-gray-800 text-sm mb-1">[${item.category}] ${item.title}</h4><p class="text-xs text-gray-500 line-clamp-2">${item.content}</p>${item.hasPhoto?`<div class="mt-2 text-[10px] text-gray-400 flex items-center gap-1"><i class="ph ph-paperclip"></i> ${dict[currentLang]['photoAttachedBadge']}</div>`:''}${replyHtml}</div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    function submitInquiry() {
+        const content = document.getElementById('inqTextArea').value; if(content.trim() === '') return;
+        const category = document.getElementById('inqCategorySelect').options[document.getElementById('inqCategorySelect').selectedIndex].text;
+        let title = document.getElementById('inqTitleInput').value.trim() || '제목 없음';
+        
+        Swal.fire({ toast: true, position: 'top', icon: 'success', title: '접수 완료', showConfirmButton: false, timer: 2000 });
+        document.querySelector('#tab-inquiry form').reset();
+        
+        const today = new Date(); const dateStr = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+        inquiryData.unshift({ id: Date.now(), isMine: true, status: '접수', date: dateStr, category: category, title: title, content: content, reply: null, hasPhoto: attachedPhotos.length > 0 });
+        
+        attachedPhotos = []; document.getElementById('photoThumbnails').innerHTML = '';
+        setTimeout(() => { switchInquiryTab('history'); renderInquiryHistory(); }, 1000);
+    }
+
+    function adminReplyPrompt(id) {
+        const item = inquiryData.find(i => i.id === id); if(!item) return;
+        Swal.fire({
+            title: `답변 등록`,
+            html: `<div class="text-left mb-3"><p class="text-xs font-bold text-gray-800">[${item.category}] ${item.title}</p><p class="text-xs text-gray-500 mt-1">${item.content}</p></div><textarea id="adminReplyText" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-erica h-24 resize-none" placeholder="학생에게 보낼 답변을 입력하세요."></textarea>`,
+            showCancelButton: true, confirmButtonText: '답변 등록', cancelButtonText: '취소', confirmButtonColor: '#003E7A',
+            preConfirm: () => { const text = document.getElementById('adminReplyText').value; if (!text) Swal.showValidationMessage('답변 내용을 입력해주세요.'); return text; }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                item.reply = result.value; item.status = '완료'; renderInquiryHistory();
+                Swal.fire({toast:true, position:'top', icon:'success', title:'답변이 등록되었습니다.', showConfirmButton:false, timer:1500});
+                if(item.isMine) sendPushNotification('문의 답변 도착', `[${item.title}]에 대한 사감실의 답변이 등록되었습니다.`, 'inquiry');
+            }
+        });
+    }
+
+    // ==========================================
+    // 관리자 상벌점 부여 제어
+    // ==========================================
+    function submitMeritDemerit() {
+        const studentId = document.getElementById('adminDemeritStudentId').value.trim();
+        const type = document.getElementById('adminDemeritType').value;
+        const value = parseInt(document.getElementById('adminDemeritValue').value);
+        const reason = document.getElementById('adminDemeritReason').value.trim();
+
+        if(!studentId) { Swal.fire({toast:true, position:'top', icon:'error', title:'학생 아이디를 입력해주세요.'}); return; }
+        if(!value || value <= 0) { Swal.fire({toast:true, position:'top', icon:'error', title:'올바른 점수를 입력해주세요.'}); return; }
+        if(!reason) { Swal.fire({toast:true, position:'top', icon:'error', title:'부여 사유를 입력해주세요.'}); return; }
+
+        if(!studentsDb[studentId]) { studentsDb[studentId] = { merit: 0, demerit: 0 }; }
+
+        if(type === 'merit') { studentsDb[studentId].merit += value; } 
+        else { studentsDb[studentId].demerit += value; }
+
+        document.getElementById('adminDemeritStudentId').value = '';
+        document.getElementById('adminDemeritValue').value = '';
+        document.getElementById('adminDemeritReason').value = '';
+
+        Swal.fire({
+            icon: 'success',
+            title: '상벌점 반영 완료',
+            text: `[${studentId}] 학생에게 ${type === 'merit' ? '상점' : '벌점'} ${value}점이 정상 반영되었습니다.`,
+            confirmButtonColor: '#003E7A'
+        });
+    }
+
+    // ==========================================
     // 간편충전 모달 및 PG 시스템 연동
     // ==========================================
     function openChargeModal() { currentChargeAmount = 0; updateChargeUI(); document.getElementById('chargeAmountOverlay').classList.remove('hidden'); }
@@ -1749,7 +1926,7 @@
     }
 
     // ==========================================
-    // 다국어 제어 및 탭 네비게이션
+    // 다국어 제어 및 탭 네비게이션 복구
     // ==========================================
     function toggleLanguageDropdown(event) { event.stopPropagation(); document.getElementById('langDropdownMenu').classList.toggle('hidden'); }
     function selectLanguage(lang) { document.getElementById('langDropdownMenu').classList.add('hidden'); setLang(lang); }
@@ -1769,9 +1946,46 @@
             if(dict[lang][key]) el.placeholder = dict[lang][key];
         });
 
-        updateLaundryTitle(); renderLaundryUI(); renderCongestion(); if(mealData) { renderMeals(); renderHomeMeals(); if(userRole === 'admin') renderAdminMealControl(); }
+        updateLaundryTitle(); renderLaundryUI(); renderCongestion(); 
+        if(mealData) { renderMeals(); renderHomeMeals(); if(userRole === 'admin') renderAdminMealControl(); }
+        renderInquiryHistory();
+    }
+    
+    function switchTab(tabName, targetId = null) {
+        if (isNotiPanelOpen) toggleNotiPanel(); 
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('text-erica'); btn.classList.add('text-gray-400'); btn.querySelector('i').classList.replace('ph-fill', 'ph'); });
+        
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+        const activeNav = document.getElementById(`nav-${tabName}`);
+        if(activeNav) { activeNav.classList.remove('text-gray-400'); activeNav.classList.add('text-erica'); activeNav.querySelector('i').classList.replace('ph', 'ph-fill'); }
+        
+        activeCollectId = null; 
+
+        if(targetId) {
+            setTimeout(() => {
+                const targetElement = document.getElementById(targetId);
+                if(targetElement) { targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            }, 100);
+        } else {
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+        
+        if (tabName === 'laundry') renderLaundryUI();
+        else if (tabName === 'convenience') renderCongestion();
+        else if (tabName === 'inquiry') renderInquiryHistory();
+    }
+    
+    function switchInquiryTab(viewType) {
+        const wb = document.getElementById('btnInqWrite'); const hb = document.getElementById('btnInqHistory');
+        const wv = document.getElementById('inquiryWriteView'); const hv = document.getElementById('inquiryHistoryView');
+        if(viewType === 'write') { wb.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-sm py-2 rounded-lg transition"; hb.className = "flex-1 text-gray-500 font-bold text-sm py-2 rounded-lg transition bg-transparent text-gray-400"; wv.classList.remove('hidden'); hv.classList.add('hidden'); } 
+        else { hb.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-sm py-2 rounded-lg transition"; wb.className = "flex-1 text-gray-500 font-bold text-sm py-2 rounded-lg transition bg-transparent text-gray-400"; hv.classList.remove('hidden'); wv.classList.add('hidden'); renderInquiryHistory(); }
     }
 
+    // ==========================================
+    // 푸시 알림 설정 토글 복구
+    // ==========================================
     function toggleSubNotiMenu() {
         const menu = document.getElementById('subNotiMenu'); const icon = document.getElementById('notiExpandIcon');
         if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); icon.classList.add('rotate-180'); } 
@@ -1830,37 +2044,6 @@
                 if(subCircle) { subCircle.classList.remove('translate-x-3'); subCircle.classList.add('translate-x-0'); }
             }
         });
-    }
-    
-    function switchTab(tabName, targetId = null) {
-        if (isNotiPanelOpen) toggleNotiPanel(); 
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('text-erica'); btn.classList.add('text-gray-400'); btn.querySelector('i').classList.replace('ph-fill', 'ph'); });
-        
-        document.getElementById(`tab-${tabName}`).classList.add('active');
-        const activeNav = document.getElementById(`nav-${tabName}`);
-        if(activeNav) { activeNav.classList.remove('text-gray-400'); activeNav.classList.add('text-erica'); activeNav.querySelector('i').classList.replace('ph', 'ph-fill'); }
-        
-        activeCollectId = null; 
-
-        if(targetId) {
-            setTimeout(() => {
-                const targetElement = document.getElementById(targetId);
-                if(targetElement) { targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-            }, 100);
-        } else {
-            document.querySelector('.main-content').scrollTop = 0;
-        }
-        
-        if (tabName === 'laundry') renderLaundryUI();
-        else if (tabName === 'convenience') renderCongestion();
-    }
-    
-    function switchInquiryTab(viewType) {
-        const wb = document.getElementById('btnInqWrite'); const hb = document.getElementById('btnInqHistory');
-        const wv = document.getElementById('inquiryWriteView'); const hv = document.getElementById('inquiryHistoryView');
-        if(viewType === 'write') { wb.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-sm py-2 rounded-lg transition"; hb.className = "flex-1 text-gray-500 font-bold text-sm py-2 rounded-lg transition bg-transparent text-gray-400"; wv.classList.remove('hidden'); hv.classList.add('hidden'); } 
-        else { hb.className = "flex-1 bg-white shadow-sm text-gray-800 font-bold text-sm py-2 rounded-lg transition"; wb.className = "flex-1 text-gray-500 font-bold text-sm py-2 rounded-lg transition bg-transparent text-gray-400"; hv.classList.remove('hidden'); wv.classList.add('hidden'); }
     }
 
     // ==========================================
