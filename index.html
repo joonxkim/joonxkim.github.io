@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>창의인재관 라이프 V4.8</title>
+    <title>창의인재관 라이프 V4.13</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -219,7 +219,6 @@
                     <button onclick="setLaundryFloor(15)" id="tabFloor-15" class="laundry-floor-btn border-b-2 border-transparent text-gray-400 font-bold text-sm px-4 py-2 whitespace-nowrap transition" data-i18n="floor15">15층</button>
                 </div>
 
-                <!-- 🌟 V4.6: 상태 범례 4개(가능, 동작중, 예약됨, 수거대기)로 분리 -->
                 <div class="flex justify-between items-center px-1 transition-opacity min-h-[24px]">
                     <div class="flex gap-2 transition-all duration-300" id="laundryFilterContainer">
                         <span id="filterAllBtn" onclick="setFilter('all')" class="bg-erica text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm cursor-pointer transition" data-i18n="filterAll">전체 보기</span>
@@ -235,7 +234,6 @@
                 
                 <div id="machineContentArea" class="space-y-3 pb-4"></div>
                 
-                <!-- 🌟 V4.6: 패널티 안내 박스 아이콘 정렬 및 텍스트 수정 -->
                 <div id="laundryNoticeBox" class="bg-red-50 border border-red-100 text-red-800 text-xs p-3 rounded-xl leading-relaxed">
                     <p class="font-bold mb-1 flex items-center gap-1.5"><i class="ph-fill ph-warning-circle text-base"></i><span data-i18n="penaltyTitle">세탁실 규칙 및 패널티 안내</span></p>
                     <p data-i18n="penaltyDesc" class="pl-6 text-[11px] text-red-700">1. 예약 후 10분 내 미결제 시 자동 취소<br>2. 세탁 종료 후 5분 미수거 시 분당 200원 추가 요금 발생</p>
@@ -444,7 +442,7 @@
                         </div>
                     </div>
                     
-                    <!-- 🌟 V4.10: 푸시 알림 설정 토글 복구 -->
+                    <!-- 푸시 알림 설정 토글 -->
                     <div class="flex flex-col border-b border-gray-100">
                         <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition" onclick="toggleSubNotiMenu()">
                             <div class="flex items-center gap-2">
@@ -651,7 +649,7 @@
         <button onclick="cancelQRPayment()" class="mt-8 text-white/70 underline" data-i18n="qrCancel">취소</button>
     </div>
 
-    <script>
+<script>
     // ==========================================
     // 🌟 전역 변수 및 데이터
     // ==========================================
@@ -662,7 +660,7 @@
     let userLoginId = 'guest'; 
     let balance = 1500;
     
-    // 🌟 V4.10: 알림 설정 전역 변수
+    // 알림 설정 전역 변수
     let notiSettings = { main: true, laundry: true, delivery: true, notice: true, inquiry: true };
     let notifications = [];
     let isNotiPanelOpen = false;
@@ -686,6 +684,8 @@
     let currentLaundryType = 'washer';
     let userGender = 'W'; 
     let currentLaundryFloor = 'all';
+
+    let activeCollectId = null; // 인카드 수거 모달용 상태 변수
 
     let currentChargeAmount = 0;
     let pendingRechargeAmount = 0;
@@ -788,12 +788,13 @@
             myTitle: "내 정보", logoutBtn: "로그아웃",
             myBalance: "내 잔여 금액 (KRW)", myChargeBtn: "+ 간편충전", myLang: "언어 설정 (Language)",
             myGender: "기숙사 성별 설정", genderW: "여학생", genderM: "남학생",
+            myNoti: "푸시 알림 허용", notiSubLaundry: "세탁기 완료/만료 알림", notiSubDelivery: "택배 도착 알림", notiSubNotice: "기숙사 공지 알림", notiSubInquiry: "문의 답변 알림",
             myMeritLabel: "상점", myDemeritLabel: "벌점", myMeritDemerit: "상벌점 현황",
             notiTitle: "알림", notiClear: "모두 지우기", notiEmpty: "새로운 알림이 없습니다.",
             
             modalTitle: "사용하기", modalSelect: "세탁 코스 선택", modalPriceLabel: "결제 금액", 
             alertDoneSub: "기기 구동이 완료되었습니다. 세탁물을 수거해주세요.", alertConfirm: "확인",
-            collectConfirmTitle: "세탁물을 수거하시겠습니까?", collectConfirmDesc: "수거를 완료하여 기기를 비웁니다.", collectBtn: "수거하기",
+            collectConfirmTitle: "수거하시겠습니까?", collectConfirmDesc: "수거를 완료하여 기기를 비웁니다.", collectBtn: "수거", collectCancel: "취소", myMachineBadge: "내 기기", macBroken: "점검 중",
             adminMealControl: "오늘의 식단 제어",
             
             btnCongestionLive: "실시간", btnCongestionTrend: "요일별",
@@ -842,12 +843,13 @@
             myTitle: "My Info", logoutBtn: "Logout",
             myBalance: "My Balance (KRW)", myChargeBtn: "+ Charge", myLang: "Language",
             myGender: "Dorm Gender Setup", genderW: "Female", genderM: "Male",
+            myNoti: "Allow Push Notifications", notiSubLaundry: "Laundry Alerts", notiSubDelivery: "Package Alerts", notiSubNotice: "Notice Alerts", notiSubInquiry: "Inquiry Alerts",
             myMeritLabel: "Merits", myDemeritLabel: "Demerits", myMeritDemerit: "Point Status",
             notiTitle: "Notifications", notiClear: "Clear All", notiEmpty: "No notifications.",
             
             modalTitle: "Use", modalSelect: "Select Course", modalPriceLabel: "Amount", 
             alertDoneSub: "Machine cycle is complete. Please collect your clothes.", alertConfirm: "OK",
-            collectConfirmTitle: "Collect your laundry?", collectConfirmDesc: "Complete collection to empty the machine.", collectBtn: "Collect",
+            collectConfirmTitle: "Collect?", collectConfirmDesc: "Complete collection to empty the machine.", collectBtn: "Collect", collectCancel: "Cancel", myMachineBadge: "Mine", macBroken: "Broken",
             adminMealControl: "Menu Control (Today)",
             
             btnCongestionLive: "Live", btnCongestionTrend: "Trend",
@@ -896,12 +898,13 @@
             myTitle: "我的信息", logoutBtn: "退出登录",
             myBalance: "余额 (KRW)", myChargeBtn: "+ 充值", myLang: "语言设置 (Language)",
             myGender: "宿舍性别设置", genderW: "女生", genderM: "男生",
+            myNoti: "允许推送通知", notiSubLaundry: "洗衣完成/过期通知", notiSubDelivery: "快递到达通知", notiSubNotice: "宿舍公告通知", notiSubInquiry: "咨询回复通知",
             myMeritLabel: "奖分", myDemeritLabel: "罚分", myMeritDemerit: "奖惩分状况",
             notiTitle: "通知", notiClear: "清空全部", notiEmpty: "暂无新通知。",
             
             modalTitle: "开始使用", modalSelect: "选择模式", modalPriceLabel: "支付金额", 
             alertDoneSub: "洗衣已完成，请及时取出衣物。", alertConfirm: "确认",
-            collectConfirmTitle: "要收取衣物吗？", collectConfirmDesc: "完成收取以清空机器。", collectBtn: "收取",
+            collectConfirmTitle: "收取衣物?", collectConfirmDesc: "完成收取以清空机器。", collectBtn: "收取", collectCancel: "取消", myMachineBadge: "我的", macBroken: "维修中",
             adminMealControl: "控制今日食谱售罄",
             
             btnCongestionLive: "实时", btnCongestionTrend: "按周",
@@ -1025,7 +1028,7 @@
     function removeNoti(id) { notifications = notifications.filter(n => n.id !== id); renderNotis(); }
     function clearAllNotis() { notifications = []; renderNotis(); }
     function sendPushNotification(title, body) {
-        if (!notiSettings.main) return; // 🌟 V4.10: 메인 알림이 꺼져있으면 무시
+        if (!notiSettings.main) return; 
         const now = new Date(); const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         notifications.push({ id: Date.now(), title: title, body: body, time: timeStr }); renderNotis();
         Swal.fire({ toast: true, position: 'top', title: title, text: body, showConfirmButton: false, timer: 4000, width: 'auto', padding: '0.8em', customClass: { popup: 'rounded-2xl shadow-lg border border-gray-200 bg-white/95 backdrop-blur-sm mt-2 text-sm' } });
@@ -1078,7 +1081,6 @@
         container.innerHTML = '';
         
         if (currentLaundryFloor === 'all') {
-            // 🌟 V4.6 전체 탭에서는 왼쪽 필터를 끄고, 입체감 있는 3D 그라데이션 프로그레스 바 적용
             if(filterContainer) filterContainer.classList.add('hidden');
             [1, 5, 10, 15].forEach(floor => {
                 const floorMs = targetList.filter(m => m.floor === floor);
@@ -1117,36 +1119,83 @@
             let gridHtml = '<div class="grid grid-cols-2 gap-3">';
             if(floorMs.length === 0) gridHtml += `<div class="col-span-2 text-center py-10 text-gray-400 text-xs font-bold">기기가 없습니다.</div>`;
             floorMs.forEach(m => {
-                let badge = ''; let cls = 'relative rounded-2xl p-4 border transition-all duration-200 '; let click = '';
+                let badge = ''; let cls = 'relative rounded-2xl p-4 border transition-all duration-200 overflow-hidden '; let click = '';
                 const title = currentLang === 'ko' ? `${m.id % 6 === 0 ? 6 : m.id % 6}번 ${currentLaundryType==='washer'?'세탁기':'건조기'}` : dict[currentLang][m.nameKey];
                 
-                if(m.status === 'available') { cls += 'bg-white border-green-200 shadow-sm hover:border-green-500 hover:shadow cursor-pointer'; badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-status-green shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>`; click = `onclick="openModal(${m.id})"`; } 
-                else if(m.status === 'reserved') { cls += 'bg-orange-50 border-orange-200 opacity-90 cursor-pointer'; badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full">${formatTime(m.timeRemaining)}</div>`; if(m.isMine || userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
-                else if(m.status === 'in-use') { cls += m.isMine ? 'bg-red-50 border-red-300 shadow-sm opacity-100 cursor-pointer' : 'bg-gray-50 border-gray-200 opacity-80'; badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full animate-pulse">${formatTime(m.timeRemaining)}</div>`; if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
-                else if(m.status === 'waiting') { cls += m.isMine ? 'bg-purple-50 border-purple-400 shadow-sm cursor-pointer hover:bg-purple-100' : 'bg-purple-50/50 border-purple-200 opacity-90'; const currUnit = dict[currentLang]['chargeUnit']; let overText = m.overtime > 300 ? `<span class="text-red-500 ml-1">+${Math.floor((m.overtime-300)/60)*200}${currUnit}</span>` : ''; badge = `<div class="absolute top-3 right-3 flex flex-col items-end"><div class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">${formatTime(m.overtime)}</div>${overText}</div>`; if(m.isMine) click = `onclick="promptCollectMachine(${m.id})"`; else if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
-                else if(m.status === 'broken') { cls += 'bg-gray-100 border-gray-200 opacity-60'; badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-gray-400"></div>`; if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; }
+                let myBadge = ''; let bgColor = ''; let borderColor = '';
+                let iconColor = ''; let stColor = ''; let stTextKey = '';
+
+                if(m.status === 'available') { 
+                    bgColor = 'bg-white'; borderColor = 'border-green-200 shadow-sm hover:border-green-500 hover:shadow'; 
+                    badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-status-green shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>`; 
+                    click = `onclick="openModal(${m.id})"`; 
+                    iconColor = 'text-status-green'; stColor = 'text-status-green'; stTextKey = 'statusAvail';
+                } 
+                else if(m.status === 'reserved') { 
+                    bgColor = 'bg-orange-50'; borderColor = m.isMine ? 'border-orange-400 border-2 shadow-md' : 'border-orange-200 shadow-sm opacity-90'; 
+                    badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full z-10">${formatTime(m.timeRemaining)}</div>`; 
+                    click = m.isMine || userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''; 
+                    iconColor = m.isMine ? 'text-orange-500' : 'text-orange-300'; stColor = m.isMine ? 'text-orange-600 font-bold' : 'text-orange-400'; stTextKey = 'statusRsv';
+                    if (m.isMine) myBadge = `<div class="absolute bottom-3 right-3 bg-orange-500 text-white text-[9px] font-bold px-2 py-1 rounded-lg shadow-sm z-10">${dict[currentLang]['myMachineBadge']}</div>`;
+                } 
+                else if(m.status === 'in-use') { 
+                    bgColor = 'bg-red-50'; borderColor = m.isMine ? 'border-red-400 border-2 shadow-md' : 'border-red-200 shadow-sm opacity-90'; 
+                    badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full z-10">${formatTime(m.timeRemaining)}</div>`; 
+                    click = userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''; 
+                    iconColor = m.isMine ? 'text-red-500' : 'text-red-300'; stColor = m.isMine ? 'text-red-600 font-bold' : 'text-red-400'; stTextKey = 'statusInUse';
+                    if (m.isMine) myBadge = `<div class="absolute bottom-3 right-3 bg-red-500 text-white text-[9px] font-bold px-2 py-1 rounded-lg shadow-sm z-10">${dict[currentLang]['myMachineBadge']}</div>`;
+                } 
+                else if(m.status === 'waiting') { 
+                    bgColor = 'bg-purple-50'; borderColor = m.isMine ? 'border-purple-400 border-2 shadow-md cursor-pointer hover:bg-purple-100' : 'border-purple-200 shadow-sm opacity-90'; 
+                    const currUnit = dict[currentLang]['chargeUnit']; let overText = m.overtime > 300 ? `<span class="text-red-500 ml-1">+${Math.floor((m.overtime-300)/60)*200}${currUnit}</span>` : ''; 
+                    badge = `<div class="absolute top-3 right-3 flex flex-col items-end z-10"><div class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">${formatTime(m.overtime)}</div>${overText}</div>`; 
+                    click = m.isMine ? `onclick="toggleCollectOverlay(${m.id})"` : (userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''); 
+                    iconColor = m.isMine ? 'text-purple-500' : 'text-purple-300'; stColor = m.isMine ? 'text-purple-600 font-bold' : 'text-purple-400'; stTextKey = 'statusWait';
+                    if (m.isMine) myBadge = `<div class="absolute bottom-3 right-3 bg-purple-500 text-white text-[9px] font-bold px-2 py-1 rounded-lg shadow-sm z-10">${dict[currentLang]['myMachineBadge']}</div>`;
+                } 
+                else if(m.status === 'broken') { 
+                    bgColor = 'bg-gray-100'; borderColor = 'border-gray-200 opacity-60'; 
+                    badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-gray-400 z-10"></div>`; 
+                    click = userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''; 
+                    iconColor = 'text-gray-400'; stColor = 'text-gray-500'; stTextKey = 'macBroken';
+                }
                 
                 const icon = currentLaundryType === 'washer' ? 'ph ph-washing-machine' : 'ph ph-wind';
-                let iconColor = 'text-gray-400'; 
-                if(m.status === 'available') iconColor = 'text-status-green'; 
-                else if(m.status === 'reserved') iconColor = 'text-orange-400'; 
-                else if(m.status === 'in-use') iconColor = 'text-red-500'; 
-                else if(m.status === 'waiting') iconColor = 'text-status-purple';
                 
-                let stColor = 'text-gray-500'; 
-                let stTextKey = 'statusAvail';
-                if(m.status==='available'){ stColor='text-status-green'; stTextKey='statusAvail'; } 
-                else if(m.status==='reserved'){ stColor='text-orange-500'; stTextKey='statusRsv'; } 
-                else if(m.status==='in-use'){ stColor='text-red-500'; stTextKey='statusInUse'; } 
-                else if(m.status==='waiting'){ stColor='text-purple-500'; stTextKey='statusWait'; }
-                else if(m.status==='broken'){ stColor='text-gray-500'; stTextKey='macBroken'; iconColor='text-gray-400'; }
-                
+                cls += `${bgColor} ${borderColor}`;
                 let stText = dict[currentLang][stTextKey] || '상태';
 
-                gridHtml += `<div class="${cls}" ${click}>${badge}<i class="${icon} text-4xl ${iconColor} mb-2 mt-1"></i><h4 class="font-bold text-gray-800 text-sm">${title}</h4><p class="text-[10px] font-medium ${stColor} mt-1">${stText}</p></div>`;
+                // 🌟 V4.13: 깜빡임 방지를 위해 애니메이션 클래스를 완전히 제거하여 렌더링 시 흔들림 없는 모달 구축
+                let overlayHtml = '';
+                if (m.isMine && m.status === 'waiting' && activeCollectId === m.id) {
+                    overlayHtml = `
+                    <div onclick="event.stopPropagation();" class="absolute inset-0 z-20 bg-purple-50/80 backdrop-blur-[2px] flex flex-col items-center justify-center">
+                        <p class="text-xs font-black text-purple-900 mb-2">${dict[currentLang]['collectConfirmTitle']}</p>
+                        <div class="flex gap-2">
+                            <button onclick="event.stopPropagation(); collectMachine(${m.id});" class="bg-purple-600 text-white text-[11px] font-bold px-4 py-2 rounded-xl shadow active:scale-95 transition">${dict[currentLang]['collectBtn']}</button>
+                            <button onclick="event.stopPropagation(); hideCollectOverlay();" class="bg-white border border-purple-200 text-purple-700 text-[11px] font-bold px-4 py-2 rounded-xl shadow-sm active:scale-95 transition">${dict[currentLang]['collectCancel']}</button>
+                        </div>
+                    </div>`;
+                }
+
+                gridHtml += `<div class="${cls}" ${click}>${myBadge}${badge}${overlayHtml}<i class="${icon} text-4xl ${iconColor} mb-2 mt-1 relative z-0"></i><h4 class="font-bold text-gray-800 text-sm relative z-0">${title}</h4><p class="text-[10px] ${stColor} mt-1 relative z-0">${stText}</p></div>`;
             });
             gridHtml += '</div>'; container.innerHTML = gridHtml;
         }
+    }
+
+    function toggleCollectOverlay(id) {
+        if (activeCollectId === id) {
+            activeCollectId = null;
+        } else {
+            activeCollectId = id;
+        }
+        renderLaundryUI();
+    }
+
+    function hideCollectOverlay() {
+        activeCollectId = null;
+        renderLaundryUI();
     }
 
     function openModal(id) {
@@ -1173,7 +1222,6 @@
         m.status = 'reserved'; m.timeRemaining = 10 * 60; m.isMine = true; closeModal(); renderLaundryUI(); Swal.fire({ toast: true, position: 'top', icon: 'success', title: '예약 완료', showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } });
     }
     
-    // 🌟 V4.10: QR 스캐너 카메라 루프 함수 원복
     function scanQRLoop() {
         if (!qrStream || document.getElementById('qrScanner').classList.contains('hidden')) return;
         const video = document.getElementById('qrVideo');
@@ -1190,12 +1238,10 @@
         if (balance < 0 || balance < selectedCoursePrice) { Swal.fire({ toast: true, position: 'top', icon: 'error', title: dict[currentLang]['alertNoPoint'], text: dict[currentLang]['alertNoPointSub'], showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } }); return; }
         currentQrMachineId = selectedMachineId; closeModal(); document.getElementById('qrScanner').classList.remove('hidden');
         
-        // 🌟 V4.10: 카메라 미디어 장치 호출 (실제 스캐너 역할 복구)
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
                 qrStream = stream; const videoEl = document.getElementById('qrVideo'); videoEl.srcObject = stream; videoEl.play(); scanAnimationReq = requestAnimationFrame(scanQRLoop);
             }).catch(function(err) { 
-                // 권한 거부 시 시연용으로 2초 뒤 자동 결제 폴백 처리
                 setTimeout(() => { if(!document.getElementById('qrScanner').classList.contains('hidden')) finishQRPayment(currentQrMachineId); }, 2000); 
             });
         } else { setTimeout(() => { if(!document.getElementById('qrScanner').classList.contains('hidden')) finishQRPayment(currentQrMachineId); }, 2000); }
@@ -1217,26 +1263,8 @@
         Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `결제 완료 및 가동 시작`, showConfirmButton: false, timer: 2000 });
     }
 
-    // 🌟 V4.10: 수거 확인 Confirm 모달 추가
-    function promptCollectMachine(id) {
-        Swal.fire({
-            title: dict[currentLang]['collectConfirmTitle'],
-            text: dict[currentLang]['collectConfirmDesc'],
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#003E7A',
-            cancelButtonColor: '#9CA3AF',
-            confirmButtonText: dict[currentLang]['collectBtn'],
-            cancelButtonText: dict[currentLang]['qrCancel'],
-            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                collectMachine(id);
-            }
-        });
-    }
-
     function collectMachine(id) {
+        activeCollectId = null; 
         const list = currentLaundryType === 'washer' ? machines : dryers; const m = list.find(x => x.id === id); if (!m) return; 
         let penalty = 0; if(m.overtime > 300) { penalty = Math.floor((m.overtime - 300) / 60) * 200; }
         if (penalty > 0) { balance -= penalty; updateBalanceUI(); Swal.fire({ icon: 'warning', title: '수거 지연 패널티 부과', text: `5분 초과 미수거로 인해 ${penalty.toLocaleString()}원의 추가 요금이 차감되었습니다.`, confirmButtonColor: '#003E7A' }); } 
@@ -1245,7 +1273,7 @@
     }
 
     // ==========================================
-    // 혼잡도 그래프 제어 (SVG 말풍선 Z-index 최적화 및 100% 불투명 처리 완료)
+    // 혼잡도 그래프 제어
     // ==========================================
     function switchCongestionMode(mode) {
         congestionMode = mode;
@@ -1284,7 +1312,7 @@
         const width = 380; const height = 120; const paddingLeft = 10; const paddingRight = 10; const paddingTop = 35; const paddingBottom = 20;
         const chartWidth = width - paddingLeft - paddingRight; const chartHeight = height - paddingTop - paddingBottom;
         
-        const count = dataPoints.length; // 19 points (06~24시)
+        const count = dataPoints.length; 
         const barTotalWidth = chartWidth / count;
         const barWidth = barTotalWidth * 0.75; 
         const barSpacing = barTotalWidth * 0.25;
@@ -1293,14 +1321,12 @@
         let targetIndex = nowHour - 6; 
         if(targetIndex < 0 || targetIndex >= count) targetIndex = -1;
 
-        // V4.5 강력한 드롭 섀도우 정의
         let svgContent = `<defs>
             <filter id="tt-shadow" x="-30%" y="-30%" width="160%" height="160%">
                 <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.4"/>
             </filter>
         </defs>`;
 
-        // 모든 막대를 100% 선명하게 렌더링 (흐림 효과 완벽 제거)
         dataPoints.forEach((val, i) => {
             const x = paddingLeft + (i * barTotalWidth) + barSpacing/2;
             const h = Math.max((val / 100) * chartHeight, 2); 
@@ -1312,7 +1338,6 @@
             svgContent += `<rect x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="2" fill="${color}" />`;
         });
         
-        // 말풍선을 마지막에 그려 완벽히 덮어쓰도록 처리
         if (targetIndex >= 0 && targetIndex < count) {
             const val = dataPoints[targetIndex];
             const x = paddingLeft + (targetIndex * barTotalWidth) + barSpacing/2;
@@ -1740,7 +1765,6 @@
         updateLaundryTitle(); renderLaundryUI(); renderCongestion(); if(mealData) { renderMeals(); renderHomeMeals(); if(userRole === 'admin') renderAdminMealControl(); }
     }
 
-    // 🌟 V4.10: 푸시 알림 설정 토글 함수 원복
     function toggleSubNotiMenu() {
         const menu = document.getElementById('subNotiMenu'); const icon = document.getElementById('notiExpandIcon');
         if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); icon.classList.add('rotate-180'); } 
@@ -1810,6 +1834,8 @@
         const activeNav = document.getElementById(`nav-${tabName}`);
         if(activeNav) { activeNav.classList.remove('text-gray-400'); activeNav.classList.add('text-erica'); activeNav.querySelector('i').classList.replace('ph', 'ph-fill'); }
         
+        activeCollectId = null; 
+
         if(targetId) {
             setTimeout(() => {
                 const targetElement = document.getElementById(targetId);
