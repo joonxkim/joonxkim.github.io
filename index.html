@@ -208,7 +208,6 @@
                 <div class="flex justify-between items-end pl-2">
                     <div class="flex items-center gap-2">
                         <h2 class="text-2xl font-bold text-gray-800" id="laundryMainTitle" data-i18n="laundryTitle">세탁실</h2>
-                        <span id="adminLaundrySubtitle" class="hidden text-xs text-erica font-bold bg-blue-50 px-2 py-1 rounded-md">관리자 모드</span>
                     </div>
                     <button id="cheatBtn" class="text-[10px] bg-gray-200 text-gray-700 px-2 py-1 rounded-full font-bold active:bg-gray-300 transition flex items-center gap-1"><i class="ph-fill ph-fast-forward"></i> <span data-i18n="cheatBtn">시연 100x</span></button>
                 </div>
@@ -858,7 +857,7 @@
                 
                 chargeTitle: "잔액 충전", chargeSub: "결제할 금액을 입력해주세요.", chargeTotal: "충전 금액", chargeUnit: "원", chargeReset: "초기화", chargeBtn: "결제하기", btnAdd1k: "+ 1천", btnAdd5k: "+ 5천", btnAdd10k: "+ 1만",
                 dayMon: "월", dayTue: "화", dayWed: "수", dayThu: "목", dayFri: "금", daySat: "토", daySun: "일",
-                modalCourse1: "표준세탁 (40분)", modalCourse2: "이불/대형 (60분)", dryerCourse1: "표준건조 (45분)", dryerCourse2: "강력/대형 (60분)"
+                modalCourse1: "표준 세탁 (40분)", modalCourse2: "이불/대형 (60분)", dryerCourse1: "표준 건조 (45분)", dryerCourse2: "강력/대형 (60분)"
             },
             en: { /* 생략 없이 원본 유지 */
                 appTitle: "Dorm <span class=\"font-['Caveat'] text-2xl ml-0.5 leading-none\">Life</span>", cheatBtn: "Speed 100x",
@@ -1138,7 +1137,6 @@
         if (AppState.userRole === 'admin') { 
             document.getElementById('studentHomeContent').classList.add('hidden'); 
             document.getElementById('adminHomeContent').classList.remove('hidden'); 
-            document.getElementById('adminLaundrySubtitle').classList.remove('hidden'); 
             
             document.getElementById('inquiryTabControl').classList.remove('hidden');
             document.getElementById('inquiryMainTitle').setAttribute('data-i18n', 'inqAdminTitle');
@@ -1148,7 +1146,6 @@
         else { 
             document.getElementById('studentHomeContent').classList.remove('hidden'); 
             document.getElementById('adminHomeContent').classList.add('hidden'); 
-            document.getElementById('adminLaundrySubtitle').classList.add('hidden'); 
 
             document.getElementById('inquiryTabControl').classList.remove('hidden');
             document.getElementById('inquiryMainTitle').setAttribute('data-i18n', 'inqTitle');
