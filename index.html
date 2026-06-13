@@ -444,6 +444,49 @@
                         </div>
                     </div>
                     
+                    <!-- 🌟 V4.10: 푸시 알림 설정 토글 복구 -->
+                    <div class="flex flex-col border-b border-gray-100">
+                        <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition" onclick="toggleSubNotiMenu()">
+                            <div class="flex items-center gap-2">
+                                <i class="ph ph-bell-ringing text-xl text-gray-500"></i>
+                                <span class="font-bold text-gray-700 text-sm" data-i18n="myNoti">푸시 알림 허용</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div id="mainNotiToggle" class="w-10 h-6 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleMainNotiSwitch(event, this)">
+                                    <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-4 shadow-sm"></div>
+                                </div>
+                                <i id="notiExpandIcon" class="ph ph-caret-down text-gray-400 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        
+                        <div id="subNotiMenu" class="hidden bg-gray-50/50 px-4 py-1 space-y-4 pb-4 border-t border-gray-100">
+                            <div class="flex justify-between items-center pl-7 pr-1 mt-2">
+                                <span class="text-xs font-bold text-gray-600" data-i18n="notiSubLaundry">세탁기 완료/만료 알림</span>
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this, 'laundry')">
+                                    <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pl-7 pr-1">
+                                <span class="text-xs font-bold text-gray-600" data-i18n="notiSubDelivery">택배 도착 알림</span>
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this, 'delivery')">
+                                    <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pl-7 pr-1">
+                                <span class="text-xs font-bold text-gray-600" data-i18n="notiSubNotice">기숙사 공지 알림</span>
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this, 'notice')">
+                                    <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pl-7 pr-1">
+                                <span class="text-xs font-bold text-gray-600" data-i18n="notiSubInquiry">문의 답변 알림</span>
+                                <div class="sub-noti-toggle w-8 h-5 bg-erica rounded-full relative cursor-pointer transition-colors duration-300" onclick="toggleSubNotiSwitch(this, 'inquiry')">
+                                    <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 translate-x-3 shadow-sm"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition" onclick="handleLogout()">
                         <div class="flex items-center gap-2">
                             <i class="ph ph-sign-out text-xl text-red-400"></i>
@@ -608,9 +651,7 @@
         <button onclick="cancelQRPayment()" class="mt-8 text-white/70 underline" data-i18n="qrCancel">취소</button>
     </div>
 
-</div>
-
-<script>
+    <script>
     // ==========================================
     // 🌟 전역 변수 및 데이터
     // ==========================================
@@ -621,6 +662,8 @@
     let userLoginId = 'guest'; 
     let balance = 1500;
     
+    // 🌟 V4.10: 알림 설정 전역 변수
+    let notiSettings = { main: true, laundry: true, delivery: true, notice: true, inquiry: true };
     let notifications = [];
     let isNotiPanelOpen = false;
 
@@ -749,8 +792,8 @@
             notiTitle: "알림", notiClear: "모두 지우기", notiEmpty: "새로운 알림이 없습니다.",
             
             modalTitle: "사용하기", modalSelect: "세탁 코스 선택", modalPriceLabel: "결제 금액", 
-            modalQRBtn: "QR 스캔 결제 및 시작", modalReserveBtn: "10분 대기 예약 (찜하기)", qrScanning: "기기의 QR코드를 스캔해주세요...", qrCancel: "취소",
-            alertNoPoint: "미납 요금 발생", alertNoPointSub: "잔액이 부족하거나 미납 요금이 있습니다. 충전 후 이용해주세요.",
+            alertDoneSub: "기기 구동이 완료되었습니다. 세탁물을 수거해주세요.", alertConfirm: "확인",
+            collectConfirmTitle: "세탁물을 수거하시겠습니까?", collectConfirmDesc: "수거를 완료하여 기기를 비웁니다.", collectBtn: "수거하기",
             adminMealControl: "오늘의 식단 제어",
             
             btnCongestionLive: "실시간", btnCongestionTrend: "요일별",
@@ -803,8 +846,8 @@
             notiTitle: "Notifications", notiClear: "Clear All", notiEmpty: "No notifications.",
             
             modalTitle: "Use", modalSelect: "Select Course", modalPriceLabel: "Amount", 
-            modalQRBtn: "Scan QR & Start", modalReserveBtn: "Reserve for 10 mins", qrScanning: "Please scan the machine's QR code...", qrCancel: "Cancel",
-            alertNoPoint: "Insufficient Balance / Unpaid", alertNoPointSub: "Please recharge your balance.",
+            alertDoneSub: "Machine cycle is complete. Please collect your clothes.", alertConfirm: "OK",
+            collectConfirmTitle: "Collect your laundry?", collectConfirmDesc: "Complete collection to empty the machine.", collectBtn: "Collect",
             adminMealControl: "Menu Control (Today)",
             
             btnCongestionLive: "Live", btnCongestionTrend: "Trend",
@@ -857,8 +900,8 @@
             notiTitle: "通知", notiClear: "清空全部", notiEmpty: "暂无新通知。",
             
             modalTitle: "开始使用", modalSelect: "选择模式", modalPriceLabel: "支付金额", 
-            modalQRBtn: "扫码支付并启动", modalReserveBtn: "10分钟等待预约", qrScanning: "请扫描机器上的二维码...", qrCancel: "取消",
-            alertNoPoint: "余额不足 / 有未支付账单", alertNoPointSub: "请充值余额。",
+            alertDoneSub: "洗衣已完成，请及时取出衣物。", alertConfirm: "确认",
+            collectConfirmTitle: "要收取衣物吗？", collectConfirmDesc: "完成收取以清空机器。", collectBtn: "收取",
             adminMealControl: "控制今日食谱售罄",
             
             btnCongestionLive: "实时", btnCongestionTrend: "按周",
@@ -982,6 +1025,7 @@
     function removeNoti(id) { notifications = notifications.filter(n => n.id !== id); renderNotis(); }
     function clearAllNotis() { notifications = []; renderNotis(); }
     function sendPushNotification(title, body) {
+        if (!notiSettings.main) return; // 🌟 V4.10: 메인 알림이 꺼져있으면 무시
         const now = new Date(); const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         notifications.push({ id: Date.now(), title: title, body: body, time: timeStr }); renderNotis();
         Swal.fire({ toast: true, position: 'top', title: title, text: body, showConfirmButton: false, timer: 4000, width: 'auto', padding: '0.8em', customClass: { popup: 'rounded-2xl shadow-lg border border-gray-200 bg-white/95 backdrop-blur-sm mt-2 text-sm' } });
@@ -1079,7 +1123,7 @@
                 if(m.status === 'available') { cls += 'bg-white border-green-200 shadow-sm hover:border-green-500 hover:shadow cursor-pointer'; badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-status-green shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>`; click = `onclick="openModal(${m.id})"`; } 
                 else if(m.status === 'reserved') { cls += 'bg-orange-50 border-orange-200 opacity-90 cursor-pointer'; badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full">${formatTime(m.timeRemaining)}</div>`; if(m.isMine || userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
                 else if(m.status === 'in-use') { cls += m.isMine ? 'bg-red-50 border-red-300 shadow-sm opacity-100 cursor-pointer' : 'bg-gray-50 border-gray-200 opacity-80'; badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full animate-pulse">${formatTime(m.timeRemaining)}</div>`; if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
-                else if(m.status === 'waiting') { cls += m.isMine ? 'bg-purple-50 border-purple-400 shadow-sm cursor-pointer hover:bg-purple-100' : 'bg-purple-50/50 border-purple-200 opacity-90'; const currUnit = dict[currentLang]['chargeUnit']; let overText = m.overtime > 300 ? `<span class="text-red-500 ml-1">+${Math.floor((m.overtime-300)/60)*200}${currUnit}</span>` : ''; badge = `<div class="absolute top-3 right-3 flex flex-col items-end"><div class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">${formatTime(m.overtime)}</div>${overText}</div>`; if(m.isMine) click = `onclick="collectMachine(${m.id})"`; else if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
+                else if(m.status === 'waiting') { cls += m.isMine ? 'bg-purple-50 border-purple-400 shadow-sm cursor-pointer hover:bg-purple-100' : 'bg-purple-50/50 border-purple-200 opacity-90'; const currUnit = dict[currentLang]['chargeUnit']; let overText = m.overtime > 300 ? `<span class="text-red-500 ml-1">+${Math.floor((m.overtime-300)/60)*200}${currUnit}</span>` : ''; badge = `<div class="absolute top-3 right-3 flex flex-col items-end"><div class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">${formatTime(m.overtime)}</div>${overText}</div>`; if(m.isMine) click = `onclick="promptCollectMachine(${m.id})"`; else if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; } 
                 else if(m.status === 'broken') { cls += 'bg-gray-100 border-gray-200 opacity-60'; badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-gray-400"></div>`; if(userRole === 'admin') click = `onclick="adminMachineAction(${m.id})"`; }
                 
                 const icon = currentLaundryType === 'washer' ? 'ph ph-washing-machine' : 'ph ph-wind';
@@ -1129,17 +1173,69 @@
         m.status = 'reserved'; m.timeRemaining = 10 * 60; m.isMine = true; closeModal(); renderLaundryUI(); Swal.fire({ toast: true, position: 'top', icon: 'success', title: '예약 완료', showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } });
     }
     
+    // 🌟 V4.10: QR 스캐너 카메라 루프 함수 원복
+    function scanQRLoop() {
+        if (!qrStream || document.getElementById('qrScanner').classList.contains('hidden')) return;
+        const video = document.getElementById('qrVideo');
+        if (video.readyState === video.HAVE_ENOUGH_DATA && video.videoWidth > 0) {
+            const canvas = document.createElement('canvas'); canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d', { willReadFrequently: true }); context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            if (typeof jsQR !== 'undefined') { const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" }); if (code && code.data) { finishQRPayment(currentQrMachineId); return; } }
+        }
+        scanAnimationReq = requestAnimationFrame(scanQRLoop);
+    }
+
     function startQRPayment() {
         if (balance < 0 || balance < selectedCoursePrice) { Swal.fire({ toast: true, position: 'top', icon: 'error', title: dict[currentLang]['alertNoPoint'], text: dict[currentLang]['alertNoPointSub'], showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } }); return; }
         currentQrMachineId = selectedMachineId; closeModal(); document.getElementById('qrScanner').classList.remove('hidden');
-        setTimeout(() => { if(!document.getElementById('qrScanner').classList.contains('hidden')) finishQRPayment(currentQrMachineId); }, 2500);
+        
+        // 🌟 V4.10: 카메라 미디어 장치 호출 (실제 스캐너 역할 복구)
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+                qrStream = stream; const videoEl = document.getElementById('qrVideo'); videoEl.srcObject = stream; videoEl.play(); scanAnimationReq = requestAnimationFrame(scanQRLoop);
+            }).catch(function(err) { 
+                // 권한 거부 시 시연용으로 2초 뒤 자동 결제 폴백 처리
+                setTimeout(() => { if(!document.getElementById('qrScanner').classList.contains('hidden')) finishQRPayment(currentQrMachineId); }, 2000); 
+            });
+        } else { setTimeout(() => { if(!document.getElementById('qrScanner').classList.contains('hidden')) finishQRPayment(currentQrMachineId); }, 2000); }
     }
-    function cancelQRPayment() { document.getElementById('qrScanner').classList.add('hidden'); }
+
+    function cancelQRPayment() { 
+        document.getElementById('qrScanner').classList.add('hidden'); 
+        if (qrStream) { qrStream.getTracks().forEach(track => track.stop()); qrStream = null; } 
+        if (scanAnimationReq) cancelAnimationFrame(scanAnimationReq); 
+    }
+
     function finishQRPayment(id) {
-        document.getElementById('qrScanner').classList.add('hidden'); const list = currentLaundryType === 'washer' ? machines : dryers; const m = list.find(x => x.id === id); if (!m) return; 
+        document.getElementById('qrScanner').classList.add('hidden'); 
+        if (qrStream) { qrStream.getTracks().forEach(track => track.stop()); qrStream = null; }
+        if (scanAnimationReq) cancelAnimationFrame(scanAnimationReq);
+        
+        const list = currentLaundryType === 'washer' ? machines : dryers; const m = list.find(x => x.id === id); if (!m) return; 
         balance -= selectedCoursePrice; updateBalanceUI(); m.status = 'in-use'; m.timeRemaining = selectedCourseTime * 60; m.isMine = true; renderLaundryUI();
         Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `결제 완료 및 가동 시작`, showConfirmButton: false, timer: 2000 });
     }
+
+    // 🌟 V4.10: 수거 확인 Confirm 모달 추가
+    function promptCollectMachine(id) {
+        Swal.fire({
+            title: dict[currentLang]['collectConfirmTitle'],
+            text: dict[currentLang]['collectConfirmDesc'],
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#003E7A',
+            cancelButtonColor: '#9CA3AF',
+            confirmButtonText: dict[currentLang]['collectBtn'],
+            cancelButtonText: dict[currentLang]['qrCancel'],
+            customClass: { popup: 'rounded-3xl shadow-xl p-6', title: 'text-base font-bold' }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                collectMachine(id);
+            }
+        });
+    }
+
     function collectMachine(id) {
         const list = currentLaundryType === 'washer' ? machines : dryers; const m = list.find(x => x.id === id); if (!m) return; 
         let penalty = 0; if(m.overtime > 300) { penalty = Math.floor((m.overtime - 300) / 60) * 200; }
@@ -1643,8 +1739,68 @@
 
         updateLaundryTitle(); renderLaundryUI(); renderCongestion(); if(mealData) { renderMeals(); renderHomeMeals(); if(userRole === 'admin') renderAdminMealControl(); }
     }
+
+    // 🌟 V4.10: 푸시 알림 설정 토글 함수 원복
+    function toggleSubNotiMenu() {
+        const menu = document.getElementById('subNotiMenu'); const icon = document.getElementById('notiExpandIcon');
+        if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); icon.classList.add('rotate-180'); } 
+        else { menu.classList.add('hidden'); icon.classList.remove('rotate-180'); }
+    }
+
+    function toggleSubNotiSwitch(el, key) {
+        const circle = el.children[0];
+        if (el.classList.contains('bg-erica')) {
+            el.classList.replace('bg-erica', 'bg-gray-300');
+            circle.classList.remove('translate-x-3'); circle.classList.add('translate-x-0');
+            notiSettings[key] = false; 
+        } else {
+            el.classList.replace('bg-gray-300', 'bg-erica');
+            circle.classList.remove('translate-x-0'); circle.classList.add('translate-x-3');
+            notiSettings[key] = true;  
+        }
+        checkSubTogglesState(); 
+    }
+
+    function checkSubTogglesState() {
+        let anyOn = notiSettings.laundry || notiSettings.delivery || notiSettings.notice || notiSettings.inquiry;
+        const mainToggle = document.getElementById('mainNotiToggle');
+        if (mainToggle) {
+            const mainCircle = mainToggle.children[0];
+            if (!anyOn) {
+                mainToggle.classList.replace('bg-erica', 'bg-gray-300'); mainCircle.classList.replace('translate-x-4', 'translate-x-0');
+                notiSettings.main = false;
+            } else {
+                mainToggle.classList.replace('bg-gray-300', 'bg-erica'); mainCircle.classList.replace('translate-x-0', 'translate-x-4');
+                notiSettings.main = true;
+            }
+        }
+    }
+
+    function toggleMainNotiSwitch(event, el) {
+        event.stopPropagation(); 
+        const circle = el.children[0]; const isTurningOn = el.classList.contains('bg-gray-300');
+        
+        if (isTurningOn) {
+            el.classList.replace('bg-gray-300', 'bg-erica'); circle.classList.replace('translate-x-0', 'translate-x-4');
+            notiSettings = { main: true, laundry: true, delivery: true, notice: true, inquiry: true };
+        } else {
+            el.classList.replace('bg-erica', 'bg-gray-300'); circle.classList.replace('translate-x-4', 'translate-x-0');
+            notiSettings = { main: false, laundry: false, delivery: false, notice: false, inquiry: false };
+        }
+
+        const isOn = isTurningOn;
+        document.querySelectorAll('.sub-noti-toggle').forEach(sub => {
+            const subCircle = sub.children[0];
+            if (isOn) {
+                sub.classList.replace('bg-gray-300', 'bg-erica');
+                if(subCircle) { subCircle.classList.remove('translate-x-0'); subCircle.classList.add('translate-x-3'); }
+            } else {
+                sub.classList.replace('bg-erica', 'bg-gray-300');
+                if(subCircle) { subCircle.classList.remove('translate-x-3'); subCircle.classList.add('translate-x-0'); }
+            }
+        });
+    }
     
-    // 🌟 V4.5: 스크롤 네비게이션 (targetId 연동) 완벽 복원
     function switchTab(tabName, targetId = null) {
         if (isNotiPanelOpen) toggleNotiPanel(); 
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
