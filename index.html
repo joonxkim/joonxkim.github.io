@@ -150,7 +150,7 @@
 
                     <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
-                            <div class="flex items-center gap-2" id="homeMealTitleContainer"></div>
+                            <div class="flex items-center gap-1.5" id="homeMealTitleContainer"></div>
                             <button onclick="switchTab('convenience', 'section-meal')" class="text-xs text-gray-400 font-bold hover:text-gray-600 transition flex-shrink-0">
                                 <span data-i18n="more">자세히 보기</span> <i class="ph ph-caret-right align-middle"></i>
                             </button>
@@ -1924,7 +1924,7 @@
 
         if (!foundMeal) {
             let emptyMsg = AppData.dict[AppState.currentLang]['mealNoData'];
-            if (tCont) tCont.innerHTML = `<h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5">${prefix}식단</h3>`;
+            if (tCont) tCont.innerHTML = `<h3 class="font-bold text-gray-800 text-sm flex items-center">${prefix}식단</h3>`;
             container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">${emptyMsg}</p>`; 
             return;
         }
@@ -1943,9 +1943,9 @@
         
         if (tCont) {
             tCont.innerHTML = `
-            <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1.5">${prefix}${suffix}</h3>
-            <span class="ml-2 text-[9px] ${stClass} px-1.5 py-0.5 rounded font-bold">${stText}</span>
-            <span class="ml-1.5 text-[10px] text-gray-500 font-medium">${AppData.mealTimes[targetType]}</span>`;
+            <h3 class="font-bold text-gray-800 text-sm flex items-center">${prefix}${suffix}</h3>
+            <span class="text-[9px] ${stClass} px-1.5 py-0.5 rounded font-bold">${stText}</span>
+            <span class="text-[10px] text-gray-500 font-medium">${AppData.mealTimes[targetType]}</span>`;
         }
         container.innerHTML = generateMealHTML(filteredMeals, true);
     }
