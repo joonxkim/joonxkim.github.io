@@ -150,7 +150,7 @@
 
                     <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
-                            <div class="flex items-center gap-1.5" id="homeMealTitleContainer"></div>
+                            <div class="flex items-center" id="homeMealTitleContainer"></div>
                             <button onclick="switchTab('convenience', 'section-meal')" class="text-xs text-gray-400 font-bold hover:text-gray-600 transition flex-shrink-0">
                                 <span data-i18n="more">자세히 보기</span> <i class="ph ph-caret-right align-middle"></i>
                             </button>
@@ -574,7 +574,7 @@
             <button onclick="startQRPayment()" class="w-full bg-erica text-white rounded-xl py-4 font-bold text-lg shadow-md active:bg-erica-700 transition flex justify-center items-center gap-2">
                 <i class="ph ph-qr-code text-xl"></i> <span data-i18n="modalQRBtn">QR 스캔 결제 및 시작</span>
             </button>
-            <button onclick="reserveMachine()" class="w-full bg-white border border-gray-300 text-gray-700 rounded-xl py-3 font-bold text-sm hover:bg-gray-50 transition flex justify-center items-center gap-2">
+            <button id="btnReserveAction" onclick="reserveMachine()" class="w-full bg-white border border-gray-300 text-gray-700 rounded-xl py-3 font-bold text-sm hover:bg-gray-50 transition flex justify-center items-center gap-2">
                 <i class="ph ph-clock text-lg"></i> <span data-i18n="modalReserveBtn">10분 대기 예약 (찜하기)</span>
             </button>
         </div>
@@ -725,7 +725,8 @@
             selectedCoursePrice: 1000,
             currentType: 'washer',
             currentFloor: 'all',
-            activeCollectId: null 
+            activeCollectId: null,
+            activeReserveId: null
         },
 
         inquiry: {
@@ -843,7 +844,9 @@
                 
                 modalTitle: "사용하기", modalSelect: "세탁 코스 선택", modalPriceLabel: "결제 금액", 
                 alertDoneSub: "기기 구동이 완료되었습니다. 세탁물을 수거해주세요.", alertConfirm: "확인",
+                alertNoPoint: "잔액이 부족합니다", alertNoPointSub: "잔액을 먼저 충전해주세요.", alertReserve: "예약 완료", alertStart: "작동 시작",
                 collectConfirmTitle: "수거하시겠습니까?", collectConfirmDesc: "수거를 완료하여 기기를 비웁니다.", collectBtn: "수거", collectCancel: "취소", myMachineBadge: "내 기기", macBroken: "점검 중",
+                reserveConfirmTitle: "예약된 기기입니다", reserveUseBtn: "사용", reserveCancelBtn: "취소", reserveCancelled: "예약이 취소되었습니다.",
                 adminMealControl: "오늘의 식단 제어",
                 
                 btnCongestionLive: "실시간", btnCongestionTrend: "요일별",
@@ -902,7 +905,9 @@
                 
                 modalTitle: "Use", modalSelect: "Select Course", modalPriceLabel: "Amount", 
                 alertDoneSub: "Machine cycle is complete. Please collect your clothes.", alertConfirm: "OK",
+                alertNoPoint: "Insufficient Balance", alertNoPointSub: "Please recharge your balance.", alertReserve: "Reserved", alertStart: "Started",
                 collectConfirmTitle: "Collect?", collectConfirmDesc: "Complete collection to empty the machine.", collectBtn: "Collect", collectCancel: "Cancel", myMachineBadge: "Mine", macBroken: "Broken",
+                reserveConfirmTitle: "Reserved Machine", reserveUseBtn: "Use", reserveCancelBtn: "Cancel", reserveCancelled: "Reservation cancelled.",
                 adminMealControl: "Menu Control (Today)",
                 
                 btnCongestionLive: "Live", btnCongestionTrend: "Trend",
@@ -961,7 +966,9 @@
                 
                 modalTitle: "开始使用", modalSelect: "选择模式", modalPriceLabel: "支付金额", 
                 alertDoneSub: "洗衣已完成，请及时取出衣物。", alertConfirm: "确认",
+                alertNoPoint: "余额不足", alertNoPointSub: "请先充值余额。", alertReserve: "预约成功", alertStart: "开始运行",
                 collectConfirmTitle: "收取衣物?", collectConfirmDesc: "完成收取以清空机器。", collectBtn: "收取", collectCancel: "取消", myMachineBadge: "我的", macBroken: "维修中",
+                reserveConfirmTitle: "已预约机器", reserveUseBtn: "使用", reserveCancelBtn: "取消", reserveCancelled: "预约已取消。",
                 adminMealControl: "控制今日食谱售罄",
                 
                 btnCongestionLive: "实时", btnCongestionTrend: "按周",
@@ -1560,7 +1567,7 @@
                     bgColor = 'bg-orange-50'; 
                     borderColor = m.isMine ? 'border-orange-400 border-2 shadow-md' : 'border-orange-200 shadow-sm opacity-90'; 
                     badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full z-10">${formatTime(m.timeRemaining)}</div>`; 
-                    click = m.isMine || AppState.userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''; 
+                    click = m.isMine ? `onclick="toggleReserveOverlay(${m.id})"` : (AppState.userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''); 
                     iconColor = m.isMine ? 'text-orange-500' : 'text-orange-300'; stColor = m.isMine ? 'text-orange-600 font-bold' : 'text-orange-400'; stTextKey = 'statusRsv';
                     if (m.isMine) myBadge = `<div class="absolute bottom-3 right-3 bg-orange-500 text-white text-[9px] font-bold px-2 py-1 rounded-lg shadow-sm z-10">${AppData.dict[AppState.currentLang]['myMachineBadge']}</div>`;
                 } 
@@ -1604,6 +1611,15 @@
                             <button onclick="event.stopPropagation(); hideCollectOverlay();" class="bg-white border border-purple-200 text-purple-700 text-[11px] font-bold px-4 py-2 rounded-xl shadow-sm active:scale-95 transition">${AppData.dict[AppState.currentLang]['collectCancel']}</button>
                         </div>
                     </div>`;
+                } else if (m.isMine && m.status === 'reserved' && AppState.laundry.activeReserveId === m.id) {
+                    overlayHtml = `
+                    <div onclick="event.stopPropagation();" class="absolute inset-0 z-20 bg-orange-50/80 backdrop-blur-[2px] flex flex-col items-center justify-center">
+                        <p class="text-xs font-black text-orange-900 mb-2">${AppData.dict[AppState.currentLang]['reserveConfirmTitle']}</p>
+                        <div class="flex gap-2">
+                            <button onclick="event.stopPropagation(); useReservedMachine(${m.id});" class="bg-orange-500 text-white text-[11px] font-bold px-4 py-2 rounded-xl shadow active:scale-95 transition">${AppData.dict[AppState.currentLang]['reserveUseBtn']}</button>
+                            <button onclick="event.stopPropagation(); cancelReservation(${m.id});" class="bg-white border border-orange-200 text-orange-700 text-[11px] font-bold px-4 py-2 rounded-xl shadow-sm active:scale-95 transition">${AppData.dict[AppState.currentLang]['reserveCancelBtn']}</button>
+                        </div>
+                    </div>`;
                 }
 
                 gridHtml += `
@@ -1632,6 +1648,30 @@
         renderLaundryUI();
     }
 
+    function toggleReserveOverlay(id) {
+        if (AppState.laundry.activeReserveId === id) { AppState.laundry.activeReserveId = null; } 
+        else { AppState.laundry.activeReserveId = id; }
+        renderLaundryUI();
+    }
+
+    function useReservedMachine(id) {
+        AppState.laundry.activeReserveId = null;
+        openModal(id);
+    }
+
+    function cancelReservation(id) {
+        AppState.laundry.activeReserveId = null;
+        const list = AppState.laundry.currentType === 'washer' ? machines : dryers;
+        const m = list.find(x => x.id === id);
+        if(m) {
+            m.status = 'available';
+            m.isMine = false;
+            m.timeRemaining = 0;
+            renderLaundryUI();
+            Swal.fire({ toast: true, position: 'top', icon: 'info', title: AppData.dict[AppState.currentLang]['reserveCancelled'], showConfirmButton: false, timer: 1500 });
+        }
+    }
+
     function openModal(id) {
         AppState.laundry.selectedMachineId = id; 
         const list = AppState.laundry.currentType === 'washer' ? machines : dryers; 
@@ -1640,6 +1680,12 @@
         document.getElementById('modalMachineName').innerText = AppState.currentLang === 'ko' 
             ? `${m.floor}층 ${m.id % 6 === 0 ? 6 : m.id % 6}번 ${AppState.laundry.currentType==='washer'?'세탁기':'건조기'}` 
             : AppData.dict[AppState.currentLang][m.nameKey];
+
+        const reserveBtn = document.getElementById('btnReserveAction');
+        if (reserveBtn) {
+            if (m.status === 'reserved') reserveBtn.classList.add('hidden');
+            else reserveBtn.classList.remove('hidden');
+        }
         
         const cg = document.getElementById('modalCourseGrid');
         if (AppState.laundry.currentType === 'washer') {
@@ -1689,7 +1735,12 @@
         const m = list.find(x => x.id === AppState.laundry.selectedMachineId);
         
         if(AppState.balance < 0) { 
-            Swal.fire({ toast: true, position: 'top', icon: 'error', title: AppData.dict[AppState.currentLang]['alertNoPoint'], text: AppData.dict[AppState.currentLang]['alertNoPointSub'], showConfirmButton: false, timer: 3000 }); 
+            Swal.fire({ 
+                toast: true, position: 'top', icon: 'error', 
+                title: AppData.dict[AppState.currentLang]['alertNoPoint'], 
+                html: `<p style="margin-top:-10px; font-size:11px; color:#6b7280;">${AppData.dict[AppState.currentLang]['alertNoPointSub']}</p>`, 
+                showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } 
+            }); 
             return; 
         }
         if(m.status === 'reserved') return; 
@@ -1942,10 +1993,11 @@
         let stText = isOperating ? (AppState.currentLang==='ko'?'영업 중':'Open') : (AppState.currentLang==='ko'?'준비 중':'Prep');
         
         if (tCont) {
+            tCont.className = 'flex items-center';
             tCont.innerHTML = `
-            <h3 class="font-bold text-gray-800 text-sm flex items-center">${prefix}${suffix}</h3>
-            <span class="text-[9px] ${stClass} px-1.5 py-0.5 rounded font-bold">${stText}</span>
-            <span class="text-[10px] text-gray-500 font-medium">${AppData.mealTimes[targetType]}</span>`;
+            <h3 class="font-bold text-gray-800 text-sm">${prefix}${suffix}</h3>
+            <span class="text-[9px] ${stClass} px-1.5 py-0.5 rounded font-bold ml-2.5 mt-0.5">${stText}</span>
+            <span class="text-[10px] text-gray-500 font-medium ml-1 mt-0.5">${AppData.mealTimes[targetType]}</span>`;
         }
         container.innerHTML = generateMealHTML(filteredMeals, true);
     }
@@ -2522,7 +2574,12 @@
 
     function startQRPayment() {
         if (AppState.balance < 0 || AppState.balance < AppState.laundry.selectedCoursePrice) { 
-            Swal.fire({ toast: true, position: 'top', icon: 'error', title: AppData.dict[AppState.currentLang]['alertNoPoint'], text: AppData.dict[AppState.currentLang]['alertNoPointSub'], showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } }); 
+            Swal.fire({ 
+                toast: true, position: 'top', icon: 'error', 
+                title: AppData.dict[AppState.currentLang]['alertNoPoint'], 
+                html: `<p style="margin-top:-10px; font-size:11px; color:#6b7280;">${AppData.dict[AppState.currentLang]['alertNoPointSub']}</p>`, 
+                showConfirmButton: false, timer: 3000, customClass: { popup: 'rounded-2xl shadow-lg mt-2' } 
+            }); 
             return; 
         }
         
