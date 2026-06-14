@@ -67,8 +67,8 @@
             <input type="password" id="loginPw" onkeydown="if(event.key==='Enter') handleLogin()" data-i18n-placeholder="loginPwHolder" placeholder="비밀번호" class="w-full bg-[#f3f4f6] border-none rounded-2xl p-4 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#0056b3]/50 transition text-sm font-bold">
         </div>
         
-        <button onclick="handleLogin()" class="w-full bg-[#0056b3] text-white font-bold rounded-2xl py-4 shadow-lg shadow-[#0056b3]/20 mb-4 hover:bg-blue-800 transition active:scale-95" data-i18n="loginBtn">로그인</button>
-        <button onclick="handleGuestLogin()" class="w-full text-gray-400 font-bold text-[11px] py-2 hover:text-gray-600 transition active:scale-95" data-i18n="loginGuestBtn">둘러보기 (로그인 없이 시작)</button>
+        <button onclick="handleLogin()" class="w-full bg-[#0056b3] text-white font-bold rounded-2xl py-4 shadow-lg shadow-[#0056b3]/20 mb-4 active:bg-blue-800 transition active:scale-95" data-i18n="loginBtn">로그인</button>
+        <button onclick="handleGuestLogin()" class="w-full text-gray-400 font-bold text-[11px] py-2 active:text-gray-600 transition active:scale-95" data-i18n="loginGuestBtn">둘러보기 (로그인 없이 시작)</button>
     </div>
 
     <!-- 메인 앱 -->
@@ -91,7 +91,7 @@
         <div id="notiPanel" class="hidden absolute top-[72px] right-4 w-[280px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-[100] flex-col max-h-[400px]">
             <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
                 <span class="font-bold text-gray-800 text-sm" data-i18n="notiTitle">알림</span>
-                <button onclick="clearAllNotis()" class="text-xs text-gray-500 hover:text-gray-800 font-bold" data-i18n="notiClear">모두 지우기</button>
+                <button onclick="clearAllNotis()" class="text-xs text-gray-500 active:text-gray-800 font-bold" data-i18n="notiClear">모두 지우기</button>
             </div>
             <div id="notiList" class="overflow-y-auto flex-1 p-2 space-y-2 hide-scrollbar"></div>
         </div>
@@ -113,7 +113,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
                             <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2"><i class="ph-fill ph-megaphone text-erica text-lg"></i> <span data-i18n="noticeTitle">기숙사 주요 공지</span></h3>
-                            <button onclick="window.open('https://hydorm.hanyang.ac.kr/service/board/notice/a/all//index.do', '_blank')" class="text-xs text-gray-400 font-bold hover:text-gray-600 transition flex items-center gap-0.5"><span data-i18n="moreBtn">더보기</span> <i class="ph ph-caret-right"></i></button>
+                            <button onclick="window.open('https://hydorm.hanyang.ac.kr/service/board/notice/a/all//index.do', '_blank')" class="text-xs text-gray-400 font-bold active:text-gray-600 transition flex items-center gap-0.5"><span data-i18n="moreBtn">더보기</span> <i class="ph ph-caret-right"></i></button>
                         </div>
                         <div id="homeNoticeContent" class="space-y-2"></div>
                     </div>
@@ -151,7 +151,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center" id="homeMealTitleContainer"></div>
-                            <button onclick="switchTab('convenience', 'section-meal')" class="text-xs text-gray-400 font-bold hover:text-gray-600 transition flex-shrink-0">
+                            <button onclick="switchTab('convenience', 'section-meal')" class="text-xs text-gray-400 font-bold active:text-gray-600 transition flex-shrink-0">
                                 <span data-i18n="more">자세히 보기</span> <i class="ph ph-caret-right align-middle"></i>
                             </button>
                         </div>
@@ -166,7 +166,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                         <div class="flex justify-between items-center mb-3">
                             <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2"><i class="ph-fill ph-megaphone text-erica text-lg"></i> <span data-i18n="noticeTitle">기숙사 주요 공지</span></h3>
-                            <button onclick="window.open('https://hydorm.hanyang.ac.kr/service/board/notice/a/all//index.do', '_blank')" class="text-xs text-gray-400 font-bold hover:text-gray-600 transition flex items-center gap-0.5"><span data-i18n="moreBtn">더보기</span> <i class="ph ph-caret-right"></i></button>
+                            <button onclick="window.open('https://hydorm.hanyang.ac.kr/service/board/notice/a/all//index.do', '_blank')" class="text-xs text-gray-400 font-bold active:text-gray-600 transition flex items-center gap-0.5"><span data-i18n="moreBtn">더보기</span> <i class="ph ph-caret-right"></i></button>
                         </div>
                         <div id="adminHomeNoticeContent" class="space-y-2"></div>
                     </div>
@@ -291,7 +291,7 @@
                     <div id="section-delivery" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 scroll-mt-4">
                         <div class="flex justify-between items-center mb-3">
                             <h3 class="font-bold text-gray-800 flex items-center gap-2"><i class="ph-fill ph-package text-yellow-500 text-lg"></i> <span data-i18n="delTitle">무인 택배함 현황</span></h3>
-                            <button class="text-gray-400 text-xs font-bold hover:text-gray-700" onclick="refreshDelivery()"><i class="ph ph-arrows-clockwise text-sm align-middle"></i></button>
+                            <button class="text-gray-400 text-xs font-bold active:text-gray-700" onclick="refreshDelivery()"><i class="ph ph-arrows-clockwise text-sm align-middle"></i></button>
                         </div>
                         <div class="bg-yellow-50 border border-yellow-100 rounded-xl p-3 mb-2 relative overflow-hidden">
                             <div class="flex justify-between items-center mb-2 relative z-10">
@@ -311,7 +311,7 @@
                             <h3 class="font-bold text-gray-800 flex items-center gap-2"><i class="ph-fill ph-fork-knife text-erica text-lg"></i> <span data-i18n="convMeal">오늘의 식단표</span></h3>
                             <div class="bg-gray-100 rounded-lg p-0.5 flex">
                                 <button id="btnMealToday" onclick="switchMealTab('today')" class="bg-white text-gray-800 shadow-sm text-[10px] font-bold px-2 py-1 rounded-md" data-i18n="mealToday">오늘</button>
-                                <button id="btnMealWeek" onclick="switchMealTab('week')" class="text-gray-400 hover:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition bg-transparent" data-i18n="mealWeek">이번 주</button>
+                                <button id="btnMealWeek" onclick="switchMealTab('week')" class="text-gray-400 active:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition bg-transparent" data-i18n="mealWeek">이번 주</button>
                             </div>
                         </div>
                         <div id="mealLoading" class="py-10 flex flex-col items-center justify-center text-gray-400">
@@ -320,7 +320,7 @@
                         </div>
                         <div id="mealError" class="hidden py-8 flex flex-col items-center justify-center text-center">
                             <p class="text-sm font-bold text-gray-700" data-i18n="mealErrorTitle">식단 정보를 불러올 수 없어요</p>
-                            <button onclick="fetchCafeteriaData(true)" class="mt-3 bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-200 transition"><span data-i18n="mealRetry">재시도</span></button>
+                            <button onclick="fetchCafeteriaData(true)" class="mt-3 bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-xs font-bold active:bg-gray-200 transition"><span data-i18n="mealRetry">재시도</span></button>
                         </div>
                         <div id="mealContent" class="hidden hide-scrollbar"></div>
                     </div>
@@ -342,7 +342,7 @@
                 
                 <div id="inquiryTabControl" class="flex bg-gray-200 p-1 rounded-xl mb-4">
                     <button id="btnInqWrite" onclick="switchInquiryTab('write')" class="flex-1 bg-white shadow-sm text-gray-800 font-bold text-sm py-2 rounded-lg transition" data-i18n="inqTabWrite">문의 작성</button>
-                    <button id="btnInqHistory" onclick="switchInquiryTab('history')" class="flex-1 text-gray-500 hover:text-gray-700 font-bold text-sm py-2 rounded-lg transition bg-transparent" data-i18n="inqTabHistory">내역 확인</button>
+                    <button id="btnInqHistory" onclick="switchInquiryTab('history')" class="flex-1 text-gray-500 active:text-gray-700 font-bold text-sm py-2 rounded-lg transition bg-transparent" data-i18n="inqTabHistory">내역 확인</button>
                 </div>
                 
                 <div id="inquiryWriteView" class="space-y-4">
@@ -388,14 +388,14 @@
                             </div>
                             
                             <div>
-                                <button type="button" onclick="document.getElementById('inqFileInput').click()" class="w-full border border-dashed border-gray-300 bg-gray-50 text-gray-500 rounded-lg py-3 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition">
+                                <button type="button" onclick="document.getElementById('inqFileInput').click()" class="w-full border border-dashed border-gray-300 bg-gray-50 text-gray-500 rounded-lg py-3 text-xs font-bold flex items-center justify-center gap-2 active:bg-gray-200 transition">
                                     <i class="ph ph-camera text-lg"></i> <span data-i18n="inqPhotoBtn">사진 첨부 (최대 3장)</span>
                                 </button>
                                 <input type="file" id="inqFileInput" accept="image/*" multiple class="hidden" onchange="handlePhotoUpload(event)">
                                 <div id="photoThumbnails" class="flex gap-2 mt-2 overflow-x-auto hide-scrollbar"></div>
                             </div>
 
-                            <button type="submit" class="w-full bg-gray-800 text-white font-bold rounded-xl py-3.5 shadow-md mt-2" data-i18n="inqSubmit">접수하기</button>
+                            <button type="submit" class="w-full bg-gray-800 text-white font-bold rounded-xl py-3.5 shadow-md mt-2 active:scale-95 transition" data-i18n="inqSubmit">접수하기</button>
                         </form>
                     </div>
                 </div>
@@ -421,7 +421,7 @@
                     <i class="ph ph-wallet absolute -right-4 -bottom-4 text-8xl text-white/10"></i>
                     <div class="flex justify-between items-center mb-1">
                         <p class="text-white/80 text-sm font-medium" data-i18n="myBalance">내 잔여 금액 (KRW)</p>
-                        <button class="relative bg-white/20 text-white text-[10px] px-2.5 py-1 rounded-full font-bold after:absolute after:-inset-4 after:content-['']" onclick="openChargeModal()">
+                        <button class="relative bg-white/20 text-white text-[10px] px-2.5 py-1 rounded-full font-bold active:bg-white/30 transition after:absolute after:-inset-4 after:content-['']" onclick="openChargeModal()">
                             <span data-i18n="myChargeBtn">+ 간편충전</span>
                         </button>
                     </div>
@@ -466,22 +466,22 @@
                             <span class="font-bold text-gray-700 text-sm" data-i18n="myLang">언어 설정 (Language)</span>
                         </div>
                         <div class="relative inline-block text-left w-32 overflow-visible z-[150]">
-                            <button type="button" onclick="toggleLanguageDropdown(event)" class="inline-flex justify-between items-center w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-700 shadow-sm hover:bg-gray-50 transition-all" id="langDropdownBtn">
+                            <button type="button" onclick="toggleLanguageDropdown(event)" class="inline-flex justify-between items-center w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-700 shadow-sm active:bg-gray-100 transition-all" id="langDropdownBtn">
                                 <span id="currentLangLabel">한국어</span>
                                 <i class="ph ph-caret-down text-gray-400"></i>
                             </button>
                             <div id="langDropdownMenu" class="hidden origin-top-right absolute right-0 mt-1.5 w-full rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-[160] divide-y divide-gray-100 overflow-hidden">
                                 <div class="py-1">
-                                    <button onclick="selectLanguage('ko')" class="text-gray-700 block px-4 py-2 text-xs font-bold hover:bg-blue-50 w-full text-left">한국어</button>
-                                    <button onclick="selectLanguage('en')" class="text-gray-700 block px-4 py-2 text-xs font-bold hover:bg-blue-50 w-full text-left">English</button>
-                                    <button onclick="selectLanguage('zh')" class="text-gray-700 block px-4 py-2 text-xs font-bold hover:bg-blue-50 w-full text-left">简体中文</button>
+                                    <button onclick="selectLanguage('ko')" class="text-gray-700 block px-4 py-2 text-xs font-bold active:bg-blue-50 w-full text-left transition">한국어</button>
+                                    <button onclick="selectLanguage('en')" class="text-gray-700 block px-4 py-2 text-xs font-bold active:bg-blue-50 w-full text-left transition">English</button>
+                                    <button onclick="selectLanguage('zh')" class="text-gray-700 block px-4 py-2 text-xs font-bold active:bg-blue-50 w-full text-left transition">简体中文</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="flex flex-col border-b border-gray-100">
-                        <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition" onclick="toggleSubNotiMenu()">
+                        <div class="p-4 flex justify-between items-center cursor-pointer active:bg-gray-100 transition" onclick="toggleSubNotiMenu()">
                             <div class="flex items-center gap-2">
                                 <i class="ph ph-bell-ringing text-xl text-gray-500"></i>
                                 <span class="font-bold text-gray-700 text-sm" data-i18n="myNoti">푸시 알림 허용</span>
@@ -522,7 +522,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition" onclick="handleLogout()">
+                    <div class="p-4 flex justify-between items-center cursor-pointer active:bg-gray-100 transition" onclick="handleLogout()">
                         <div class="flex items-center gap-2">
                             <i class="ph ph-sign-out text-xl text-red-400"></i>
                             <span class="font-bold text-red-500 text-sm" data-i18n="logoutBtn">로그아웃</span>
@@ -537,16 +537,16 @@
             <button onclick="switchTab('home')" id="nav-home" class="nav-btn active flex flex-col items-center w-14 text-erica transition">
                 <i class="ph-fill ph-house text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navHome">홈</span>
             </button>
-            <button onclick="switchTab('laundry')" id="nav-laundry" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition text-gray-400">
+            <button onclick="switchTab('laundry')" id="nav-laundry" class="nav-btn flex flex-col items-center w-14 text-gray-400 active:text-erica transition text-gray-400">
                 <i class="ph ph-washing-machine text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navLaundry">세탁</span>
             </button>
-            <button onclick="switchTab('convenience')" id="nav-convenience" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition text-gray-400">
+            <button onclick="switchTab('convenience')" id="nav-convenience" class="nav-btn flex flex-col items-center w-14 text-gray-400 active:text-erica transition text-gray-400">
                 <i class="ph ph-storefront text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navConv">편의</span>
             </button>
-            <button onclick="switchTab('inquiry')" id="nav-inquiry" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition text-gray-400">
+            <button onclick="switchTab('inquiry')" id="nav-inquiry" class="nav-btn flex flex-col items-center w-14 text-gray-400 active:text-erica transition text-gray-400">
                 <i class="ph ph-chat-circle-dots text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navInq">문의</span>
             </button>
-            <button onclick="switchTab('myinfo')" id="nav-myinfo" class="nav-btn flex flex-col items-center w-14 text-gray-400 hover:text-erica transition text-gray-400">
+            <button onclick="switchTab('myinfo')" id="nav-myinfo" class="nav-btn flex flex-col items-center w-14 text-gray-400 active:text-erica transition text-gray-400">
                 <i class="ph ph-user text-2xl mb-1"></i><span class="text-[9px] font-bold" data-i18n="navMy">내 정보</span>
             </button>
         </nav>
@@ -558,7 +558,7 @@
         <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4"></div>
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-gray-800"><span id="modalMachineName" class="text-erica">1번 세탁기</span> <span data-i18n="modalTitle">사용하기</span></h2>
-            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600"><i class="ph ph-x text-2xl"></i></button>
+            <button onclick="closeModal()" class="text-gray-400 active:text-gray-600 transition"><i class="ph ph-x text-2xl"></i></button>
         </div>
         <div class="space-y-4 mb-6">
             <div>
@@ -574,7 +574,7 @@
             <button onclick="startQRPayment()" class="w-full bg-erica text-white rounded-xl py-4 font-bold text-lg shadow-md active:bg-erica-700 transition flex justify-center items-center gap-2">
                 <i class="ph ph-qr-code text-xl"></i> <span data-i18n="modalQRBtn">QR 스캔 결제 및 시작</span>
             </button>
-            <button id="btnReserveAction" onclick="reserveMachine()" class="w-full bg-white border border-gray-300 text-gray-700 rounded-xl py-3 font-bold text-sm hover:bg-gray-50 transition flex justify-center items-center gap-2">
+            <button id="btnReserveAction" onclick="reserveMachine()" class="w-full bg-white border border-gray-300 text-gray-700 rounded-xl py-3 font-bold text-sm active:bg-gray-100 transition flex justify-center items-center gap-2">
                 <i class="ph ph-clock text-lg"></i> <span data-i18n="modalReserveBtn">10분 대기 예약 (찜하기)</span>
             </button>
         </div>
@@ -589,7 +589,7 @@
                     <h2 class="text-base font-black text-gray-800" data-i18n="chargeTitle">잔액 충전</h2>
                     <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="chargeSub">결제할 금액을 입력해주세요.</p>
                 </div>
-                <button onclick="closeChargeModal()" class="text-gray-400 hover:text-gray-700"><i class="ph ph-x text-xl"></i></button>
+                <button onclick="closeChargeModal()" class="text-gray-400 active:text-gray-700 transition"><i class="ph ph-x text-xl"></i></button>
             </div>
             <div class="p-5 flex flex-col items-center">
                 <p class="text-[11px] font-bold text-erica mb-1" data-i18n="chargeTotal">충전 금액</p>
@@ -618,7 +618,7 @@
                     <h2 class="text-base font-black text-gray-800" data-i18n="pgTitle">통합 결제 서비스</h2>
                     <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="pgSub">원하시는 결제 수단으로 승인합니다.</p>
                 </div>
-                <button onclick="closePaymentGate()" class="text-gray-400 hover:text-gray-700"><i class="ph ph-x text-xl"></i></button>
+                <button onclick="closePaymentGate()" class="text-gray-400 active:text-gray-700 transition"><i class="ph ph-x text-xl"></i></button>
             </div>
             
             <div class="m-5 bg-gray-50 rounded-2xl p-4 border border-gray-100 flex justify-between items-center">
@@ -1309,8 +1309,8 @@
         let html = ''; 
         [...AppState.notifications].reverse().forEach(n => { 
             html += `
-                <div onclick="removeNoti(${n.id})" class="relative bg-blue-50/30 p-3 rounded-xl border border-blue-100 shadow-sm cursor-pointer hover:bg-blue-50 transition">
-                    <button onclick="event.stopPropagation(); removeNoti(${n.id})" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 p-1">
+                <div onclick="removeNoti(${n.id})" class="relative bg-blue-50/30 p-3 rounded-xl border border-blue-100 shadow-sm cursor-pointer active:bg-blue-50 transition">
+                    <button onclick="event.stopPropagation(); removeNoti(${n.id})" class="absolute top-2 right-2 text-gray-400 active:text-red-500 p-1 transition">
                         <i class="ph ph-x text-sm"></i>
                     </button>
                     <h4 class="text-xs font-bold text-gray-800 mb-0.5 pr-4">${n.title}</h4>
@@ -1363,7 +1363,7 @@
         let html = '';
         AppData.systemNotices.slice(0, 3).forEach(n => {
             html += `
-            <div class="bg-gray-50 rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition flex justify-between items-center mb-2 last:mb-0" onclick="window.open('${n.url}', '_blank')">
+            <div class="bg-gray-50 rounded-lg p-3 cursor-pointer active:bg-gray-200 transition flex justify-between items-center mb-2 last:mb-0" onclick="window.open('${n.url}', '_blank')">
                 <div class="flex-1 pr-2">
                     <h4 class="font-bold text-[11px] text-gray-800 line-clamp-1">${n.title}</h4>
                 </div>
@@ -1524,7 +1524,7 @@
                     const vDetail = AppData.dict[AppState.currentLang]['viewDetail'];
 
                     container.innerHTML += `
-                        <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm cursor-pointer hover:border-erica transition mb-3" onclick="setLaundryFloor(${floor})">
+                        <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm cursor-pointer active:border-erica transition mb-3" onclick="setLaundryFloor(${floor})">
                             <div class="flex justify-between items-center mb-2.5">
                                 <span class="font-black text-sm text-gray-800">${fTitle}</span>
                                 <span class="text-[10px] text-gray-400 font-bold">${vDetail} <i class="ph ph-caret-right"></i></span>
@@ -1558,14 +1558,14 @@
 
                 if(m.status === 'available') { 
                     bgColor = 'bg-white'; 
-                    borderColor = 'border-green-200 shadow-sm active:border-green-500 active:shadow cursor-pointer'; 
+                    borderColor = 'border-green-200 shadow-sm active:border-green-500 active:shadow cursor-pointer transition-colors'; 
                     badge = `<div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-status-green shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>`; 
                     click = `onclick="openModal(${m.id})"`; 
                     iconColor = 'text-status-green'; stColor = 'text-status-green'; stTextKey = 'statusAvail';
                 } 
                 else if(m.status === 'reserved') { 
                     bgColor = 'bg-orange-50'; 
-                    borderColor = m.isMine ? 'border-orange-400 border-2 shadow-md' : 'border-orange-200 shadow-sm opacity-90'; 
+                    borderColor = m.isMine ? 'border-orange-400 border-2 shadow-md cursor-pointer active:bg-orange-100 transition-colors' : 'border-orange-200 shadow-sm opacity-90'; 
                     badge = `<div class="absolute top-3 right-3 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full z-10">${formatTime(m.timeRemaining)}</div>`; 
                     click = m.isMine ? `onclick="toggleReserveOverlay(${m.id})"` : (AppState.userRole === 'admin' ? `onclick="adminMachineAction(${m.id})"` : ''); 
                     iconColor = m.isMine ? 'text-orange-500' : 'text-orange-300'; stColor = m.isMine ? 'text-orange-600 font-bold' : 'text-orange-400'; stTextKey = 'statusRsv';
@@ -1581,7 +1581,7 @@
                 } 
                 else if(m.status === 'waiting') { 
                     bgColor = 'bg-purple-50'; 
-                    borderColor = m.isMine ? 'border-purple-400 border-2 shadow-md cursor-pointer active:bg-purple-100' : 'border-purple-200 shadow-sm opacity-90'; 
+                    borderColor = m.isMine ? 'border-purple-400 border-2 shadow-md cursor-pointer active:bg-purple-100 transition-colors' : 'border-purple-200 shadow-sm opacity-90'; 
                     const currUnit = AppData.dict[AppState.currentLang]['chargeUnit']; 
                     let overText = m.overtime > 300 ? `<span class="text-red-500 ml-1">+${Math.floor((m.overtime-300)/60)*200}${currUnit}</span>` : ''; 
                     badge = `<div class="absolute top-3 right-3 flex flex-col items-end z-10"><div class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">${formatTime(m.overtime)}</div>${overText}</div>`; 
@@ -1819,10 +1819,10 @@
         
         if (tab === 'today') { 
             btnToday.className = "bg-white text-gray-800 shadow-sm text-[10px] font-bold px-2 py-1 rounded-md"; 
-            btnWeek.className = "text-gray-400 hover:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition bg-transparent"; 
+            btnWeek.className = "text-gray-400 active:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition bg-transparent"; 
         } else { 
             btnWeek.className = "bg-white text-gray-800 shadow-sm text-[10px] font-bold px-2 py-1 rounded-md"; 
-            btnToday.className = "text-gray-400 hover:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition bg-transparent"; 
+            btnToday.className = "text-gray-400 active:text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md transition bg-transparent"; 
         }
         renderMeals();
     }
@@ -1996,8 +1996,8 @@
             tCont.className = 'flex items-center';
             tCont.innerHTML = `
             <h3 class="font-bold text-gray-800 text-sm">${prefix}${suffix}</h3>
-            <span class="text-[9px] ${stClass} px-1.5 py-0.5 rounded font-bold ml-2 mt-0.51">${stText}</span>
-            <span class="text-[10px] text-gray-500 font-medium ml-1.5 mt-0.51">${AppData.mealTimes[targetType]}</span>`;
+            <span class="text-[9px] ${stClass} px-1.5 py-0.5 rounded font-bold ml-2 mt-0">${stText}</span>
+            <span class="text-[10px] text-gray-500 font-medium ml-1.5 mt-0">${AppData.mealTimes[targetType]}</span>`;
         }
         container.innerHTML = generateMealHTML(filteredMeals, true);
     }
@@ -2305,7 +2305,7 @@
             container.innerHTML += `
             <div class="relative w-14 h-14 rounded-lg border border-gray-200 overflow-hidden flex-shrink-0 shadow-sm animate-[fadeIn_0.2s_ease-in-out]">
                 <img src="${src}" class="w-full h-full object-cover">
-                <button type="button" onclick="removePhoto(${index})" class="absolute top-1 right-1 bg-black/60 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] hover:bg-red-500 transition">
+                <button type="button" onclick="removePhoto(${index})" class="absolute top-1 right-1 bg-black/60 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] active:bg-red-500 transition">
                     <i class="ph ph-x"></i>
                 </button>
             </div>`; 
@@ -2345,7 +2345,7 @@
             const onclickAttr = AppState.userRole === 'admin' && item.status !== '완료' ? `onclick="adminReplyPrompt(${item.id})"` : '';
             
             html += `
-            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3 ${AppState.userRole==='admin'&&item.status!=='완료'?'cursor-pointer hover:border-erica':''} transition" ${onclickAttr}>
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3 ${AppState.userRole==='admin'&&item.status!=='완료'?'cursor-pointer active:border-erica active:bg-gray-50':''} transition" ${onclickAttr}>
                 <div class="flex justify-between items-start mb-2">
                     <span class="text-[10px] ${statusBadgeClass} font-bold px-2 py-0.5 rounded-full">${stText}</span>
                     <span class="text-[10px] text-gray-400">${item.date}</span>
