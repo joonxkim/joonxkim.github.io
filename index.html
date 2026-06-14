@@ -125,7 +125,7 @@
                         </h3>
                         <div class="flex justify-between items-center relative z-10">
                             <div>
-                                <p class="text-xs text-gray-500 mb-1" id="homeLaundrySubText">전체 세탁실 여유 현황</p>
+                                <p class="text-xs text-gray-500 mb-1" id="homeLaundrySubText" data-i18n="homeLaundrySubText">전체 세탁실 여유 현황</p>
                                 <p class="text-xl font-bold text-gray-800"><span class="text-green-500" id="homeAvailableCount">0</span><span data-i18n="homeLaundryStatus">대 사용 가능</span></p>
                             </div>
                             <button onclick="switchTab('laundry')" class="bg-erica text-white text-sm font-bold px-4 py-2 rounded-xl shadow-md active:bg-erica-700 transition" data-i18n="homeLaundryBtn">예약/결제</button>
@@ -860,7 +860,12 @@
                 
                 chargeTitle: "잔액 충전", chargeSub: "결제할 금액을 입력해주세요.", chargeTotal: "충전 금액", chargeUnit: "원", chargeReset: "초기화", chargeBtn: "결제하기", btnAdd1k: "+ 1천", btnAdd5k: "+ 5천", btnAdd10k: "+ 1만",
                 dayMon: "월", dayTue: "화", dayWed: "수", dayThu: "목", dayFri: "금", daySat: "토", daySun: "일",
-                modalCourse1: "표준 세탁 (40분)", modalCourse2: "이불/대형 (60분)", dryerCourse1: "표준 건조 (45분)", dryerCourse2: "강력/대형 (60분)"
+                modalCourse1: "표준 세탁 (40분)", modalCourse2: "이불/대형 (60분)", dryerCourse1: "표준 건조 (45분)", dryerCourse2: "강력/대형 (60분)",
+                homeLaundrySubText: "전체 세탁실 여유 현황",
+                notiMachineDoneTitle: "🔔 기기 작동 완료", notiMachineDoneBody: "5분 내 미수거 시 추가 요금이 부과됩니다.",
+                notiPenaltyStartTitle: "추가 요금 부과 시작", notiPenaltyStartBody: "미수거로 인해 분당 200원 요금이 부과되기 시작했습니다.",
+                notiForceCollectTitle: "강제 수거 및 요금 청구", notiForceCollectBody: "30분 초과로 강제 수거 처리되며 {0}원이 차감되었습니다.",
+                notiInquiryReplyTitle: "문의 답변 도착", notiInquiryReplyBody: "[{0}]에 대한 사감실의 답변이 등록되었습니다."
             },
             en: { /* 생략 없이 원본 유지 */
                 appTitle: "Dorm <span class=\"font-['Caveat'] text-2xl ml-0.5 leading-none\">Life</span>", cheatBtn: "Speed 100x",
@@ -921,7 +926,12 @@
                 
                 chargeTitle: "Recharge", chargeSub: "Enter amount.", chargeTotal: "Amount", chargeUnit: "₩", chargeReset: "Reset", chargeBtn: "Pay", btnAdd1k: "+ 1K", btnAdd5k: "+ 5K", btnAdd10k: "+ 10K",
                 dayMon: "Mon", dayTue: "Tue", dayWed: "Wed", dayThu: "Thu", dayFri: "Fri", daySat: "Sat", daySun: "Sun",
-                modalCourse1: "Standard (40m)", modalCourse2: "Blanket/Large (60m)", dryerCourse1: "Standard (45m)", dryerCourse2: "Heavy/Large (60m)"
+                modalCourse1: "Standard (40m)", modalCourse2: "Blanket/Large (60m)", dryerCourse1: "Standard (45m)", dryerCourse2: "Heavy/Large (60m)",
+                homeLaundrySubText: "Total Available Machines",
+                notiMachineDoneTitle: "🔔 Machine Cycle Done", notiMachineDoneBody: "Extra charge applies if not collected in 5 mins.",
+                notiPenaltyStartTitle: "Extra Charge Started", notiPenaltyStartBody: "200 KRW/min extra charge has started due to delay.",
+                notiForceCollectTitle: "Forced Collection & Charge", notiForceCollectBody: "Forced collection due to 30 min delay. {0} KRW deducted.",
+                notiInquiryReplyTitle: "Inquiry Reply Arrived", notiInquiryReplyBody: "Dorm office replied to [{0}]."
             },
             zh: { /* 생략 없이 원본 유지 */
                 appTitle: "创意人才馆 <span class=\"font-['Caveat'] text-2xl ml-0.5 leading-none\">Life</span>", cheatBtn: "演示 100x",
@@ -982,7 +992,12 @@
                 
                 chargeTitle: "充值", chargeSub: "请输入充值金额。", chargeTotal: "充值金额", chargeUnit: "₩", chargeReset: "重置", chargeBtn: "支付", btnAdd1k: "+ 1千", btnAdd5k: "+ 5千", btnAdd10k: "+ 1万",
                 dayMon: "周一", dayTue: "周二", dayWed: "周三", dayThu: "周四", dayFri: "周五", daySat: "周六", daySun: "周日",
-                modalCourse1: "标准洗涤 (40分)", modalCourse2: "被子/大件 (60分)", dryerCourse1: "标准烘干 (45分)", dryerCourse2: "强力/大件 (60分)"
+                modalCourse1: "标准洗涤 (40分)", modalCourse2: "被子/大件 (60分)", dryerCourse1: "标准烘干 (45分)", dryerCourse2: "强力/大件 (60分)",
+                homeLaundrySubText: "全部洗衣房空闲现状",
+                notiMachineDoneTitle: "🔔 机器运行完成", notiMachineDoneBody: "5分钟内未取走将收取附加费。",
+                notiPenaltyStartTitle: "开始收取附加费", notiPenaltyStartBody: "因未取走衣物，已开始每分钟收取200韩元附加费。",
+                notiForceCollectTitle: "强制收取及扣费", notiForceCollectBody: "由于超过30分钟，已强制收取并扣除{0}韩元。",
+                notiInquiryReplyTitle: "咨询回复已到", notiInquiryReplyBody: "宿舍管理室已回复 [{0}]。"
             }
         }
     };
@@ -1045,6 +1060,25 @@
             if (AppState.currentLang === 'zh') return emoji + ' ' + (engZh[1] || '').trim();
         } catch(e) {}
         return tagRaw;
+    }
+
+    function getMachineName(m, lang, includeFloor = false) {
+        const num = m.id % 6 === 0 ? 6 : m.id % 6;
+        const typeKo = m.type === 'washer' ? '세탁기' : '건조기';
+        const typeEn = m.type === 'washer' ? 'Washer' : 'Dryer';
+        const typeZh = m.type === 'washer' ? '洗衣机' : '烘干机';
+        
+        let name = '';
+        if (lang === 'ko') name = `${num}번 ${typeKo}`;
+        else if (lang === 'en') name = `${typeEn} ${num}`;
+        else if (lang === 'zh') name = `${num}号${typeZh}`;
+
+        if (includeFloor) {
+            if (lang === 'ko') return `${m.floor}층 ${name}`;
+            else if (lang === 'en') return `${m.floor}F ${name}`;
+            else if (lang === 'zh') return `${m.floor}层 ${name}`;
+        }
+        return name;
     }
 
     // ==========================================
@@ -1551,7 +1585,7 @@
             
             floorMs.forEach(m => {
                 let badge = ''; let cls = 'relative rounded-2xl p-4 border overflow-hidden '; let click = '';
-                const title = AppState.currentLang === 'ko' ? `${m.id % 6 === 0 ? 6 : m.id % 6}번 ${AppState.laundry.currentType==='washer'?'세탁기':'건조기'}` : AppData.dict[AppState.currentLang][m.nameKey];
+                const title = getMachineName(m, AppState.currentLang);
                 
                 let myBadge = ''; let bgColor = ''; let borderColor = '';
                 let iconColor = ''; let stColor = ''; let stTextKey = '';
@@ -1677,9 +1711,7 @@
         const list = AppState.laundry.currentType === 'washer' ? machines : dryers; 
         const m = list.find(x => x.id === id);
         
-        document.getElementById('modalMachineName').innerText = AppState.currentLang === 'ko' 
-            ? `${m.floor}층 ${m.id % 6 === 0 ? 6 : m.id % 6}번 ${AppState.laundry.currentType==='washer'?'세탁기':'건조기'}` 
-            : AppData.dict[AppState.currentLang][m.nameKey];
+        document.getElementById('modalMachineName').innerText = getMachineName(m, AppState.currentLang, true);
 
         const reserveBtn = document.getElementById('btnReserveAction');
         if (reserveBtn) {
@@ -2407,7 +2439,7 @@
                 item.status = '완료'; 
                 renderInquiryHistory();
                 Swal.fire({toast:true, position:'top', icon:'success', title:'답변이 등록되었습니다.', showConfirmButton:false, timer:1500});
-                if(item.isMine) sendPushNotification('문의 답변 도착', `[${item.title}]에 대한 사감실의 답변이 등록되었습니다.`, 'inquiry');
+                if(item.isMine) sendPushNotification(AppData.dict[AppState.currentLang]['notiInquiryReplyTitle'], AppData.dict[AppState.currentLang]['notiInquiryReplyBody'].replace('{0}', item.title));
             }
         });
     }
@@ -2648,7 +2680,7 @@
                     if (m.timeRemaining <= 0) {
                         if(m.status === 'in-use') { 
                             m.status = 'waiting'; m.timeRemaining = 0; m.overtime = 0; 
-                            if (m.isMine) sendPushNotification('🔔 기기 작동 완료', '5분 내 미수거 시 추가 요금이 부과됩니다.'); 
+                            if (m.isMine) sendPushNotification(AppData.dict[AppState.currentLang]['notiMachineDoneTitle'], AppData.dict[AppState.currentLang]['notiMachineDoneBody']); 
                         } 
                         else if (m.status === 'reserved') { 
                             m.status = 'available'; m.timeRemaining = 0; m.isMine = false; 
@@ -2658,13 +2690,13 @@
                     m.overtime += 1; 
                     needsRender = true;
                     if(m.overtime === 300 && m.isMine) { 
-                        sendPushNotification('추가 요금 부과 시작', '미수거로 인해 분당 200원 요금이 부과되기 시작했습니다.'); 
+                        sendPushNotification(AppData.dict[AppState.currentLang]['notiPenaltyStartTitle'], AppData.dict[AppState.currentLang]['notiPenaltyStartBody']); 
                     }
                     if(m.overtime >= 1800) {
                         let penalty = Math.floor((1800 - 300) / 60) * 200;
                         if (m.isMine) { 
                             AppState.balance -= penalty; updateBalanceUI(); 
-                            sendPushNotification('강제 수거 및 요금 청구', `30분 초과로 강제 수거 처리되며 ${penalty}원이 차감되었습니다.`); 
+                            sendPushNotification(AppData.dict[AppState.currentLang]['notiForceCollectTitle'], AppData.dict[AppState.currentLang]['notiForceCollectBody'].replace('{0}', penalty)); 
                             m.isMine = false; 
                         }
                         m.status = 'available'; m.timeRemaining = 0; m.overtime = 0;
