@@ -844,7 +844,7 @@
                 
                 modalTitle: "사용하기", modalSelect: "세탁 코스 선택", modalPriceLabel: "결제 금액", 
                 alertDoneSub: "기기 구동이 완료되었습니다. 세탁물을 수거해주세요.", alertConfirm: "확인",
-                alertNoPoint: "잔액이 부족합니다", alertNoPointSub: "잔액을 먼저 충전해주세요.", alertReserve: "예약 완료", alertStart: "작동 시작",
+                alertNoPoint: "잔액이 부족합니다", alertNoPointSub: "잔액을 먼저 충전해주세요.", alertReserve: "예약 완료", alertStart: "작동 시작", alertCheat: "초기화 및 가속 완료!",
                 collectConfirmTitle: "수거하시겠습니까?", collectConfirmDesc: "수거를 완료하여 기기를 비웁니다.", collectBtn: "수거", collectCancel: "취소", myMachineBadge: "내 기기", macBroken: "점검 중",
                 reserveConfirmTitle: "예약된 기기입니다", reserveUseBtn: "사용", reserveCancelBtn: "취소", reserveCancelled: "예약이 취소되었습니다.",
                 adminMealControl: "오늘의 식단 제어",
@@ -910,7 +910,7 @@
                 
                 modalTitle: "Use", modalSelect: "Select Course", modalPriceLabel: "Amount", 
                 alertDoneSub: "Machine cycle is complete. Please collect your clothes.", alertConfirm: "OK",
-                alertNoPoint: "Insufficient Balance", alertNoPointSub: "Please recharge your balance.", alertReserve: "Reserved", alertStart: "Started",
+                alertNoPoint: "Insufficient Balance", alertNoPointSub: "Please recharge your balance.", alertReserve: "Reserved", alertStart: "Started", alertCheat: "Accelerated!",
                 collectConfirmTitle: "Collect?", collectConfirmDesc: "Complete collection to empty the machine.", collectBtn: "Collect", collectCancel: "Cancel", myMachineBadge: "Mine", macBroken: "Broken",
                 reserveConfirmTitle: "Reserved Machine", reserveUseBtn: "Use", reserveCancelBtn: "Cancel", reserveCancelled: "Reservation cancelled.",
                 adminMealControl: "Menu Control (Today)",
@@ -976,7 +976,7 @@
                 
                 modalTitle: "开始使用", modalSelect: "选择模式", modalPriceLabel: "支付金额", 
                 alertDoneSub: "洗衣已完成，请及时取出衣物。", alertConfirm: "确认",
-                alertNoPoint: "余额不足", alertNoPointSub: "请先充值余额。", alertReserve: "预约成功", alertStart: "开始运行",
+                alertNoPoint: "余额不足", alertNoPointSub: "请先充值余额。", alertReserve: "预约成功", alertStart: "开始运行", alertCheat: "加速及重置完成！",
                 collectConfirmTitle: "收取衣物?", collectConfirmDesc: "完成收取以清空机器。", collectBtn: "收取", collectCancel: "取消", myMachineBadge: "我的", macBroken: "维修中",
                 reserveConfirmTitle: "已预约机器", reserveUseBtn: "使用", reserveCancelBtn: "取消", reserveCancelled: "预约已取消。",
                 adminMealControl: "控制今日食谱售罄",
@@ -2723,7 +2723,7 @@
             }); 
         });
         if (activeCount > 0) {
-            Swal.fire({ toast: true, position: 'top', icon: 'success', title: AppState.currentLang === 'ko' ? '초기화 및 가속 완료!' : 'Accelerated!', showConfirmButton: false, timer: 1500 });
+            Swal.fire({ toast: true, position: 'top', icon: 'success', title: AppData.dict[AppState.currentLang]['alertCheat'], showConfirmButton: false, timer: 1500 });
             renderLaundryUI();
         }
     });
